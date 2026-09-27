@@ -1,6 +1,6 @@
 # Next Template
 
-Genel amaçlı frontend şablonu. Kurumsal site ve uygulama alanı birlikte gelir. Türkçe `/tr`, İngilizce `/en` altındadır. Kök adres `/tr` yoluna gider.
+Dashboard şablonu. Türkçe `/tr`, İngilizce `/en` altındadır. Giriş yapmayan kullanıcı yalnızca giriş sayfasını görür.
 
 ```bash
 npm install
@@ -11,37 +11,43 @@ npm run dev
 
 ```text
 app/
-  [locale]/                 tr ve en sayfaları
-    page.tsx                ana sayfa
-    hakkimizda/ about/
-    hizmetler/ services/
-    iletisim/ contact/
-    blog/
-    profil/ profile/
-    app/                    uygulama alanı
-      giris/ login/
-      page.tsx              panel
-      ayarlar/ settings/
-      liste/ list/
-      profil/ profile/
   layout.tsx
-  globals.css               renkler
+  globals.css
+  [locale]/
+    layout.tsx
+    login/page.tsx          giriş yokken tek açık sayfa
+    not-found.tsx
+    (dashboard)/            girişten sonra
+      layout.tsx
+      page.tsx
+      list/ list/[id]/ settings/ profile/
 components/
-  layout/                   menü, alt bilgi, uygulama çerçevesi
+  layout/
+    header/header.tsx       menüyü sidebar/menuItems.ts dosyasından okur
+    footer/                 footer.tsx, content.ts
+    sidebar/                sidebar.tsx, menuItems.ts
+  theme/theme.tsx            renk, açık/koyu, yerleşim, yazı tipi
   ui/                       shadcn parçaları
 lib/
   site.ts                   ad, açıklama, menü
-public/                     ikon ve statik dosyalar
+  session.ts                giriş ve çıkış
+  paths.ts                  adres karşılıkları
+  messages/tr.ts
+  messages/en.ts
+  blog.ts
+  records.ts
+proxy.ts
+public/
 ```
 
-İngilizce klasör adları yukarıdaki İngilizce satırlardır. Dil değişince aynı sayfanın diğer dildeki adresi açılır.
+Dosya adları İngilizcedir. `(dashboard)` adreste görünmez. Giriş, `session` çerezini yazar; çerez yoksa diğer adresler `/login` sayfasına döner.
 
 ## Özelleştirme
 
 Kurum adı, kısa açıklama ve menü `lib/site.ts` içindedir. Örnek ad **Site Adı**dır.
 
-Site rengi laciverttir ve sabittir. Açık, koyu ve sistem seçimi üst menüdedir; yalnızca siteyi etkiler.
+Renk, açık/koyu, yerleşim ve yazı tipi `components/theme/theme.tsx` içindedir. Seçim ziyaretçinin tarayıcısında durur.
 
-Uygulama renkleri lacivert, mavi, yeşil, turuncu ve mordur. Yeni renk `globals.css` içindeki listeye eklenir. Yazı tipi listesi boştur; eklenene kadar Geist kullanılır. Renk, yerleşim ve yazı tipi sağ ayar panelinden seçilir. Açık ve koyu tercih uygulama ile site arasında paylaşılmaz.
+Renkler lacivert, mavi, yeşil, turuncu ve mordur. Varsayılan laciverttir. Yeni renk `globals.css` içindeki listeye eklenir. Yazı tipi listesi boştur; eklenene kadar Geist kullanılır.
 
 Yeni bir sayfa her iki dilde de açılır. Ortak buton, form, kart ve tablo `components/ui` altındadır.
