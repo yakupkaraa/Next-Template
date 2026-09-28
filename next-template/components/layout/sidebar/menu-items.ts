@@ -1,4 +1,5 @@
 import {
+  Bot,
   ChartColumn,
   IdCard,
   LayoutDashboard,
@@ -53,6 +54,17 @@ export const menuItems: MenuEntry[] = [
       it: "Operazioni",
     },
     icon: ChartColumn,
+  },
+  {
+    href: "/ai-chat",
+    label: {
+      tr: "AI Sohbet",
+      en: "AI Chat",
+      de: "KI-Chat",
+      fr: "Chat IA",
+      it: "Chat IA",
+    },
+    icon: Bot,
   },
   {
     label: {
