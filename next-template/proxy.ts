@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
-
-const locales = ["tr", "en"]
+import { locales } from "./lib/locales"
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl

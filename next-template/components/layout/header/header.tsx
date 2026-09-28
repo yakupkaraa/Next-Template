@@ -1,8 +1,9 @@
 "use client"
 
-import { LogOut, Menu, User } from "lucide-react"
+import { Bell, Check, LogOut, Menu, Settings, User } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -10,13 +11,20 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
+import { languages, localeFromPath, swapLocale } from "@/lib/locales"
+import { headerBrand, headerCopy } from "./copy"
 import { signOut } from "@/lib/session"
-import { menuItems, type MenuLocale } from "../sidebar/menuItems"
-
-function localeFromPath(pathname: string): MenuLocale {
-  const segment = pathname.split("/")[1]
-  return segment === "en" ? "en" : "tr"
-}
+import { isMenuGroup, menuItems, type MenuLink } from "../sidebar/menuItems"
+import { LocaleFlag } from "./locale-flag"
+import { notifications } from "./notifications"
+import { SettingsPanel } from "../settings/settings-panel"
 
 export function Header({
   open,
@@ -29,13 +37,8 @@ export function Header({
 }) {
   const pathname = usePathname()
   const locale = localeFromPath(pathname)
-  const toggleLabel = open
-    ? locale === "en"
-      ? "Collapse menu"
-      : "Menüyü daralt"
-    : locale === "en"
-      ? "Expand menu"
-      : "Menüyü genişlet"
+  const text = headerCopy[locale]
+  const toggleLabel = open ? text.menuCollapse : text.menuExpand
 
   return (
     <header className="flex h-14 shrink-0 items-center gap-3 border-b border-border bg-background px-4">
@@ -47,28 +50,95 @@ export function Header({
         aria-controls="panel-sidebar"
         onClick={onToggle}
       >
-        <Menu />
+        <Menu className="size-[1.2rem]" />
         <span className="sr-only">{toggleLabel}</span>
       </Button>
-      <span className="text-sm font-medium">Site Adı</span>
+      <span className="text-sm font-medium">{headerBrand}</span>
+      <div className="ml-auto flex items-center gap-1">
       <DropdownMenu>
         <DropdownMenuTrigger
-          className="ml-auto"
+          nativeButton
+          render={
+            <Button type="button" variant="ghost" size="icon" aria-label={text.language} />
+          }
+        >
+          <LocaleFlag code={locale} className="size-[1.2rem]" />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="min-w-44">
+          {languages.map((language) => (
+            <DropdownMenuItem
+              key={language.code}
+              render={<Link href={swapLocale(pathname, language.code)} />}
+            >
+              <LocaleFlag code={language.code} />
+              {language.label}
+              {language.code === locale ? <Check className="ml-auto" /> : null}
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <DropdownMenu>
+        <DropdownMenuTrigger
+          nativeButton
           render={
             <Button
               type="button"
               variant="ghost"
               size="icon"
-              aria-label={locale === "en" ? "Profile" : "Profil"}
+              aria-label={text.notifications}
+              className="relative"
             />
           }
         >
-          <User />
+          <Bell className="size-[1.2rem]" />
+          <Badge className="absolute -top-1 -right-1 h-4 min-w-4 px-1 text-[10px]">
+            {notifications.length}
+          </Badge>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-72">
+          {notifications.map((item) => (
+            <DropdownMenuItem key={item.id} className="items-start">
+              <span className="flex min-w-0 flex-col gap-0.5">
+                <span className="truncate">{item.title[locale]}</span>
+                <span className="text-xs text-muted-foreground">{item.time[locale]}</span>
+              </span>
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <Sheet>
+        <SheetTrigger
+          nativeButton
+          render={
+            <Button type="button" variant="ghost" size="icon" aria-label={text.settings} />
+          }
+        >
+          <Settings className="size-[1.2rem]" />
+        </SheetTrigger>
+        <SheetContent side="right" className="w-full gap-3 overflow-y-auto sm:max-w-xs">
+          <SheetHeader>
+            <SheetTitle>{text.settings}</SheetTitle>
+          </SheetHeader>
+          <SettingsPanel locale={locale} />
+        </SheetContent>
+      </Sheet>
+      <DropdownMenu>
+        <DropdownMenuTrigger
+          render={
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              aria-label={text.profile}
+            />
+          }
+        >
+          <User className="size-[1.2rem]" />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="min-w-40">
           <DropdownMenuItem render={<Link href={`/${locale}/profile`} />}>
             <User />
-            {locale === "en" ? "Profile" : "Profil"}
+            {text.profile}
           </DropdownMenuItem>
           <form action={signOut.bind(null, locale)}>
             <DropdownMenuItem
@@ -77,14 +147,17 @@ export function Header({
               render={<button type="submit" />}
             >
               <LogOut />
-              {locale === "en" ? "Sign out" : "Çıkış yap"}
+              {text.signOut}
             </DropdownMenuItem>
           </form>
         </DropdownMenuContent>
       </DropdownMenu>
+      </div>
       {showMenu ? (
         <nav className="flex items-center gap-1">
-          {menuItems.map((item) => {
+          {menuItems
+            .flatMap((item) => (isMenuGroup(item) ? item.children : [item]))
+            .map((item: MenuLink) => {
             const href = item.href === "/" ? `/${locale}` : `/${locale}${item.href}`
             const active =
               item.href === "/"

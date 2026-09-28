@@ -25,64 +25,12 @@ import {
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
-
-const avatar =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuAhq_jWJsCv_ho5WBDPZzlW-EvJFKVSYsSE3LT4TtxrYY5btwWGZyEA7HNTh24c9R85uDkFbOKzqtBsWH1PKnqcg5xVUzXynjUTbzr_6P8uK3gu1cMlijWNsHA2ujolFLh0SpewU6JrFG3GYymg-h2xdDzGdIhRDu4y1Lj328HmKt97pldwUkuvvtVTVlFCoVFR3eabXqXZQcCDpA-RGzr7FlXAOis06azuNUsn1GrfLDowuyx1xPgsraNfAjgiIxFk44KmLDRE7A"
-
-const cover =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuCdSkrTutpSSqcff2MBYMr-yMXaHCQ-uts68wLBTYbxIz3a22rF55rAAKeNQKmCl12yIZDa-cGgdq8GGhHXfk2lL9g68DMlUI7WVqXUdOjrmlsHl72EvLONGAaJYeT0W5u6_nSgBzyO4ImUkOJLDYwFGmB2zZ7pTNLJVumOYo-5Q4AzQPvC-15p6O8_tsTeq3ZVDg6v8CpNn5Lx2AxW5kynweVwKi27TW29_NRWt0_PQ5_MEMrXS3xOxnG1_ok49aMM4fNTq4dqaQ"
-
-const postImage =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuBli-vhQYvyR3fJlzeQWF5X_qgOL4cftJYxSrY4orPRJZIkXkob2eLB_T20nDTIkOplqQMWkbExcixBKeDlTAXyQcoJ-UpaLlRABdu0A7mTIBKTO8scN66xoiLsYFo2t3KeG8Mh26f8LNK_WdxvIhUzkQRiXKcwSx00kQARgLCSEq-ov5hSI2RHNawoUTlSdw57lR-RPlcuo1iVFm9Tu_L9sG_qW0thyT_s5ZckvZEb1EcQ2V9fLBMPcb8LSOTxed91ogL55cwEzQ"
-
-const copy = {
-  tr: {
-    profile: "Profil",
-    followers: "Takipçiler",
-    friends: "Arkadaşlar",
-    gallery: "Galeri",
-    following: "Takip",
-    about: "Hakkında",
-    aboutText:
-      "Tart I love sugar plum I love oat cake. Sweet roll caramels I love jujubes. Topping cake wafer.",
-    liveAt: "Yaşadığı yer",
-    country: "Birleşik Krallık",
-    role: "CTO",
-    company: "Gleicher, Mueller and Tromp",
-    school: "Nikolaus – Leuschke",
-    studied: "Okul",
-    social: "Sosyal",
-    placeholder: "Ne düşündüğünü burada paylaş...",
-    image: "Görsel",
-    stream: "Yayın",
-    post: "Paylaş",
-    comment: "Yorum yaz...",
-    more: "Diğer",
-  },
-  en: {
-    profile: "Profile",
-    followers: "Followers",
-    friends: "Friends",
-    gallery: "Gallery",
-    following: "Following",
-    about: "About",
-    aboutText:
-      "Tart I love sugar plum I love oat cake. Sweet roll caramels I love jujubes. Topping cake wafer.",
-    liveAt: "Lives in",
-    country: "United Kingdom",
-    role: "CTO",
-    company: "Gleicher, Mueller and Tromp",
-    school: "Nikolaus – Leuschke",
-    studied: "Studied at",
-    social: "Social",
-    placeholder: "Share what you are thinking here...",
-    image: "Image",
-    stream: "Streaming",
-    post: "Post",
-    comment: "Write a comment...",
-    more: "More",
-  },
-} as const
+import {
+  profileContent,
+  profileCopy,
+  profileMedia,
+  type ProfileLocale,
+} from "./data"
 
 function Person({
   name,
@@ -101,22 +49,22 @@ function Person({
   )
 }
 
-export function ProfileScreen({ locale }: { locale: "tr" | "en" }) {
-  const text = copy[locale]
+export function ProfileScreen({ locale }: { locale: ProfileLocale }) {
+  const text = profileCopy[locale]
 
   return (
-    <div className="mx-auto flex w-full max-w-6xl flex-col gap-6">
+    <div className="mx-auto flex w-4/5 min-w-0 flex-col gap-6">
       <section className="relative h-64 overflow-hidden rounded-xl border border-border md:h-80">
-        <img alt="" className="size-full object-cover" src={cover} />
+        <img alt="" className="size-full object-cover" src={profileMedia.cover} />
         <div className="absolute inset-0 bg-foreground/35" />
         <div className="absolute inset-x-0 bottom-0 flex items-end gap-6 bg-linear-to-t from-black/60 to-transparent p-6 md:p-8">
           <Person
             className="size-24 border-4 border-background md:size-32"
-            name="Jaydon Frankie"
-            src={avatar}
+            name={profileContent.name}
+            src={profileMedia.avatar}
           />
           <div className="pb-2 text-white">
-            <h1 className="text-3xl font-semibold">Jaydon Frankie</h1>
+            <h1 className="text-3xl font-semibold">{profileContent.name}</h1>
             <p className="font-medium text-white/80">{text.role}</p>
           </div>
         </div>
@@ -153,13 +101,13 @@ export function ProfileScreen({ locale }: { locale: "tr" | "en" }) {
               <Card>
                 <CardContent className="flex divide-x divide-border">
                   <div className="flex-1 px-4 text-center">
-                    <p className="text-xl font-semibold">1,947</p>
+                    <p className="text-xl font-semibold">{profileContent.followersCount}</p>
                     <p className="mt-1 text-sm text-muted-foreground">
                       {text.followers}
                     </p>
                   </div>
                   <div className="flex-1 px-4 text-center">
-                    <p className="text-xl font-semibold">9,124</p>
+                    <p className="text-xl font-semibold">{profileContent.followingCount}</p>
                     <p className="mt-1 text-sm text-muted-foreground">
                       {text.following}
                     </p>
@@ -185,7 +133,7 @@ export function ProfileScreen({ locale }: { locale: "tr" | "en" }) {
                     </li>
                     <li className="flex items-start gap-3">
                       <Mail className="size-5 shrink-0 text-muted-foreground" />
-                      <span>jaydon.frankie@example.com</span>
+                      <span>{profileContent.email}</span>
                     </li>
                     <li className="flex items-start gap-3">
                       <Briefcase className="size-5 shrink-0 text-muted-foreground" />
@@ -211,7 +159,7 @@ export function ProfileScreen({ locale }: { locale: "tr" | "en" }) {
                 </CardHeader>
                 <CardContent>
                   <ul className="flex flex-col gap-3 text-sm font-medium text-muted-foreground">
-                    {["Facebook", "Instagram", "LinkedIn", "Twitter"].map(
+                    {profileContent.socials.map(
                       (name) => (
                         <li key={name}>
                           <a href="#" className="hover:text-foreground">
@@ -238,10 +186,6 @@ export function ProfileScreen({ locale }: { locale: "tr" | "en" }) {
                         <ImageIcon />
                         {text.image}
                       </Button>
-                      <Button type="button" variant="ghost">
-                        <Video />
-                        {text.stream}
-                      </Button>
                     </div>
                     <Button type="button">{text.post}</Button>
                   </div>
@@ -251,10 +195,10 @@ export function ProfileScreen({ locale }: { locale: "tr" | "en" }) {
               <Card className="py-0">
                 <CardHeader className="flex-row items-center justify-between pt-(--card-spacing)">
                   <div className="flex items-center gap-3">
-                    <Person className="size-12" name="Jaydon Frankie" src={avatar} />
+                    <Person className="size-12" name={profileContent.name} src={profileMedia.avatar} />
                     <div>
-                      <CardTitle>Jaydon Frankie</CardTitle>
-                      <p className="text-xs text-muted-foreground">11 Dec 2025</p>
+                      <CardTitle>{profileContent.name}</CardTitle>
+                      <p className="text-xs text-muted-foreground">{profileContent.postDate}</p>
                     </div>
                   </div>
                   <Button type="button" variant="ghost" size="icon" aria-label={text.more}>
@@ -262,45 +206,40 @@ export function ProfileScreen({ locale }: { locale: "tr" | "en" }) {
                   </Button>
                 </CardHeader>
                 <CardContent className="flex flex-col gap-4">
-                  <p className="leading-relaxed">
-                    The sun slowly set over the horizon, painting the sky in vibrant
-                    hues of orange and pink.
-                  </p>
+                  <p className="leading-relaxed">{profileContent.postBody}</p>
                   <img
                     alt=""
                     className="h-64 w-full rounded-xl object-cover"
-                    src={postImage}
+                    src={profileMedia.post}
                   />
                   <div className="flex items-center gap-1 text-muted-foreground">
                     <Button type="button" variant="ghost" size="sm">
                       <Heart className="fill-current" />
-                      20
+                      {profileContent.likes}
                     </Button>
-                    <Button type="button" variant="ghost" size="icon" aria-label="Comment">
+                    <Button type="button" variant="ghost" size="icon" aria-label={text.commentAction}>
                       <MessageCircle />
                     </Button>
-                    <Button type="button" variant="ghost" size="icon" aria-label="Share">
+                    <Button type="button" variant="ghost" size="icon" aria-label={text.share}>
                       <Share2 />
                     </Button>
                   </div>
                 </CardContent>
                 <CardFooter className="flex-col items-stretch gap-4">
                   <div className="flex gap-3">
-                    <Person className="size-8" name="Lainey Davidson" src={avatar} />
+                    <Person className="size-8" name={profileContent.commenter} src={profileMedia.avatar} />
                     <div className="flex-1 rounded-lg border border-border bg-card p-3">
                       <div className="mb-1 flex items-start justify-between gap-3">
-                        <h4 className="text-sm font-semibold">Lainey Davidson</h4>
+                        <h4 className="text-sm font-semibold">{profileContent.commenter}</h4>
                         <span className="text-xs text-muted-foreground">
-                          09 Dec 2025
+                          {profileContent.commentDate}
                         </span>
                       </div>
-                      <p className="text-sm text-muted-foreground">
-                        Amazing view! Wish I was there.
-                      </p>
+                      <p className="text-sm text-muted-foreground">{profileContent.commentBody}</p>
                     </div>
                   </div>
                   <form className="flex gap-3">
-                    <Person className="size-8" name="Jaydon Frankie" src={avatar} />
+                    <Person className="size-8" name={profileContent.name} src={profileMedia.avatar} />
                     <div className="relative flex-1">
                       <Input
                         className="h-10 rounded-full pr-10"

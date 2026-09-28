@@ -1,4 +1,5 @@
 import { signIn } from "@/lib/session"
+import { loginCopy } from "./data"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -17,23 +18,19 @@ export default async function LoginPage({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  const english = locale === "en"
+  const text = locale === "en" ? loginCopy.en : loginCopy.tr
 
   return (
     <main className="flex min-h-dvh items-center justify-center bg-background px-4">
       <Card className="w-full max-w-sm">
         <form action={signIn.bind(null, locale)} className="flex flex-col gap-6">
           <CardHeader>
-            <CardTitle>{english ? "Sign in" : "Giriş"}</CardTitle>
-            <CardDescription>
-              {english
-                ? "The dashboard stays closed until you sign in."
-                : "Giriş yapılmadan panele geçilmez."}
-            </CardDescription>
+            <CardTitle>{text.title}</CardTitle>
+            <CardDescription>{text.description}</CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-4">
             <div className="flex flex-col gap-2">
-              <Label htmlFor="email">{english ? "Email" : "E-posta"}</Label>
+              <Label htmlFor="email">{text.email}</Label>
               <Input
                 id="email"
                 name="email"
@@ -42,7 +39,7 @@ export default async function LoginPage({
               />
             </div>
             <div className="flex flex-col gap-2">
-              <Label htmlFor="password">{english ? "Password" : "Parola"}</Label>
+              <Label htmlFor="password">{text.password}</Label>
               <Input
                 id="password"
                 name="password"
@@ -53,7 +50,7 @@ export default async function LoginPage({
           </CardContent>
           <CardFooter>
             <Button type="submit" className="w-full">
-              {english ? "Sign in" : "Giriş"}
+              {text.submit}
             </Button>
           </CardFooter>
         </form>

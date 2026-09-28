@@ -2,12 +2,8 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { footerContent, type FooterLocale } from "./content"
-
-function localeFromPath(pathname: string): FooterLocale {
-  const segment = pathname.split("/")[1]
-  return segment === "en" ? "en" : "tr"
-}
+import { localeFromPath } from "@/lib/locales"
+import { footerContent } from "./content"
 
 export function Footer() {
   const pathname = usePathname()

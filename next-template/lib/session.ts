@@ -2,11 +2,12 @@
 
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
+import { isLocale } from "@/lib/locales"
 
 const SESSION = "session"
 
 function localePath(locale: string) {
-  return locale === "en" ? "en" : "tr"
+  return isLocale(locale) ? locale : "tr"
 }
 
 export async function signIn(locale: string) {

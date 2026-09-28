@@ -1,3 +1,11 @@
+export const userListView = {
+  title: "Kullanıcı Listesi",
+  excel: "Excel",
+  search: "Ara",
+  empty: "Sonuç yok",
+  confirmed: "Evet",
+}
+
 export const userColumns = [
   { key: "id", label: "No" },
   { key: "firstName", label: "Ad" },

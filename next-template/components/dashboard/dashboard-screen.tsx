@@ -1,3 +1,5 @@
+"use client"
+
 import {
   ChevronDown,
   Contact,
@@ -5,7 +7,26 @@ import {
   Mail,
   TrendingUp,
 } from "lucide-react"
+import { Bar, BarChart, CartesianGrid, Line, LineChart, XAxis } from "recharts"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart"
+import {
+  dashboardChats,
+  dashboardCopy,
+  dashboardDocuments,
+  dashboardFigures,
+  dashboardMarketing,
+  dashboardMarketingConfig,
+  dashboardProducts,
+  dashboardTrend,
+  dashboardWorkflow,
+  dashboardWorkflowConfig,
+  type DashboardLocale,
+} from "./data"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
@@ -17,95 +38,12 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-const copy = {
-  tr: {
-    title: "Genel bakış",
-    document: "Belge",
-    contact: "Kişi",
-    email: "E-posta",
-    since: "Geçen haftadan beri",
-    workflow: "Son iş akışı",
-    marketing: "Son pazarlama",
-    tracking: "Belge takip bilgisi",
-    weekly: "Haftalık",
-    name: "Ad",
-    file: "Dosya",
-    category: "Kategori",
-    author: "Yazar",
-    status: "Durum",
-    sent: "Gönderildi",
-    pending: "Beklemede",
-    popular: "Popüler ürün",
-    chat: "Sohbet",
-  },
-  en: {
-    title: "Overview",
-    document: "Document",
-    contact: "Contact",
-    email: "Email",
-    since: "Since last week",
-    workflow: "Recent Workflow",
-    marketing: "Recent Marketing",
-    tracking: "Document tracking information",
-    weekly: "Weekly",
-    name: "Name",
-    file: "File",
-    category: "Category",
-    author: "Author",
-    status: "Status",
-    sent: "Sent",
-    pending: "Pending",
-    popular: "Popular Product",
-    chat: "Chat",
-  },
-}
-
-const documents = [
-  {
-    name: "Annual Report",
-    file: "PDF",
-    category: "Property",
-    author: "Diana Matthews",
-    status: "sent" as const,
-  },
-  {
-    name: "Business Plan",
-    file: "WORD",
-    category: "Cryptocurrency",
-    author: "Philip James",
-    status: "sent" as const,
-  },
-  {
-    name: "Marketing Tool",
-    file: "PDF",
-    category: "Content Creator",
-    author: "Amanda Ross",
-    status: "pending" as const,
-  },
-]
-
-const products = [
-  { name: "Gadget Converter", price: "$200" },
-  { name: "Lens Camera", price: "$50" },
-  { name: "Airpods", price: "$100" },
-  { name: "Macbook", price: "$300" },
-]
-
-const chats = [
-  { name: "Debra Young", note: "What is the status?" },
-  { name: "Dorothy Collins", note: "Can we talk this morning" },
-  { name: "Chris Jordan", note: "How about the meeting" },
-  { name: "Denise Murphy", note: "What is the status?" },
-]
-
-const bars = [46, 62, 38, 78, 52, 70, 40, 96, 58, 84, 48, 88]
-
 function Trend({ label }: { label: string }) {
   return (
     <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
       <span className="inline-flex items-center gap-0.5 font-medium text-emerald-600">
         <TrendingUp className="size-3" />
-        17 %
+        {dashboardTrend}
       </span>
       {label}
     </p>
@@ -114,38 +52,38 @@ function Trend({ label }: { label: string }) {
 
 function WorkflowChart() {
   return (
-    <svg viewBox="0 0 320 110" className="h-28 w-full text-sky-500" aria-hidden>
-      <path
-        d="M4 72 C 24 74, 36 42, 54 50 S 86 82, 108 58 S 146 18, 168 30 S 206 16, 228 24 S 268 46, 292 22 L 316 16"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-      />
-    </svg>
+    <ChartContainer config={dashboardWorkflowConfig} className="aspect-auto h-28 w-full">
+      <LineChart data={dashboardWorkflow} margin={{ left: 8, right: 8, top: 8 }}>
+        <CartesianGrid vertical={false} />
+        <XAxis dataKey="label" hide />
+        <ChartTooltip content={<ChartTooltipContent hideLabel />} />
+        <Line
+          type="monotone"
+          dataKey="value"
+          stroke="var(--color-value)"
+          strokeWidth={2}
+          dot={false}
+        />
+      </LineChart>
+    </ChartContainer>
   )
 }
 
 function MarketingChart() {
   return (
-    <svg viewBox="0 0 320 110" className="h-28 w-full" aria-hidden>
-      {bars.map((height, index) => (
-        <rect
-          key={index}
-          x={index * 26 + 6}
-          y={108 - height}
-          width="14"
-          height={height}
-          rx="3"
-          className="fill-cyan-500"
-        />
-      ))}
-    </svg>
+    <ChartContainer config={dashboardMarketingConfig} className="aspect-auto h-28 w-full">
+      <BarChart data={dashboardMarketing} margin={{ left: 8, right: 8, top: 8 }}>
+        <CartesianGrid vertical={false} />
+        <XAxis dataKey="label" hide />
+        <ChartTooltip content={<ChartTooltipContent hideLabel />} />
+        <Bar dataKey="value" fill="var(--color-value)" radius={3} />
+      </BarChart>
+    </ChartContainer>
   )
 }
 
-export function DashboardScreen({ locale }: { locale: "tr" | "en" }) {
-  const text = copy[locale]
+export function DashboardScreen({ locale }: { locale: DashboardLocale }) {
+  const text = dashboardCopy[locale]
 
   return (
     <div className="flex flex-col gap-4">
@@ -162,7 +100,7 @@ export function DashboardScreen({ locale }: { locale: "tr" | "en" }) {
             </span>
           </CardHeader>
           <CardContent className="flex flex-col gap-2">
-            <p className="text-3xl font-semibold tracking-tight">146.000</p>
+            <p className="text-3xl font-semibold tracking-tight">{dashboardFigures.document}</p>
             <Trend label={text.since} />
           </CardContent>
         </Card>
@@ -176,7 +114,7 @@ export function DashboardScreen({ locale }: { locale: "tr" | "en" }) {
             </span>
           </CardHeader>
           <CardContent className="flex flex-col gap-2">
-            <p className="text-3xl font-semibold tracking-tight">1400</p>
+            <p className="text-3xl font-semibold tracking-tight">{dashboardFigures.contact}</p>
             <Trend label={text.since} />
           </CardContent>
         </Card>
@@ -190,7 +128,7 @@ export function DashboardScreen({ locale }: { locale: "tr" | "en" }) {
             </span>
           </CardHeader>
           <CardContent className="flex flex-col gap-2">
-            <p className="text-3xl font-semibold tracking-tight">150.700</p>
+            <p className="text-3xl font-semibold tracking-tight">{dashboardFigures.email}</p>
             <Trend label={text.since} />
           </CardContent>
         </Card>
@@ -202,7 +140,7 @@ export function DashboardScreen({ locale }: { locale: "tr" | "en" }) {
             <CardTitle>{text.workflow}</CardTitle>
             <span className="inline-flex items-center gap-0.5 text-sm font-medium text-emerald-600">
               <TrendingUp className="size-3.5" />
-              17 %
+              {dashboardTrend}
             </span>
           </CardHeader>
           <CardContent>
@@ -214,7 +152,7 @@ export function DashboardScreen({ locale }: { locale: "tr" | "en" }) {
             <CardTitle>{text.marketing}</CardTitle>
             <span className="inline-flex items-center gap-0.5 text-sm font-medium text-emerald-600">
               <TrendingUp className="size-3.5" />
-              17 %
+              {dashboardTrend}
             </span>
           </CardHeader>
           <CardContent>
@@ -247,7 +185,7 @@ export function DashboardScreen({ locale }: { locale: "tr" | "en" }) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {documents.map((row) => (
+                {dashboardDocuments.map((row) => (
                   <TableRow key={row.name}>
                     <TableCell className="font-medium">{row.name}</TableCell>
                     <TableCell>{row.file}</TableCell>
@@ -277,7 +215,7 @@ export function DashboardScreen({ locale }: { locale: "tr" | "en" }) {
               <CardTitle>{text.popular}</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col gap-3">
-              {products.map((product) => (
+              {dashboardProducts.map((product) => (
                 <div key={product.name} className="flex items-center justify-between gap-3">
                   <span>{product.name}</span>
                   <span className="text-muted-foreground">{product.price}</span>
@@ -291,7 +229,7 @@ export function DashboardScreen({ locale }: { locale: "tr" | "en" }) {
               <CardTitle>{text.chat}</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col gap-3">
-              {chats.map((person) => (
+              {dashboardChats.map((person) => (
                 <div key={person.name} className="flex items-center gap-3">
                   <Avatar>
                     <AvatarFallback className="bg-slate-900 text-xs text-white">

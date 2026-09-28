@@ -7,7 +7,7 @@ import { cn } from "cn"
 export function SearchBar({
   value,
   onValueChange,
-  placeholder = "Ara",
+  placeholder = "",
   className,
 }: {
   value: string
