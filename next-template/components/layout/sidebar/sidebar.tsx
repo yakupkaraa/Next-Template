@@ -10,7 +10,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
 import { localeFromPath, type Locale } from "@/lib/locales"
-import { isMenuGroup, menuItems, type MenuGroup, type MenuLink } from "./menuItems"
+import { isMenuGroup, menuItems, type MenuGroup, type MenuLink } from "./menu-items"
 
 function itemHref(locale: Locale, href: string) {
   return href === "/" ? `/${locale}` : `/${locale}${href}`

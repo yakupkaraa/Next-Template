@@ -23,9 +23,9 @@ app/
       list/ list/[id]/ settings/ profile/
 components/
   layout/
-    header/header.tsx       menüyü sidebar/menuItems.ts dosyasından okur
+    header/header.tsx       menüyü sidebar/menu-items.ts dosyasından okur
     footer/                 footer.tsx, content.ts
-    sidebar/                sidebar.tsx, menuItems.ts
+    sidebar/                sidebar.tsx, menu-items.ts
   theme/theme.tsx            renk, açık/koyu, yerleşim, yazı tipi
   ui/                       shadcn parçaları
 lib/

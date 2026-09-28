@@ -12,7 +12,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 import { localeFromPath, type Locale } from "@/lib/locales"
-import { isMenuGroup, menuItems } from "@/components/layout/sidebar/menuItems"
+import { isMenuGroup, menuItems } from "@/components/layout/sidebar/menu-items"
 
 function pagePath(pathname: string) {
   const locale = localeFromPath(pathname)

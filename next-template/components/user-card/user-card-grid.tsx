@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
-import { userColumns, userList, userListView, type UserRow } from "@/components/userList/data"
+import { userColumns, userList, userListView, type UserRow } from "@/components/user-list/data"
 import { userCardView } from "./data"
 
 const label = Object.fromEntries(userColumns.map((column) => [column.key, column.label])) as Record<

@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Switch } from "@/components/ui/switch"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { cn } from "cn"
-import type { MenuLocale } from "../sidebar/menuItems"
+import type { MenuLocale } from "../sidebar/menu-items"
 import {
   settingsColors,
   settingsFonts,
