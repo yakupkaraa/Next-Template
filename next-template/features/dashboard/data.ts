@@ -2,163 +2,261 @@ import type { ContentLocale } from "@/lib/i18n"
 
 export type DashboardLocale = ContentLocale
 
-export const dashboardTrend = "17 %"
+export type ProjectPriority = "low" | "medium" | "high" | "veryHigh"
 
-export const dashboardFigures = {
-  document: "146.000",
-  contact: "1400",
-  email: "150.700",
-  order: "860",
-}
-
-export const dashboardVisitSegments = [
-  { key: "web", value: 1240 },
-  { key: "mobile", value: 890 },
-  { key: "other", value: 328 },
-] as const
-
-export const dashboardVisitChartConfig = {
-  web: { label: "Web", color: "var(--chart-1)" },
-  mobile: { label: "Mobile", color: "var(--chart-2)" },
-  other: { label: "Other", color: "var(--chart-3)" },
-} satisfies Record<
-  (typeof dashboardVisitSegments)[number]["key"],
-  { label: string; color: string }
->
-
-export const dashboardWelcome = {
+export const dashboardCopy = {
   tr: {
-    userName: "John Doe",
-    hint: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.",
-    cta: "Tam raporu görüntüle",
+    kpis: ["Lorem ipsum", "Dolor sit", "Amet elit", "Sed do", "Eiusmod", "Tempor"],
+    revenueTitle: "Incididunt ut labore",
+    revenueHint: "Et dolore magna",
+    totalEarnings: "Aliqua enim ad",
+    earningsMonth: "Minim veniam quis",
+    expenseMonth: "Nostrud exercitation",
+    viewReport: "Ullamco laboris",
+    yearlyTitle: "Nisi ut aliquip",
+    lastYear: "Ex ea commodo",
+    thisYear: "Consequat duis",
+    prevYear: "Aute irure dolor",
+    monthlyTitle: "In reprehenderit",
+    salaryTitle: "Voluptate velit",
+    salaryHint: "Esse cillum dolore",
+    salary: "Eu fugiat nulla",
+    profit: "Pariatur excepteur",
+    customers: "Sint occaecat",
+    projects: "Cupidatat non",
+    promoTitle: "Proident sunt in culpa",
+    promoHint: "Qui officia deserunt mollit anim",
+    promoDate: "22 March, 2025",
+    bestTitle: "Id est laborum",
+    bestHint: "Sed ut perspiciatis",
+    weeklyTitle: "Unde omnis iste",
+    weeklyHint: "Natus error sit",
+    tableTitle: "Voluptatem accusantium",
+    tableHint: "Doloremque laudantium",
+    assigned: "Totam rem",
+    project: "Aperiam eaque",
+    priority: "Ipsa quae",
+    budget: "Ab illo",
+    year: "2025",
+    welcomeUser: "Lorem Ipsum",
+    welcomeHint:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
+    welcomeCta: "Ut enim ad minim",
     greetingMorning: "Günaydın",
     greetingAfternoon: "İyi günler",
     greetingEvening: "İyi akşamlar",
     greetingNight: "İyi geceler",
-    visitChartTitle: "Ziyaret dağılımı",
-    visitTotal: "2.458",
-    visitTotalLabel: "toplam ziyaret",
+    visitTitle: "Quis nostrud",
+    visitTotalLabel: "exercitation ullamco",
   },
   en: {
-    userName: "John Doe",
-    hint: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.",
-    cta: "View full report",
+    kpis: ["Lorem ipsum", "Dolor sit", "Amet elit", "Sed do", "Eiusmod", "Tempor"],
+    revenueTitle: "Incididunt ut labore",
+    revenueHint: "Et dolore magna",
+    totalEarnings: "Aliqua enim ad",
+    earningsMonth: "Minim veniam quis",
+    expenseMonth: "Nostrud exercitation",
+    viewReport: "Ullamco laboris",
+    yearlyTitle: "Nisi ut aliquip",
+    lastYear: "Ex ea commodo",
+    thisYear: "Consequat duis",
+    prevYear: "Aute irure dolor",
+    monthlyTitle: "In reprehenderit",
+    salaryTitle: "Voluptate velit",
+    salaryHint: "Esse cillum dolore",
+    salary: "Eu fugiat nulla",
+    profit: "Pariatur excepteur",
+    customers: "Sint occaecat",
+    projects: "Cupidatat non",
+    promoTitle: "Proident sunt in culpa",
+    promoHint: "Qui officia deserunt mollit anim",
+    promoDate: "22 March, 2025",
+    bestTitle: "Id est laborum",
+    bestHint: "Sed ut perspiciatis",
+    weeklyTitle: "Unde omnis iste",
+    weeklyHint: "Natus error sit",
+    tableTitle: "Voluptatem accusantium",
+    tableHint: "Doloremque laudantium",
+    assigned: "Totam rem",
+    project: "Aperiam eaque",
+    priority: "Ipsa quae",
+    budget: "Ab illo",
+    year: "2025",
+    welcomeUser: "Lorem Ipsum",
+    welcomeHint:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
+    welcomeCta: "Ut enim ad minim",
     greetingMorning: "Good morning",
     greetingAfternoon: "Good afternoon",
     greetingEvening: "Good evening",
     greetingNight: "Good night",
-    visitChartTitle: "Visit breakdown",
-    visitTotal: "2,458",
-    visitTotalLabel: "total visits",
+    visitTitle: "Quis nostrud",
+    visitTotalLabel: "exercitation ullamco",
   },
 } as const
 
-export const dashboardCopy = {
-  tr: {
-    document: "Belge",
-    contact: "Kişi",
-    email: "E-posta",
-    order: "Sipariş",
-    since: "Geçen haftadan beri",
-    workflow: "Son iş akışı",
-    marketing: "Son pazarlama",
-    tracking: "Belge takip bilgisi",
-    weekly: "Haftalık",
-    name: "Ad",
-    file: "Dosya",
-    category: "Kategori",
-    author: "Yazar",
-    status: "Durum",
-    sent: "Gönderildi",
-    pending: "Beklemede",
-    popular: "Popüler ürün",
-    chat: "Sohbet",
-  },
-  en: {
-    document: "Document",
-    contact: "Contact",
-    email: "Email",
-    order: "Orders",
-    since: "Since last week",
-    workflow: "Recent Workflow",
-    marketing: "Recent Marketing",
-    tracking: "Document tracking information",
-    weekly: "Weekly",
-    name: "Name",
-    file: "File",
-    category: "Category",
-    author: "Author",
-    status: "Status",
-    sent: "Sent",
-    pending: "Pending",
-    popular: "Popular Product",
-    chat: "Chat",
-  },
+export const dashboardVisit = {
+  total: "2,458",
+  segments: [
+    { key: "web", value: 1240, color: "var(--chart-1)" },
+    { key: "mobile", value: 890, color: "var(--chart-2)" },
+    { key: "other", value: 328, color: "var(--chart-3)" },
+  ],
+} as const
+
+export const dashboardKpis = [
+  { value: "96", tone: "chart-1" },
+  { value: "3,650", tone: "chart-2" },
+  { value: "356", tone: "chart-3" },
+  { value: "696", tone: "chart-4" },
+  { value: "$96k", tone: "chart-5" },
+  { value: "59", tone: "primary" },
+] as const
+
+export const dashboardRevenue = {
+  total: "$63,489.50",
+  earnings: "$48,820",
+  expense: "$26,498",
+  bars: [
+    { label: "14/08", value: 2.1 },
+    { label: "15/08", value: -1.4 },
+    { label: "16/08", value: 3.2 },
+    { label: "17/08", value: 4.6 },
+    { label: "18/08", value: -2.2 },
+    { label: "19/08", value: 1.8 },
+    { label: "20/08", value: 3.9 },
+    { label: "21/08", value: 2.4 },
+    { label: "22/08", value: 5.1 },
+  ],
 }
 
-export const dashboardDocuments = [
-  {
-    name: "Annual Report",
-    file: "PDF",
-    category: "Property",
-    author: "Diana Matthews",
-    status: "sent" as const,
-  },
-  {
-    name: "Business Plan",
-    file: "WORD",
-    category: "Cryptocurrency",
-    author: "Philip James",
-    status: "sent" as const,
-  },
-  {
-    name: "Marketing Tool",
-    file: "PDF",
-    category: "Content Creator",
-    author: "Amanda Ross",
-    status: "pending" as const,
-  },
-]
-
-export const dashboardProducts = [
-  { name: "Gadget Converter", price: "$200" },
-  { name: "Lens Camera", price: "$50" },
-  { name: "Airpods", price: "$100" },
-  { name: "Macbook", price: "$300" },
-]
-
-export const dashboardChats = [
-  { name: "Debra Young", note: "What is the status?" },
-  { name: "Dorothy Collins", note: "Can we talk this morning" },
-  { name: "Chris Jordan", note: "How about the meeting" },
-  { name: "Denise Murphy", note: "What is the status?" },
-]
-
-const bars = [46, 62, 38, 78, 52, 70, 40, 96, 58, 84, 48, 88]
-
-export const dashboardWorkflow = [
-  { label: "1", value: 38 },
-  { label: "2", value: 60 },
-  { label: "3", value: 28 },
-  { label: "4", value: 52 },
-  { label: "5", value: 92 },
-  { label: "6", value: 80 },
-  { label: "7", value: 94 },
-  { label: "8", value: 86 },
-  { label: "9", value: 64 },
-  { label: "10", value: 88 },
-  { label: "11", value: 94 },
-]
-
-export const dashboardMarketing = bars.map((value, index) => ({
-  label: String(index + 1),
-  value,
-}))
-
-export const dashboardWorkflowConfig = {
-  value: { label: "Workflow", color: "oklch(0.62 0.14 230)" },
+export const dashboardYearly = {
+  amount: "$36,358",
+  delta: 9,
+  thisYear: 38,
+  prevYear: 62,
 }
 
-export const dashboardMarketingConfig = {
-  value: { label: "Marketing", color: "oklch(0.68 0.12 195)" },
+export const dashboardMonthly = {
+  amount: "$6,820",
+  delta: 9,
+  points: [
+    { label: "1", value: 12 },
+    { label: "2", value: 18 },
+    { label: "3", value: 14 },
+    { label: "4", value: 22 },
+    { label: "5", value: 19 },
+    { label: "6", value: 28 },
+    { label: "7", value: 24 },
+    { label: "8", value: 32 },
+  ],
+}
+
+export const dashboardSalary = {
+  salary: "$36,358",
+  profit: "$5,296",
+  highlight: 3,
+  bars: [
+    { label: "Apr", value: 42 },
+    { label: "May", value: 58 },
+    { label: "June", value: 36 },
+    { label: "July", value: 88 },
+    { label: "Aug", value: 44 },
+    { label: "Sept", value: 62 },
+  ],
+}
+
+export const dashboardCustomersSpark = [
+  { label: "1", value: 18 },
+  { label: "2", value: 22 },
+  { label: "3", value: 16 },
+  { label: "4", value: 28 },
+  { label: "5", value: 24 },
+  { label: "6", value: 34 },
+  { label: "7", value: 30 },
+]
+
+export const dashboardProjectsBars = [
+  { label: "1", value: 12 },
+  { label: "2", value: 22 },
+  { label: "3", value: 18 },
+  { label: "4", value: 28 },
+  { label: "5", value: 16 },
+  { label: "6", value: 24 },
+  { label: "7", value: 20 },
+]
+
+export const dashboardMiniStats = {
+  customers: { value: "36,358", delta: 9 },
+  projects: { value: "78,298", delta: 9 },
+}
+
+export const dashboardPromoPeople = ["LD", "SI", "AM", "PJ"]
+
+export const dashboardBestSellers = [
+  { name: "Lorem ipsum dolor", price: "$23,568", share: 55 },
+  { name: "Sit amet elit", price: "$23,568", share: 20 },
+]
+
+export const dashboardWeekly = {
+  points: [
+    { label: "1", value: 18 },
+    { label: "2", value: 28 },
+    { label: "3", value: 22 },
+    { label: "4", value: 40 },
+    { label: "5", value: 32 },
+    { label: "6", value: 48 },
+    { label: "7", value: 36 },
+    { label: "8", value: 44 },
+  ],
+  items: [
+    { title: "Lorem ipsum", name: "Dolor sit amet", delta: 68, tone: "chart-1" },
+    { title: "Consectetur", name: "Adipiscing elit", delta: 45, tone: "chart-2" },
+    { title: "Sed do eiusmod", name: "Tempor incididunt", delta: 14, tone: "chart-3" },
+  ],
+}
+
+export const dashboardProjectsTable = [
+  {
+    name: "Lorem Ipsum",
+    role: "Dolor sit amet",
+    project: "Consectetur elit",
+    priority: "low" as ProjectPriority,
+    budget: "$3.9k",
+    initials: "LI",
+  },
+  {
+    name: "Adipiscing Elit",
+    role: "Sed do eiusmod",
+    project: "Tempor incididunt",
+    priority: "medium" as ProjectPriority,
+    budget: "$24.5k",
+    initials: "AE",
+  },
+  {
+    name: "Labore Magna",
+    role: "Aliqua enim",
+    project: "Minim veniam",
+    priority: "high" as ProjectPriority,
+    budget: "$12.8k",
+    initials: "LM",
+  },
+  {
+    name: "Quis Nostrud",
+    role: "Exercitation ullam",
+    project: "Laboris nisi",
+    priority: "veryHigh" as ProjectPriority,
+    budget: "$2.4k",
+    initials: "QN",
+  },
+]
+
+export const dashboardPriorityLabels: Record<
+  ProjectPriority,
+  Record<DashboardLocale, string>
+> = {
+  low: { tr: "Lorem", en: "Lorem" },
+  medium: { tr: "Ipsum", en: "Ipsum" },
+  high: { tr: "Dolor", en: "Dolor" },
+  veryHigh: { tr: "Sit amet", en: "Sit amet" },
 }

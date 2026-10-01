@@ -7,9 +7,5 @@ export default async function Page({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  return (
-    <div className="min-h-0 w-full min-w-0 flex-1 overflow-y-auto">
-      <ProfileScreen locale={resolveContentLocale(locale)} />
-    </div>
-  )
+  return <ProfileScreen locale={resolveContentLocale(locale)} />
 }

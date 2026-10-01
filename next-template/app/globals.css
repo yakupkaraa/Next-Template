@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "./theme-accents.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -50,7 +51,7 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
+  --background: #f6f7f8;
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
@@ -82,22 +83,29 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.914 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --insights-card-deep: var(--primary);
+  --insights-card-deep-foreground: var(--primary-foreground);
+  --insights-card-bright: color-mix(in oklch, var(--primary) 68%, oklch(1 0 0));
+  --insights-card-bright-foreground: oklch(0.985 0 0);
+  --profile-cover-from: var(--primary);
+  --profile-cover-via: color-mix(in oklch, var(--primary) 58%, var(--chart-2));
+  --profile-cover-to: color-mix(in oklch, var(--primary) 38%, oklch(0.2 0 0));
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
+  --background: #101d22;
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
+  --card: #18262b;
   --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
+  --popover: #18262b;
   --popover-foreground: oklch(0.985 0 0);
   --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
+  --primary-foreground: #101d22;
+  --secondary: #20343a;
   --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
+  --muted: #20343a;
   --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
+  --accent: #20343a;
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 11%);
@@ -108,14 +116,21 @@
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
+  --sidebar: #18262b;
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(0.488 0.243 264.376);
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent: #20343a;
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 11%);
   --sidebar-ring: oklch(0.556 0 0);
+  --insights-card-deep: var(--card);
+  --insights-card-deep-foreground: var(--card-foreground);
+  --insights-card-bright: var(--card);
+  --insights-card-bright-foreground: var(--card-foreground);
+  --profile-cover-from: var(--sidebar-primary);
+  --profile-cover-via: color-mix(in oklch, var(--sidebar-primary) 62%, var(--card));
+  --profile-cover-to: color-mix(in oklch, var(--sidebar-primary) 38%, oklch(0.12 0 0));
 }
 
 @layer utilities {
@@ -125,6 +140,189 @@
   }
   .ring-foreground\/10 {
     --tw-ring-color: color-mix(in oklab, var(--foreground) 11%, transparent);
+  }
+
+  /* Compact: Tailwind p-6 / w-[90%] / py-3 utilities katmanında; components CSS ezemiyor */
+  html[data-density="compact"]:has([data-density-board]) [data-app-main] {
+    padding: 0 !important;
+  }
+
+  html[data-density="compact"]:has([data-density-board]) [data-page-scroll] {
+    padding-block: 0 !important;
+  }
+
+  html[data-density="compact"] [data-page-content]:has([data-density-board]) {
+    width: 100% !important;
+    max-width: none !important;
+    margin-inline: 0 !important;
+    gap: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  html[data-density="compact"] [data-page-content]:has([data-density-board]) .grid {
+    align-items: stretch;
+  }
+}
+
+@layer components {
+  [data-page-content] > * {
+    min-width: 0;
+  }
+
+  [data-page-content] .grid {
+    align-items: start;
+  }
+
+  [data-page-content] [data-slot="card"] {
+    min-width: 0;
+  }
+
+  [data-page-content] [data-slot="card-header"] {
+    display: grid;
+  }
+
+  #panel-sidebar [data-slot="button"] {
+    color: var(--sidebar-foreground);
+  }
+
+  #panel-sidebar [data-slot="button"]:hover {
+    background-color: var(--sidebar-accent);
+    color: var(--sidebar-accent-foreground);
+  }
+
+  .accent-bar-header {
+    @apply shrink-0 bg-primary/10 px-4 py-3 ring-1 ring-primary/20;
+  }
+
+  .accent-theme-card {
+    @apply bg-primary/10 ring-1 ring-primary/20;
+  }
+
+  .profile-cover {
+    background-image:
+      radial-gradient(circle at 88% 12%, color-mix(in oklch, oklch(1 0 0) 22%, transparent) 0%, transparent 42%),
+      radial-gradient(circle at 12% 78%, color-mix(in oklch, oklch(0 0 0) 18%, transparent) 0%, transparent 46%),
+      linear-gradient(
+        125deg,
+        var(--profile-cover-from) 0%,
+        var(--profile-cover-via) 48%,
+        var(--profile-cover-to) 100%
+      );
+  }
+
+  [data-slot="card"].welcome-accent-card {
+    border-color: transparent;
+    background-color: var(--primary);
+    color: #fff;
+    --tw-ring-shadow: 0 0 #0000;
+    box-shadow: var(--tw-shadow-sm);
+  }
+
+  html.dark [data-slot="card"].welcome-accent-card {
+    background-color: var(--card) !important;
+    color: var(--card-foreground) !important;
+    border-color: var(--border);
+  }
+
+  .dark [data-slot="card"].insights-surface-card,
+  .dark [data-slot="card"].insights-soft-card {
+    background-color: var(--card) !important;
+    color: var(--card-foreground) !important;
+    border-color: var(--border) !important;
+    box-shadow: var(--tw-shadow-sm);
+  }
+
+  .dark [data-slot="card"].insights-surface-card [data-slot="card-header"],
+  .dark [data-slot="card"].insights-surface-card [data-slot="card-title"],
+  .dark [data-slot="card"].insights-soft-card [data-slot="card-header"],
+  .dark [data-slot="card"].insights-soft-card [data-slot="card-title"] {
+    color: var(--card-foreground) !important;
+  }
+
+  .dark [data-slot="card"].insights-surface-card .insights-muted,
+  .dark [data-slot="card"].insights-soft-card .insights-muted {
+    color: var(--muted-foreground) !important;
+  }
+
+  [data-slot="card"].insights-surface-card {
+    border-color: transparent !important;
+    background-color: var(--insights-card-deep) !important;
+    color: var(--insights-card-deep-foreground) !important;
+    --tw-ring-shadow: 0 0 #0000;
+    box-shadow: var(--tw-shadow-md);
+  }
+
+  [data-slot="card"].insights-surface-card [data-slot="card-header"],
+  [data-slot="card"].insights-surface-card [data-slot="card-content"],
+  [data-slot="card"].insights-surface-card [data-slot="chart"] {
+    background-color: transparent !important;
+  }
+
+  [data-slot="card"].insights-surface-card [data-slot="chart"] .recharts-surface,
+  [data-slot="card"].insights-surface-card [data-slot="chart"] svg {
+    background: transparent !important;
+  }
+
+  [data-slot="card"].insights-surface-card .insights-muted {
+    color: color-mix(
+      in oklch,
+      var(--insights-card-deep-foreground, var(--primary-foreground)) 72%,
+      transparent
+    );
+  }
+
+  [data-slot="card"].insights-soft-card {
+    border-color: transparent !important;
+    background-color: var(--insights-card-bright) !important;
+    color: var(--insights-card-bright-foreground) !important;
+    --tw-ring-shadow: 0 0 #0000;
+    box-shadow: var(--tw-shadow-md);
+  }
+
+  [data-slot="card"].insights-soft-card [data-slot="card-header"],
+  [data-slot="card"].insights-soft-card [data-slot="card-content"],
+  [data-slot="card"].insights-soft-card [data-slot="card-title"] {
+    background-color: transparent !important;
+    color: inherit !important;
+    border-radius: 0;
+  }
+
+  [data-slot="card"].insights-soft-card .insights-muted {
+    color: color-mix(
+      in oklch,
+      var(--insights-card-bright-foreground) 78%,
+      transparent
+    ) !important;
+  }
+
+  .accent-bar-header-title {
+    @apply font-heading text-base font-semibold text-primary;
+  }
+
+  [data-slot="dialog-header"] [data-slot="button"],
+  [data-slot="sheet-header"] [data-slot="button"] {
+    @apply text-primary hover:bg-primary/15 hover:text-primary;
+  }
+
+  [data-density-board] > * {
+    flex-shrink: 0;
+  }
+
+  html[data-density="compact"] [data-density-board] {
+    gap: 0 !important;
+  }
+
+  html[data-density="compact"] [data-density-board] .grid {
+    gap: 0 !important;
+  }
+
+  html[data-density="compact"] [data-density-board] [data-slot="card"] {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    border-width: 2px !important;
+    border-style: solid !important;
+    border-color: var(--border) !important;
+    --tw-ring-shadow: 0 0 0 2px var(--border) !important;
   }
 }
 

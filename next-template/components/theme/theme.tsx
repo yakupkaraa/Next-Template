@@ -1,3 +1,1 @@
-export function Theme() {
-  return null
-}
+export { ThemeProvider, useThemeSettings } from "./theme-provider"

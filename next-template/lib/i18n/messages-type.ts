@@ -65,6 +65,7 @@ export type Messages = {
       right: string
       footer: string
       dark: string
+      density: string
       family: string
       size: string
     }
@@ -79,6 +80,11 @@ export type Messages = {
       confirmed: string
       notConfirmed: string
       selectPlaceholder: string
+      kpiTotal: string
+      kpiActive: string
+      kpiPending: string
+      kpiPassive: string
+      kpiAdmins: string
       columns: Record<UserListColumnKey, string>
     }
     create: {
@@ -133,6 +139,7 @@ export type Messages = {
     newChat: string
     placeholder: string
     send: string
+    attach: string
     greeting: string
     greetingHint: string
     suggestions: { id: string; title: string; detail: string }[]

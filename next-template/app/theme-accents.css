@@ -1,0 +1,93 @@
+/* Accent swatch’ları yalnızca açık modda; koyu mod globals.css .dark paletini kullanır */
+
+:root:not(.dark)[data-accent="blue"] {
+  --primary: #2c5ead;
+  --primary-foreground: #fff;
+  --ring: #1591dc;
+  --sidebar-primary: #2c5ead;
+  --sidebar-primary-foreground: #fff;
+  --sidebar-ring: #1591dc;
+}
+
+:root:not(.dark)[data-accent="green"] {
+  --primary: #2a7c13;
+  --primary-foreground: #fff;
+  --ring: #4caf2a;
+  --sidebar-primary: #2a7c13;
+  --sidebar-primary-foreground: #fff;
+  --sidebar-ring: #4caf2a;
+}
+
+:root:not(.dark)[data-accent="violet"] {
+  --primary: #8b7cc0;
+  --primary-foreground: #fff;
+  --ring: #a496ce;
+  --sidebar-primary: #8b7cc0;
+  --sidebar-primary-foreground: #fff;
+  --sidebar-ring: #a496ce;
+}
+
+/* Açık mod: sidebar tam accent, metin/ikon beyaz */
+:root:not(.dark)[data-accent] {
+  --sidebar: var(--primary);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-border: color-mix(in oklch, var(--primary) 88%, oklch(0 0 0));
+  --sidebar-accent: color-mix(in oklch, oklch(1 0 0) 18%, var(--primary));
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.985 0 0);
+  --sidebar-primary-foreground: var(--primary);
+  --sidebar-ring: oklch(0.985 0 0 / 0.45);
+  --chart-1: var(--primary);
+  --chart-2: color-mix(in oklch, var(--primary) 78%, oklch(1 0 0));
+  --chart-3: color-mix(in oklch, var(--primary) 52%, oklch(1 0 0));
+  --chart-4: color-mix(in oklch, var(--primary) 88%, oklch(0 0 0));
+  --chart-5: color-mix(in oklch, var(--primary) 68%, oklch(0 0 0));
+  --insights-card-deep: var(--primary);
+  --insights-card-deep-foreground: oklch(0.985 0 0);
+  --insights-card-bright: color-mix(in oklch, var(--primary) 68%, oklch(1 0 0));
+  --insights-card-bright-foreground: oklch(0.985 0 0);
+  --insights-accent-soft: var(--insights-card-bright);
+  --insights-accent-soft-foreground: var(--insights-card-bright-foreground);
+  --insights-chart-on-surface: oklch(1 0 0 / 0.88);
+  --profile-cover-from: var(--primary);
+  --profile-cover-via: color-mix(in oklch, var(--primary) 58%, var(--chart-2));
+  --profile-cover-to: color-mix(in oklch, var(--primary) 38%, oklch(0.2 0.08 260));
+}
+
+:root:not(.dark)[data-accent="blue"] {
+  --chart-1: #2c5ead;
+  --chart-2: #1591dc;
+  --chart-3: #4bb8fa;
+  --chart-4: #c4e2f5;
+  --chart-5: #2c5ead;
+  --insights-card-bright: #1591dc;
+  --insights-card-bright-foreground: #fff;
+  --insights-accent-soft: #1591dc;
+  --insights-accent-soft-foreground: #fff;
+  --profile-cover-from: #2c5ead;
+  --profile-cover-via: #1591dc;
+  --profile-cover-to: #4bb8fa;
+}
+
+:root:not(.dark) {
+  --insights-card-deep: var(--primary);
+  --insights-card-deep-foreground: oklch(0.985 0 0);
+  --insights-card-bright: color-mix(in oklch, var(--primary) 68%, oklch(1 0 0));
+  --insights-card-bright-foreground: oklch(0.985 0 0);
+  --insights-accent-soft: var(--insights-card-bright);
+  --insights-accent-soft-foreground: var(--insights-card-bright-foreground);
+  --insights-chart-on-surface: oklch(1 0 0 / 0.88);
+}
+
+.dark {
+  --insights-card-deep: var(--card);
+  --insights-card-deep-foreground: var(--card-foreground);
+  --insights-card-bright: var(--card);
+  --insights-card-bright-foreground: var(--card-foreground);
+  --insights-accent-soft: var(--card);
+  --insights-accent-soft-foreground: var(--card-foreground);
+  --insights-chart-on-surface: var(--card-foreground);
+  --profile-cover-from: var(--sidebar-primary);
+  --profile-cover-via: color-mix(in oklch, var(--sidebar-primary) 62%, var(--card));
+  --profile-cover-to: color-mix(in oklch, var(--sidebar-primary) 38%, oklch(0.12 0 0));
+}

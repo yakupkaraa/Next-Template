@@ -1,4 +1,4 @@
-import { InsightsScreen } from "@/features/insights/screen"
+import { InsightsPageClient } from "@/features/insights/page-client"
 import { resolveContentLocale } from "@/lib/i18n"
 
 export default async function Page({
@@ -9,9 +9,5 @@ export default async function Page({
   const { locale: routeLocale } = await params
   const locale = resolveContentLocale(routeLocale)
 
-  return (
-    <div className="min-h-0 flex-1 overflow-y-auto px-[5px]">
-      <InsightsScreen locale={locale} />
-    </div>
-  )
+  return <InsightsPageClient locale={locale} />
 }

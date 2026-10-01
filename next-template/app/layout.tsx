@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Nunito } from "next/font/google";
+import { ThemeInitScript } from "@/components/theme/theme-init-script";
+import { ThemeProvider } from "@/components/theme/theme-provider";
+import { DEFAULT_THEME_ACCENT } from "@/lib/theme/accents";
 import "./globals.css";
 
 const nunito = Nunito({
@@ -21,9 +24,17 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
+      data-accent={DEFAULT_THEME_ACCENT}
+      data-density="comfortable"
       className={`${nunito.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="flex h-dvh flex-col overflow-hidden">{children}</body>
+      <head>
+        <ThemeInitScript />
+      </head>
+      <body className="flex h-dvh flex-col overflow-hidden">
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
     </html>
   );
 }

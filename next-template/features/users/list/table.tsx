@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
-import { FileSpreadsheet, UserPlus, X } from "lucide-react"
+import { FileSpreadsheet, Hourglass, Shield, UserCheck, UserMinus, UserPlus, Users, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { DataTable } from "@/components/ui/data-table"
@@ -32,14 +32,25 @@ export function UserListTable({ locale }: { locale: ContentLocale }) {
     return () => window.clearTimeout(timer)
   }, [])
 
-  const normalized = query.trim().toLocaleLowerCase(locale === "en" ? "en" : "tr")
-  const filtered = normalized
-    ? rows.filter((row) =>
-        userColumnKeys.some((column) =>
-          row[column].toLocaleLowerCase(locale === "en" ? "en" : "tr").includes(normalized)
-        )
+  const stats = useMemo(() => {
+    const total = rows.length
+    const active = rows.filter((row) => row.status === "Aktif").length
+    const pending = rows.filter((row) => row.status === "Beklemede").length
+    const passive = rows.filter((row) => row.status === "Pasif").length
+    const admins = rows.filter((row) => row.role === "Yönetici").length
+    return { total, active, pending, passive, admins }
+  }, [rows])
+
+  const filtered = useMemo(() => {
+    const normalized = query.trim().toLocaleLowerCase(locale === "en" ? "en" : "tr")
+    if (!normalized) return rows
+    const collatorLocale = locale === "en" ? "en" : "tr"
+    return rows.filter((row) =>
+      userColumnKeys.some((column) =>
+        row[column].toLocaleLowerCase(collatorLocale).includes(normalized)
       )
-    : rows
+    )
+  }, [locale, query, rows])
 
   const nextId = String(
     rows.reduce((max, row) => Math.max(max, Number.parseInt(row.id, 10) || 0), 0) + 1
@@ -50,26 +61,59 @@ export function UserListTable({ locale }: { locale: ContentLocale }) {
     setCreateOpen(false)
   }
 
+  const kpis = [
+    { label: list.kpiTotal, value: stats.total, icon: Users, tone: "text-primary" },
+    { label: list.kpiActive, value: stats.active, icon: UserCheck, tone: "text-emerald-500" },
+    { label: list.kpiPending, value: stats.pending, icon: Hourglass, tone: "text-amber-500" },
+    { label: list.kpiPassive, value: stats.passive, icon: UserMinus, tone: "text-rose-500" },
+    { label: list.kpiAdmins, value: stats.admins, icon: Shield, tone: "text-sky-500" },
+  ] as const
+
   return (
-    <>
-      <div className="flex min-h-0 flex-1 flex-col gap-4">
-        <Card size="sm" className="shrink-0 rounded-[8px]">
-          <CardContent className="flex flex-wrap items-center justify-between gap-4">
-            <Button type="button" onClick={() => setCreateOpen(true)}>
-              <UserPlus />
-              {list.addNew}
-            </Button>
+    <div className="flex min-h-0 flex-1 flex-col">
+      <div className="flex min-h-0 flex-1 flex-col gap-3">
+        <div className="grid shrink-0 gap-3 sm:grid-cols-2 lg:grid-cols-5">
+          {kpis.map((kpi) => {
+            const Icon = kpi.icon
+            return (
+              <Card key={kpi.label} size="sm" className="py-0 shadow-sm">
+                <CardContent className="flex items-center gap-3 px-3 py-2.5">
+                  <span className={`flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 ${kpi.tone}`}>
+                    <Icon className="size-3.5" />
+                  </span>
+                  <div className="min-w-0">
+                    <p className="text-[11px] text-muted-foreground">{kpi.label}</p>
+                    <p className="text-lg font-semibold tracking-tight">
+                      {kpi.value.toLocaleString(locale === "en" ? "en" : "tr")}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            )
+          })}
+        </div>
+
+        <Card
+          size="sm"
+          className="shrink-0 rounded-[8px] border-primary/20 bg-[color-mix(in_oklch,var(--primary)_14%,var(--card))] ring-primary/20 dark:border-border dark:bg-card dark:ring-foreground/10"
+        >
+          <CardContent className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-2">
-              <Button type="button" variant="outline">
+              <Button type="button" onClick={() => setCreateOpen(true)}>
+                <UserPlus />
+                {list.addNew}
+              </Button>
+              <Button type="button">
                 <FileSpreadsheet />
                 {list.excel}
               </Button>
-              <SearchBar
-                value={query}
-                onValueChange={setQuery}
-                placeholder={list.search}
-              />
             </div>
+            <SearchBar
+              className="max-w-md"
+              value={query}
+              onValueChange={setQuery}
+              placeholder={list.search}
+            />
           </CardContent>
         </Card>
         <DataTable
@@ -87,8 +131,8 @@ export function UserListTable({ locale }: { locale: ContentLocale }) {
           showCloseButton={false}
           className="flex max-h-[min(90vh,42rem)] flex-col gap-0 p-0 sm:max-w-[min(100%,56rem)]"
         >
-          <DialogHeader className="flex shrink-0 flex-row items-center justify-between gap-3 space-y-0 border-b bg-muted/30 px-4 py-2.5">
-            <DialogTitle className="text-base font-semibold">{list.addNew}</DialogTitle>
+          <DialogHeader className="flex shrink-0 flex-row items-center justify-between gap-3 space-y-0">
+            <DialogTitle>{list.addNew}</DialogTitle>
             <DialogClose
               render={
                 <Button
@@ -113,6 +157,6 @@ export function UserListTable({ locale }: { locale: ContentLocale }) {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </>
+    </div>
   )
 }

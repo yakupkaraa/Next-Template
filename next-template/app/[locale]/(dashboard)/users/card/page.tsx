@@ -9,9 +9,5 @@ export default async function Page({
   const { locale: routeLocale } = await params
   const locale = resolveContentLocale(routeLocale)
 
-  return (
-    <div className="min-h-0 w-full min-w-0 flex-1 overflow-y-auto px-1.25">
-      <UserCardGrid locale={locale} />
-    </div>
-  )
+  return <UserCardGrid locale={locale} />
 }

@@ -11,13 +11,11 @@ export const settingsLayouts = ["side", "top", "right"] as const
 export type SettingsLayout = (typeof settingsLayouts)[number]
 
 export const settingsColors = [
-  { id: "navy", className: "bg-slate-800" },
-  { id: "blue", className: "bg-sky-500" },
-  { id: "green", className: "bg-emerald-500" },
-  { id: "amber", className: "bg-amber-400" },
-  { id: "violet", className: "bg-violet-500" },
-  { id: "rose", className: "bg-rose-500" },
-]
+  { id: "blue", className: "bg-[#2c5ead]" },
+  { id: "green", className: "bg-[#2a7c13]" },
+  { id: "violet", className: "bg-[#8b7cc0]" },
+  { id: "dark", className: "bg-zinc-900 ring-1 ring-zinc-600" },
+] as const
 
 export const settingsFonts = [
   { id: "nunito", label: "Nunito", className: "" },

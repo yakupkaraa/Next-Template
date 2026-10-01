@@ -1,12 +1,14 @@
 "use client"
 
 import { useState, type ReactNode } from "react"
-import { Moon, Rows3 } from "lucide-react"
+import { LayoutGrid, Rows3 } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Switch } from "@/components/ui/switch"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { cn } from "cn"
+import { useThemeSettings } from "@/components/theme/theme-provider"
+import type { ThemeAppearance } from "@/lib/theme/accents"
 import type { MenuLocale } from "../sidebar/menu-items"
 import {
   settingsColors,
@@ -53,12 +55,11 @@ function LayoutFrame({ kind }: { kind: SettingsLayout }) {
 
 export function SettingsPanel({ locale }: { locale: MenuLocale }) {
   const text = settingsText(locale)
+  const { appearance, density, setAppearance, setDensity } = useThemeSettings()
   const [layout, setLayout] = useState<SettingsLayout>("side")
-  const [color, setColor] = useState("navy")
   const [font, setFont] = useState("nunito")
   const [size, setSize] = useState("16")
   const [footer, setFooter] = useState(true)
-  const [dark, setDark] = useState(false)
 
   return (
     <div className="flex flex-col gap-4 px-4 pb-4">
@@ -88,26 +89,31 @@ export function SettingsPanel({ locale }: { locale: MenuLocale }) {
           </span>
           <Switch checked={footer} onCheckedChange={setFooter} />
         </div>
+        <div className="flex items-center justify-between rounded-xl bg-muted/40 px-3 py-2">
+          <span className="inline-flex items-center gap-2 text-sm">
+            <LayoutGrid className="size-4 text-muted-foreground" />
+            {text.density}
+          </span>
+          <Switch
+            checked={density === "compact"}
+            onCheckedChange={(checked) => setDensity(checked ? "compact" : "comfortable")}
+          />
+        </div>
       </Section>
 
       <Section title="Theme">
-        <div className="flex items-center justify-between rounded-xl bg-muted/40 px-3 py-2">
-          <span className="inline-flex items-center gap-2 text-sm">
-            <Moon className="size-4 text-muted-foreground" />
-            {text.dark}
-          </span>
-          <Switch checked={dark} onCheckedChange={setDark} />
-        </div>
         <ToggleGroup
-          value={[color]}
-          onValueChange={(value) => setColor(pickOne(value, color))}
-          className="flex w-full justify-between"
+          value={[appearance]}
+          onValueChange={(value) =>
+            setAppearance(pickOne(value, appearance) as ThemeAppearance)
+          }
+          className="flex w-full flex-wrap justify-between gap-2"
         >
           {settingsColors.map((item) => (
             <ToggleGroupItem
               key={item.id}
               value={item.id}
-              aria-label={item.id}
+              aria-label={item.id === "dark" ? text.dark : item.id}
               className="size-8 min-w-8 rounded-lg p-0"
             >
               <span className={cn("size-5 rounded-md", item.className)} />

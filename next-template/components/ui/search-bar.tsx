@@ -24,7 +24,7 @@ export function SearchBar({
         placeholder={placeholder}
         type="text"
         aria-label={placeholder}
-        className="px-8"
+        className="border-input bg-white px-8 text-foreground placeholder:text-muted-foreground dark:bg-card dark:text-foreground"
       />
       {value ? (
         <button

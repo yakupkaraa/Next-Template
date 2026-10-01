@@ -9,9 +9,5 @@ export default async function Page({
   const { locale: routeLocale } = await params
   const locale = resolveContentLocale(routeLocale)
 
-  return (
-    <div className="flex min-h-0 flex-1 flex-col">
-      <UserListTable locale={locale} />
-    </div>
-  )
+  return <UserListTable locale={locale} />
 }

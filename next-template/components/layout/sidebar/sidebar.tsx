@@ -16,10 +16,12 @@ function itemHref(locale: Locale, href: string) {
   return href === "/" ? `/${locale}` : `/${locale}${href}`
 }
 
-function isActive(pathname: string, href: string) {
-  return href === "/"
-    ? pathname === href
-    : pathname === href || pathname.startsWith(`${href}/`)
+function isActive(pathname: string, itemPath: string, locale: Locale) {
+  const href = itemHref(locale, itemPath)
+  if (itemPath === "/") {
+    return pathname === href || pathname === `${href}/`
+  }
+  return pathname === href || pathname.startsWith(`${href}/`)
 }
 
 const rowClass =
@@ -41,7 +43,7 @@ function MenuLinkItem({
   const href = itemHref(locale, item.href)
   const label = item.label[locale]
   const Icon = item.icon
-  const active = isActive(pathname, href)
+  const active = isActive(pathname, item.href, locale)
 
   return (
     <Link
@@ -72,7 +74,7 @@ function MenuGroupItem({
   const label = item.label[locale]
   const Icon = item.icon
   const childActive = item.children.some((child) =>
-    isActive(pathname, itemHref(locale, child.href))
+    isActive(pathname, child.href, locale)
   )
   const [expanded, setExpanded] = useState(childActive)
 
@@ -115,7 +117,7 @@ export function Sidebar({ open }: { open: boolean }) {
   return (
     <aside
       id="panel-sidebar"
-      className={`h-full shrink-0 overflow-x-hidden overflow-y-auto border-r border-sidebar-border bg-sidebar text-sidebar-foreground transition-[width] duration-200 ${
+      className={`h-full min-h-0 shrink-0 self-stretch overflow-x-hidden overflow-y-auto border-r border-sidebar-border bg-sidebar text-sidebar-foreground transition-[width] duration-200 ${
         open ? "w-60" : "w-14"
       }`}
     >

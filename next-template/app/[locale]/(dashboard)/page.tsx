@@ -1,4 +1,4 @@
-import { DashboardScreen } from "@/features/dashboard/screen"
+import { DashboardPageClient } from "@/features/dashboard/page-client"
 import { resolveContentLocale } from "@/lib/i18n"
 
 export default async function Page({
@@ -9,9 +9,5 @@ export default async function Page({
   const { locale: routeLocale } = await params
   const locale = resolveContentLocale(routeLocale)
 
-  return (
-    <div className="min-h-0 flex-1 overflow-y-auto px-[5px] py-3">
-      <DashboardScreen locale={locale} />
-    </div>
-  )
+  return <DashboardPageClient locale={locale} />
 }

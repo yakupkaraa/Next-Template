@@ -79,7 +79,10 @@ function DialogHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="dialog-header"
-      className={cn("flex flex-col gap-0.5 p-4", className)}
+      className={cn(
+        "accent-bar-header flex flex-col gap-0.5 rounded-t-xl border-b-0 ring-inset",
+        className
+      )}
       {...props}
     />
   )
@@ -99,7 +102,7 @@ function DialogTitle({ className, ...props }: DialogPrimitive.Title.Props) {
   return (
     <DialogPrimitive.Title
       data-slot="dialog-title"
-      className={cn("font-heading text-base font-medium text-foreground", className)}
+      className={cn("accent-bar-header-title", className)}
       {...props}
     />
   )
