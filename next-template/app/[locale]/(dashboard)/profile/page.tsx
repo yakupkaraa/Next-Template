@@ -1,4 +1,5 @@
-import { ProfileScreen } from "@/components/profile/profile-screen"
+import { ProfileScreen } from "@/features/profile/screen"
+import { resolveContentLocale } from "@/lib/i18n"
 
 export default async function Page({
   params,
@@ -8,7 +9,7 @@ export default async function Page({
   const { locale } = await params
   return (
     <div className="min-h-0 w-full min-w-0 flex-1 overflow-y-auto">
-      <ProfileScreen locale={locale === "en" ? "en" : "tr"} />
+      <ProfileScreen locale={resolveContentLocale(locale)} />
     </div>
   )
 }

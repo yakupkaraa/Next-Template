@@ -11,19 +11,20 @@ export function proxy(request: NextRequest) {
 
   if (!locale) {
     const url = request.nextUrl.clone()
-    url.pathname = loggedIn ? "/tr" : "/tr/login"
+    url.pathname = loggedIn ? "/tr" : "/tr/auth/login"
     return NextResponse.redirect(url)
   }
 
-  const loginPath = `/${locale}/login`
+  const loginPath = `/${locale}/auth/login`
+  const onAuth = pathname === `/${locale}/auth` || pathname.startsWith(`/${locale}/auth/`)
 
-  if (!loggedIn && pathname !== loginPath) {
+  if (!loggedIn && !onAuth) {
     const url = request.nextUrl.clone()
     url.pathname = loginPath
     return NextResponse.redirect(url)
   }
 
-  if (loggedIn && pathname === loginPath) {
+  if (loggedIn && onAuth) {
     const url = request.nextUrl.clone()
     url.pathname = `/${locale}`
     return NextResponse.redirect(url)

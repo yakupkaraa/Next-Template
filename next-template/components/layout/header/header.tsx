@@ -22,7 +22,7 @@ import { languages, localeFromPath, swapLocale } from "@/lib/locales"
 import { headerBrand, headerCopy } from "./copy"
 import { signOut } from "@/lib/session"
 import { isMenuGroup, menuItems, type MenuLink } from "../sidebar/menu-items"
-import { LocaleFlag } from "./locale-flag"
+import { LocaleFlag } from "@/components/shared/locale-flag"
 import { notifications } from "./notifications"
 import { SettingsPanel } from "../settings/settings-panel"
 

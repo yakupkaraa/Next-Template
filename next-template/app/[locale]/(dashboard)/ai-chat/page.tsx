@@ -1,9 +1,17 @@
-import { AiChatScreen } from "@/components/ai-chat/ai-chat-screen"
+import { AiChatScreen } from "@/features/ai-chat/screen"
+import { resolveContentLocale } from "@/lib/i18n"
 
-export default function Page() {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale: routeLocale } = await params
+  const locale = resolveContentLocale(routeLocale)
+
   return (
     <div className="flex min-h-0 flex-1 flex-col">
-      <AiChatScreen />
+      <AiChatScreen locale={locale} />
     </div>
   )
 }

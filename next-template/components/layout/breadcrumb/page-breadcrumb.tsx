@@ -31,7 +31,6 @@ function currentPage(path: string, locale: Locale) {
       const child = item.children.find((entry) => matches(path, entry.href))
       if (child) {
         return {
-          title: child.label[locale],
           group: item.children[0]
             ? { label: item.label[locale], href: item.children[0].href }
             : null,
@@ -39,13 +38,13 @@ function currentPage(path: string, locale: Locale) {
         }
       }
     } else if (matches(path, item.href)) {
-      return { title: item.label[locale], group: null, page: item }
+      return { group: null, page: item }
     }
   }
 
   const segment = path.split("/").filter(Boolean).at(-1) ?? ""
   const label = { tr: segment, en: segment, de: segment, fr: segment, it: segment }
-  return { title: segment, group: null, page: { label } }
+  return { group: null, page: { label } }
 }
 
 export function PageBreadcrumb() {
@@ -55,10 +54,13 @@ export function PageBreadcrumb() {
   const current = currentPage(path, locale)
   const home = menuItems.find((item) => !isMenuGroup(item) && item.href === "/")
   const homeLabel = home && !isMenuGroup(home) ? home.label[locale] : locale
+  const width =
+    path === "/" || path === "/insights" ? "mx-auto w-[90%]" : path === "/profile" ? "mx-auto w-4/5" : ""
 
   return (
-    <div className="relative z-10 flex shrink-0 items-center justify-between gap-3 rounded-xl bg-muted px-4 py-3">
-      <h2 className="text-base font-medium">{current.title}</h2>
+    <div
+      className={`relative z-10 flex shrink-0 items-center justify-end gap-3 rounded-xl bg-muted px-4 py-3 ${width}`}
+    >
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -84,14 +86,10 @@ export function PageBreadcrumb() {
               </BreadcrumbItem>
             </>
           ) : null}
-          {path !== "/" ? (
-            <>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbPage>{current.page.label[locale]}</BreadcrumbPage>
-              </BreadcrumbItem>
-            </>
-          ) : null}
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>{current.page.label[locale]}</BreadcrumbPage>
+          </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
     </div>

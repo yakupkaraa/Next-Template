@@ -1,15 +1,17 @@
-import { DashboardScreen } from "@/components/dashboard/dashboard-screen"
+import { DashboardScreen } from "@/features/dashboard/screen"
+import { resolveContentLocale } from "@/lib/i18n"
 
 export default async function Page({
   params,
 }: {
   params: Promise<{ locale: string }>
 }) {
-  const { locale } = await params
+  const { locale: routeLocale } = await params
+  const locale = resolveContentLocale(routeLocale)
 
   return (
-    <div className="min-h-0 flex-1 overflow-y-auto px-[5px]">
-      <DashboardScreen locale={locale === "en" ? "en" : "tr"} />
+    <div className="min-h-0 flex-1 overflow-y-auto px-[5px] py-3">
+      <DashboardScreen locale={locale} />
     </div>
   )
 }

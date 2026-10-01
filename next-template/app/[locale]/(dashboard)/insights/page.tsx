@@ -1,15 +1,17 @@
-import { InsightsScreen } from "@/components/insights/insights-screen"
+import { InsightsScreen } from "@/features/insights/screen"
+import { resolveContentLocale } from "@/lib/i18n"
 
 export default async function Page({
   params,
 }: {
   params: Promise<{ locale: string }>
 }) {
-  const { locale } = await params
+  const { locale: routeLocale } = await params
+  const locale = resolveContentLocale(routeLocale)
 
   return (
     <div className="min-h-0 flex-1 overflow-y-auto px-[5px]">
-      <InsightsScreen locale={locale === "en" ? "en" : "tr"} />
+      <InsightsScreen locale={locale} />
     </div>
   )
 }
