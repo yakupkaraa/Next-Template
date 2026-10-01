@@ -29,7 +29,7 @@ export const dashboardVisitChartConfig = {
 export const dashboardWelcome = {
   tr: {
     userName: "John Doe",
-    hint: "Mağazanızın bugünkü performansını takip edin. Önemli istatistiklere hızlıca göz atın.",
+    hint: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.",
     cta: "Tam raporu görüntüle",
     greetingMorning: "Günaydın",
     greetingAfternoon: "İyi günler",
@@ -41,7 +41,7 @@ export const dashboardWelcome = {
   },
   en: {
     userName: "John Doe",
-    hint: "Stay updated with your store's performance today. Get a quick snapshot of key statistics.",
+    hint: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.",
     cta: "View full report",
     greetingMorning: "Good morning",
     greetingAfternoon: "Good afternoon",

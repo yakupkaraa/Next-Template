@@ -37,9 +37,9 @@ function WelcomeGreeting({ locale }: { locale: DashboardLocale }) {
   const greeting = copy[greetingKey(hour)]
 
   return (
-    <Card className="h-full">
-      <CardContent className="flex h-full flex-col justify-center gap-3 px-6 py-6 sm:px-8 sm:py-8">
-        <h2 className="flex flex-wrap items-center gap-2 text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
+    <Card className="h-full w-full">
+      <CardContent className="flex h-full flex-col justify-center gap-2 py-4">
+        <h2 className="flex flex-wrap items-center gap-2 text-lg font-semibold tracking-tight text-foreground sm:text-xl">
           <span>
             {greeting}, {copy.userName}
           </span>
@@ -49,7 +49,7 @@ function WelcomeGreeting({ locale }: { locale: DashboardLocale }) {
           {copy.hint}
         </p>
         <div>
-          <Button type="button" size="sm" className="mt-1 rounded-full">
+          <Button type="button" size="sm" className="rounded-full">
             {copy.cta}
             <ArrowRight className="size-4" />
           </Button>
@@ -64,20 +64,20 @@ function WelcomeVisitChart({ locale }: { locale: DashboardLocale }) {
   const fills = ["var(--color-web)", "var(--color-mobile)", "var(--color-other)"] as const
 
   return (
-    <Card className="h-full">
-      <CardHeader className="pb-0">
-        <CardTitle className="text-base font-medium">{copy.visitChartTitle}</CardTitle>
+    <Card className="h-full w-full">
+      <CardHeader className="shrink-0 py-3 pb-0">
+        <CardTitle className="text-sm font-medium">{copy.visitChartTitle}</CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-col items-center gap-2 pb-6">
-        <ChartContainer config={dashboardVisitChartConfig} className="mx-auto aspect-square h-40 w-full max-w-44">
+      <CardContent className="flex flex-1 flex-col items-center justify-center gap-1 pb-4 pt-1">
+        <ChartContainer config={dashboardVisitChartConfig} className="mx-auto aspect-square h-28 w-full max-w-32">
           <PieChart>
             <ChartTooltip content={<ChartTooltipContent hideLabel nameKey="key" />} />
             <Pie
               data={dashboardVisitSegments}
               dataKey="value"
               nameKey="key"
-              innerRadius={48}
-              outerRadius={68}
+              innerRadius={34}
+              outerRadius={50}
               strokeWidth={2}
               stroke="var(--background)"
             >
@@ -87,8 +87,8 @@ function WelcomeVisitChart({ locale }: { locale: DashboardLocale }) {
             </Pie>
           </PieChart>
         </ChartContainer>
-        <p className="text-center text-sm text-muted-foreground">
-          <span className="text-2xl font-semibold text-foreground">{copy.visitTotal}</span>
+        <p className="text-center text-xs text-muted-foreground">
+          <span className="text-lg font-semibold text-foreground">{copy.visitTotal}</span>
           <span className="ml-1">{copy.visitTotalLabel}</span>
         </p>
       </CardContent>
@@ -98,11 +98,11 @@ function WelcomeVisitChart({ locale }: { locale: DashboardLocale }) {
 
 export function WelcomeSection({ locale }: { locale: DashboardLocale }) {
   return (
-    <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
-      <div className="lg:col-span-8">
+    <div className="grid grid-cols-1 gap-4 lg:grid-cols-12 lg:items-stretch">
+      <div className="flex lg:col-span-8">
         <WelcomeGreeting locale={locale} />
       </div>
-      <div className="lg:col-span-4">
+      <div className="flex lg:col-span-4">
         <WelcomeVisitChart locale={locale} />
       </div>
     </div>
