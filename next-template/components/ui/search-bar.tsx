@@ -1,6 +1,7 @@
 "use client"
 
 import { Search, X } from "lucide-react"
+import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { cn } from "cn"
 
@@ -27,14 +28,16 @@ export function SearchBar({
         className="border-input bg-white px-8 text-foreground placeholder:text-muted-foreground dark:bg-card dark:text-foreground"
       />
       {value ? (
-        <button
+        <Button
           type="button"
+          variant="ghost"
+          size="icon-xs"
           aria-label="Temizle"
           onClick={() => onValueChange("")}
-          className="absolute top-1/2 right-2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+          className="absolute top-1/2 right-1.5 -translate-y-1/2 text-muted-foreground"
         >
-          <X className="size-4" />
-        </button>
+          <X />
+        </Button>
       ) : null}
     </div>
   )

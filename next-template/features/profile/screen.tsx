@@ -53,9 +53,9 @@ export function ProfileScreen({ locale }: { locale: ProfileLocale }) {
   const text = profileCopy[locale]
 
   return (
-    <div className="mx-auto flex w-4/5 min-w-0 flex-col gap-6">
+    <div className="mx-auto flex w-4/5 min-w-0 flex-col gap-6 py-6">
       <section className="profile-cover relative h-64 overflow-hidden rounded-xl md:h-80">
-        <div className="absolute inset-x-0 bottom-0 flex items-end gap-6 bg-linear-to-t from-black/55 via-black/20 to-transparent p-6 md:p-8">
+        <div className="absolute inset-x-0 bottom-0 flex items-end gap-6 bg-black/50 p-6 md:p-8">
           <Person
             className="size-24 border-4 border-background md:size-32"
             name={profileContent.name}

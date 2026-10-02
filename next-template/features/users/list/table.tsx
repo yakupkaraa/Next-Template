@@ -1,10 +1,12 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
+import { usePathname, useRouter } from "next/navigation"
 import { FileSpreadsheet, Hourglass, Shield, UserCheck, UserMinus, UserPlus, Users, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { DataTable } from "@/components/ui/data-table"
+import { DensityBoard } from "@/components/layout/density-board"
 import {
   Dialog,
   DialogClose,
@@ -20,12 +22,26 @@ import { AddUserForm, addUserFormId } from "@/features/users/list/add-user-form"
 import { getUserListColumns } from "@/features/users/list/columns"
 
 export function UserListTable({ locale }: { locale: ContentLocale }) {
+  const router = useRouter()
+  const pathname = usePathname()
   const [loading, setLoading] = useState(true)
   const [query, setQuery] = useState("")
   const [createOpen, setCreateOpen] = useState(false)
   const [rows, setRows] = useState<UserRow[]>(userList)
   const list = getDictionary(locale).users.list
-  const columns = useMemo(() => getUserListColumns(locale), [locale])
+  const columns = useMemo(
+    () =>
+      getUserListColumns(locale, {
+        onEdit: () => {
+          const prefix = pathname.match(/^\/[^/]+/)?.[0] ?? `/${locale}`
+          router.push(`${prefix}/users/edit`)
+        },
+        onDelete: (row) => {
+          setRows((current) => current.filter((item) => item.id !== row.id))
+        },
+      }),
+    [locale, pathname, router]
+  )
 
   useEffect(() => {
     const timer = window.setTimeout(() => setLoading(false), 2500)
@@ -62,69 +78,112 @@ export function UserListTable({ locale }: { locale: ContentLocale }) {
   }
 
   const kpis = [
-    { label: list.kpiTotal, value: stats.total, icon: Users, tone: "text-primary" },
-    { label: list.kpiActive, value: stats.active, icon: UserCheck, tone: "text-emerald-500" },
-    { label: list.kpiPending, value: stats.pending, icon: Hourglass, tone: "text-amber-500" },
-    { label: list.kpiPassive, value: stats.passive, icon: UserMinus, tone: "text-rose-500" },
-    { label: list.kpiAdmins, value: stats.admins, icon: Shield, tone: "text-sky-500" },
+    {
+      label: list.kpiTotal,
+      value: stats.total,
+      icon: Users,
+      badge: list.kpiBadgeTotal,
+      surface: "bg-primary text-primary-foreground",
+    },
+    {
+      label: list.kpiActive,
+      value: stats.active,
+      icon: UserCheck,
+      badge: list.kpiBadgeActive,
+      surface: "bg-chart-2 text-white",
+    },
+    {
+      label: list.kpiPending,
+      value: stats.pending,
+      icon: Hourglass,
+      badge: list.kpiBadgePending,
+      surface: "bg-chart-3 text-white",
+    },
+    {
+      label: list.kpiPassive,
+      value: stats.passive,
+      icon: UserMinus,
+      badge: list.kpiBadgePassive,
+      surface: "bg-muted-foreground text-white",
+    },
+    {
+      label: list.kpiAdmins,
+      value: stats.admins,
+      icon: Shield,
+      badge: list.kpiBadgeAdmins,
+      surface: "bg-[color-mix(in_srgb,var(--primary)_78%,black)] text-primary-foreground",
+    },
   ] as const
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col">
-      <div className="flex min-h-0 flex-1 flex-col gap-3">
-        <div className="grid shrink-0 gap-3 sm:grid-cols-2 lg:grid-cols-5">
-          {kpis.map((kpi) => {
+    <DensityBoard className="min-h-0 flex-1">
+      <div
+        data-kpi-row=""
+        className="grid w-full min-w-0 shrink-0 grid-cols-5 gap-3"
+      >
+        {kpis.map((kpi) => {
             const Icon = kpi.icon
             return (
-              <Card key={kpi.label} size="sm" className="py-0 shadow-sm">
-                <CardContent className="flex items-center gap-3 px-3 py-2.5">
-                  <span className={`flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 ${kpi.tone}`}>
-                    <Icon className="size-3.5" />
-                  </span>
+              <Card
+                key={kpi.label}
+                size="sm"
+                className={`min-w-0 border-0 py-0 shadow-sm ring-0 ${kpi.surface}`}
+              >
+                <CardContent className="flex flex-col gap-1.5 px-3 py-2.5">
+                  <div className="flex min-w-0 items-center justify-between gap-2">
+                    <span className="flex size-7 shrink-0 items-center justify-center rounded-lg bg-white/20">
+                      <Icon className="size-3.5" />
+                    </span>
+                    <span className="min-w-0 truncate rounded-full bg-white/20 px-2 py-0.5 text-[10px] font-medium leading-4">
+                      {kpi.badge}
+                    </span>
+                  </div>
                   <div className="min-w-0">
-                    <p className="text-[11px] text-muted-foreground">{kpi.label}</p>
-                    <p className="text-lg font-semibold tracking-tight">
+                    <p className="text-xl font-bold tracking-tight tabular-nums">
                       {kpi.value.toLocaleString(locale === "en" ? "en" : "tr")}
                     </p>
+                    <p className="truncate text-[11px] font-medium text-white/80">{kpi.label}</p>
                   </div>
                 </CardContent>
               </Card>
             )
           })}
-        </div>
+      </div>
 
         <Card
           size="sm"
-          className="shrink-0 rounded-[8px] border-primary/20 bg-[color-mix(in_oklch,var(--primary)_14%,var(--card))] ring-primary/20 dark:border-border dark:bg-card dark:ring-foreground/10"
+          className="shrink-0 rounded-[8px] border-0 bg-primary/10 shadow-sm ring-0"
         >
           <CardContent className="flex flex-wrap items-center justify-between gap-3">
-            <div className="flex items-center gap-2">
-              <Button type="button" onClick={() => setCreateOpen(true)}>
-                <UserPlus />
-                {list.addNew}
-              </Button>
-              <Button type="button">
-                <FileSpreadsheet />
-                {list.excel}
-              </Button>
-            </div>
             <SearchBar
-              className="max-w-md"
+              className="max-w-md [&_input]:h-9 [&_input]:rounded-full"
               value={query}
               onValueChange={setQuery}
               placeholder={list.search}
             />
+            <div className="flex items-center gap-2">
+              <Button type="button" variant="outline" className="bg-card">
+                <FileSpreadsheet />
+                {list.excel}
+              </Button>
+              <Button type="button" onClick={() => setCreateOpen(true)}>
+                <UserPlus />
+                {list.addNew}
+              </Button>
+            </div>
           </CardContent>
         </Card>
+        <div data-density-fill="" className="min-h-0 flex-1">
         <DataTable
           columns={columns}
           data={filtered}
           empty={list.empty}
           loading={loading}
-          containerClassName="min-h-0 flex-1 overflow-x-scroll overflow-y-auto"
+          containerClassName="h-full min-h-0 flex-1 overflow-x-scroll overflow-y-auto rounded-xl bg-card ring-1 ring-foreground/10"
           className="w-max min-w-full"
+          pinEnd={["actions"]}
         />
-      </div>
+        </div>
 
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
         <DialogContent
@@ -157,6 +216,6 @@ export function UserListTable({ locale }: { locale: ContentLocale }) {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </div>
+    </DensityBoard>
   )
 }

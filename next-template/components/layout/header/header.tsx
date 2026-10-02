@@ -1,8 +1,9 @@
 "use client"
 
-import { Bell, Check, LogOut, Menu, Settings, User } from "lucide-react"
+import { Bell, Check, ChevronDown, LogOut, Menu, Settings, User } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { cn } from "cn"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -21,27 +22,114 @@ import {
 import { languages, localeFromPath, swapLocale } from "@/lib/locales"
 import { headerBrand, headerCopy } from "./copy"
 import { signOut } from "@/lib/session"
-import { isMenuGroup, menuItems, type MenuLink } from "../sidebar/menu-items"
+import { isMenuGroup, menuItems, type MenuGroup, type MenuLink } from "../sidebar/menu-items"
 import { LocaleFlag } from "@/components/shared/locale-flag"
 import { notifications } from "./notifications"
 import { SettingsPanel } from "../settings/settings-panel"
+import { useThemeSettings } from "@/components/theme/theme-provider"
+
+function itemHref(locale: ReturnType<typeof localeFromPath>, href: string) {
+  return href === "/" ? `/${locale}` : `/${locale}${href}`
+}
+
+function isActive(pathname: string, href: string, locale: ReturnType<typeof localeFromPath>) {
+  const full = itemHref(locale, href)
+  return pathname === full || pathname === `${full}/`
+}
+
+function HeaderNavLink({
+  item,
+  locale,
+  pathname,
+}: {
+  item: MenuLink
+  locale: ReturnType<typeof localeFromPath>
+  pathname: string
+}) {
+  const href = itemHref(locale, item.href)
+  const active = isActive(pathname, item.href, locale)
+  const Icon = item.icon
+
+  return (
+    <Link
+      href={href}
+      aria-current={active ? "page" : undefined}
+      className={`inline-flex h-9 shrink-0 items-center gap-2 rounded-lg px-2.5 text-sm transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground ${
+        active ? "bg-sidebar-accent font-medium text-sidebar-accent-foreground" : "text-sidebar-foreground"
+      }`}
+    >
+      <Icon className="size-4 shrink-0" />
+      {item.label[locale]}
+    </Link>
+  )
+}
+
+function HeaderNavGroup({
+  item,
+  locale,
+  pathname,
+}: {
+  item: MenuGroup
+  locale: ReturnType<typeof localeFromPath>
+  pathname: string
+}) {
+  const Icon = item.icon
+  const childActive = item.children.some((child) => isActive(pathname, child.href, locale))
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        nativeButton
+        render={
+          <Button
+            type="button"
+            variant="ghost"
+            className={cn(
+              "h-9 shrink-0 gap-2 px-2.5 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+              childActive && "bg-sidebar-accent font-medium text-sidebar-accent-foreground"
+            )}
+          />
+        }
+      >
+        <Icon className="size-4 shrink-0" />
+        {item.label[locale]}
+        <ChevronDown className="size-3.5 opacity-70" />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="start" className="min-w-44 bg-sidebar text-sidebar-foreground">
+        {item.children.map((child) => {
+          const ChildIcon = child.icon
+          return (
+            <DropdownMenuItem key={child.href} render={<Link href={itemHref(locale, child.href)} />}>
+              <ChildIcon />
+              {child.label[locale]}
+            </DropdownMenuItem>
+          )
+        })}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
 
 export function Header({
   open,
   onToggle,
   showMenu = false,
+  showSidebarToggle = true,
 }: {
   open: boolean
   onToggle: () => void
   showMenu?: boolean
+  showSidebarToggle?: boolean
 }) {
   const pathname = usePathname()
   const locale = localeFromPath(pathname)
   const text = headerCopy[locale]
   const toggleLabel = open ? text.menuCollapse : text.menuExpand
+  const { layout } = useThemeSettings()
+  const settingsSide = layout === "right" ? "left" : "right"
+  const reverseChrome = layout === "right"
 
-  return (
-    <header className="flex h-14 shrink-0 items-center gap-3 border-b border-border bg-background px-4 text-foreground">
+  const sidebarToggle = showSidebarToggle ? (
       <Button
         type="button"
         variant="ghost"
@@ -53,8 +141,10 @@ export function Header({
         <Menu className="size-[1.2rem]" />
         <span className="sr-only">{toggleLabel}</span>
       </Button>
-      <span className="text-sm font-medium">{headerBrand}</span>
-      <div className="ml-auto flex items-center gap-1">
+  ) : null
+
+  const headerActions = (
+      <div className={`flex shrink-0 items-center gap-1 ${reverseChrome ? "flex-row-reverse" : ""}`}>
       <DropdownMenu>
         <DropdownMenuTrigger
           nativeButton
@@ -64,7 +154,7 @@ export function Header({
         >
           <LocaleFlag code={locale} className="size-[1.2rem]" />
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="min-w-44">
+        <DropdownMenuContent align={reverseChrome ? "start" : "end"} className="min-w-44">
           {languages.map((language) => (
             <DropdownMenuItem
               key={language.code}
@@ -95,7 +185,7 @@ export function Header({
             {notifications.length}
           </Badge>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-72">
+        <DropdownMenuContent align={reverseChrome ? "start" : "end"} className="w-72">
           {notifications.map((item) => (
             <DropdownMenuItem key={item.id} className="items-start">
               <span className="flex min-w-0 flex-col gap-0.5">
@@ -115,7 +205,7 @@ export function Header({
         >
           <Settings className="size-[1.2rem]" />
         </SheetTrigger>
-        <SheetContent side="right" className="w-full gap-3 overflow-y-auto sm:max-w-xs">
+        <SheetContent side={settingsSide} className="w-full gap-3 overflow-y-auto sm:max-w-xs">
           <SheetHeader>
             <SheetTitle>{text.settings}</SheetTitle>
           </SheetHeader>
@@ -135,7 +225,7 @@ export function Header({
         >
           <User className="size-[1.2rem]" />
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="min-w-40">
+        <DropdownMenuContent align={reverseChrome ? "start" : "end"} className="min-w-40">
           <DropdownMenuItem render={<Link href={`/${locale}/profile`} />}>
             <User />
             {text.profile}
@@ -144,7 +234,7 @@ export function Header({
             <DropdownMenuItem
               nativeButton
               variant="destructive"
-              render={<button type="submit" />}
+              render={<Button type="submit" variant="destructive" />}
             >
               <LogOut />
               {text.signOut}
@@ -153,35 +243,46 @@ export function Header({
         </DropdownMenuContent>
       </DropdownMenu>
       </div>
-      {showMenu ? (
-        <nav className="flex items-center gap-1">
-          {menuItems
-            .flatMap((item) => (isMenuGroup(item) ? item.children : [item]))
-            .map((item: MenuLink) => {
-            const href = item.href === "/" ? `/${locale}` : `/${locale}${item.href}`
-            const active =
-              item.href === "/"
-                ? pathname === href
-                : pathname === href || pathname.startsWith(`${href}/`)
+  )
 
-            const Icon = item.icon
-
-            return (
-              <Link
-                key={item.href}
-                href={href}
-                aria-current={active ? "page" : undefined}
-                className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-muted ${
-                  active ? "bg-muted font-medium text-foreground" : "text-muted-foreground"
-                }`}
-              >
-                <Icon className="size-4 shrink-0" />
-                {item.label[locale]}
-              </Link>
+  const brand = <span className="shrink-0 text-sm font-medium">{headerBrand}</span>
+  const spacer = showMenu ? (
+        <nav className="flex min-w-0 flex-1 items-center gap-0.5 overflow-x-auto">
+          {menuItems.map((item) =>
+            isMenuGroup(item) ? (
+              <HeaderNavGroup key={item.label.en} item={item} locale={locale} pathname={pathname} />
+            ) : (
+              <HeaderNavLink key={item.href} item={item} locale={locale} pathname={pathname} />
             )
-          })}
+          )}
         </nav>
-      ) : null}
+      ) : (
+        <div className="min-w-0 flex-1" />
+      )
+
+  return (
+    <header
+      className={
+        showMenu
+          ? "flex h-14 shrink-0 items-center gap-3 border-b border-sidebar-border bg-sidebar px-4 text-sidebar-foreground [&_[data-slot=button]]:text-sidebar-foreground [&_[data-slot=button]:hover]:bg-sidebar-accent [&_[data-slot=button]:hover]:text-sidebar-accent-foreground"
+          : "flex h-14 shrink-0 items-center gap-3 border-b border-border bg-card px-4 text-foreground"
+      }
+    >
+      {reverseChrome ? (
+        <>
+          {headerActions}
+          {spacer}
+          {brand}
+          {sidebarToggle}
+        </>
+      ) : (
+        <>
+          {sidebarToggle}
+          {brand}
+          {spacer}
+          {headerActions}
+        </>
+      )}
     </header>
   )
 }

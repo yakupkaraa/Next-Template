@@ -1,5 +1,5 @@
 import { Box, CreditCard } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
+import { StatusBadge } from "@/components/ui/status-badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   Table,
@@ -16,7 +16,7 @@ export function InsightsOrders({ locale }: InsightsSectionProps) {
   const text = insightCopy[locale]
 
   return (
-    <Card className="shrink-0 overflow-visible shadow-sm">
+    <Card className="shrink-0 overflow-visible rounded-xl shadow-sm">
       <CardHeader className="pb-2">
         <CardTitle className="text-base">{text.recentOrders}</CardTitle>
       </CardHeader>
@@ -46,9 +46,9 @@ export function InsightsOrders({ locale }: InsightsSectionProps) {
                 <TableCell>{row.customer}</TableCell>
                 <TableCell>{row.qty}</TableCell>
                 <TableCell>
-                  <Badge variant="secondary" className={statusTone[row.status]}>
+                  <StatusBadge tone={statusTone[row.status]}>
                     {insightStatusLabels[row.status][locale]}
-                  </Badge>
+                  </StatusBadge>
                 </TableCell>
                 <TableCell>
                   <span className="inline-flex items-center gap-1.5 text-muted-foreground">

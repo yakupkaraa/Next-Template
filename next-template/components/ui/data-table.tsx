@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef } from "react"
+import { useRef, type CSSProperties } from "react"
 import { useVirtualizer } from "@tanstack/react-virtual"
 import { useTable, type ColumnDef, type RowData } from "@tanstack/react-table"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -12,10 +12,37 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { cn } from "cn"
 import { dataTableFeatures, type DataTableFeatures } from "@/components/ui/data-table-features"
 
 const ROW_ESTIMATE_HEIGHT = 41
 const VIRTUALIZE_MIN_ROWS = 16
+
+function pinningStyle(column: {
+  getIsPinned: () => false | "start" | "end"
+  getStart: (position?: false | "start" | "end" | "center") => number
+  getAfter: (position?: false | "start" | "end" | "center") => number
+}): CSSProperties {
+  const pinned = column.getIsPinned()
+  if (!pinned) return {}
+
+  return {
+    position: "sticky",
+    zIndex: 2,
+    left: pinned === "start" ? `${column.getStart("start")}px` : undefined,
+    right: pinned === "end" ? `${column.getAfter("end")}px` : undefined,
+  }
+}
+
+function pinningClass(pinned: false | "start" | "end") {
+  if (pinned === "end") {
+    return "sticky right-0 z-20 bg-card shadow-[-8px_0_12px_-8px_hsl(0_0%_0%/0.18)]"
+  }
+  if (pinned === "start") {
+    return "sticky left-0 z-20 bg-card shadow-[8px_0_12px_-8px_hsl(0_0%_0%/0.18)]"
+  }
+  return "bg-card"
+}
 
 export function DataTable<TData extends RowData>({
   columns,
@@ -25,6 +52,8 @@ export function DataTable<TData extends RowData>({
   containerClassName,
   className,
   virtualize = true,
+  pinEnd,
+  pinStart,
 }: {
   columns: ColumnDef<DataTableFeatures, TData>[]
   data: TData[]
@@ -32,14 +61,23 @@ export function DataTable<TData extends RowData>({
   loading?: boolean
   containerClassName?: string
   className?: string
-  /** Satır sayısı yüksekken yalnızca görünür satırları render eder. */
   virtualize?: boolean
+  /** Sağa sabitlenen kolon id'leri (LTR). */
+  pinEnd?: string[]
+  /** Sola sabitlenen kolon id'leri (LTR). */
+  pinStart?: string[]
 }) {
   const scrollRef = useRef<HTMLDivElement>(null)
   const table = useTable({
     features: dataTableFeatures,
     data,
     columns,
+    initialState: {
+      columnPinning: {
+        start: pinStart ?? [],
+        end: pinEnd ?? [],
+      },
+    },
   })
 
   const rows = table.getRowModel().rows
@@ -63,11 +101,22 @@ export function DataTable<TData extends RowData>({
   function renderRow(row: (typeof rows)[number]) {
     return (
       <TableRow key={row.id}>
-        {row.getVisibleCells().map((cell) => (
-          <TableCell key={cell.id} className="whitespace-nowrap">
-            <table.FlexRender cell={cell} />
-          </TableCell>
-        ))}
+        {row.getVisibleCells().map((cell) => {
+          const pinned = cell.column.getIsPinned()
+          return (
+            <TableCell
+              key={cell.id}
+              className={cn(
+                "whitespace-nowrap",
+                pinningClass(pinned),
+                cell.column.id === "actions" && "text-center"
+              )}
+              style={pinningStyle(cell.column)}
+            >
+              <table.FlexRender cell={cell} />
+            </TableCell>
+          )
+        })}
       </TableRow>
     )
   }
@@ -78,14 +127,26 @@ export function DataTable<TData extends RowData>({
       containerClassName={containerClassName}
       className={className}
     >
-      <TableHeader className="sticky top-0 z-10 bg-background">
+      <TableHeader className="sticky top-0 z-10 bg-card">
         {table.getHeaderGroups().map((headerGroup) => (
           <TableRow key={headerGroup.id}>
-            {headerGroup.headers.map((header) => (
-              <TableHead key={header.id} className="whitespace-nowrap bg-background">
-                {header.isPlaceholder ? null : <table.FlexRender header={header} />}
-              </TableHead>
-            ))}
+            {headerGroup.headers.map((header) => {
+              const pinned = header.column.getIsPinned()
+              return (
+                <TableHead
+                  key={header.id}
+                  className={cn(
+                    "whitespace-nowrap",
+                    pinningClass(pinned),
+                    pinned && "z-30",
+                    header.column.id === "actions" && "text-center"
+                  )}
+                  style={pinningStyle(header.column)}
+                >
+                  {header.isPlaceholder ? null : <table.FlexRender header={header} />}
+                </TableHead>
+              )
+            })}
           </TableRow>
         ))}
       </TableHeader>
@@ -93,13 +154,18 @@ export function DataTable<TData extends RowData>({
         {loading
           ? Array.from({ length: 18 }, (_, row) => (
               <TableRow key={`skeleton-${row}`}>
-                {columns.map((column, columnIndex) => (
-                  <TableCell key={column.id ?? columnIndex}>
-                    <Skeleton
-                      className={`h-4 ${columnIndex % 3 === 0 ? "w-16" : columnIndex % 3 === 1 ? "w-28" : "w-20"}`}
-                    />
-                  </TableCell>
-                ))}
+                {table.getVisibleLeafColumns().map((column) => {
+                  const pinned = column.getIsPinned()
+                  return (
+                    <TableCell
+                      key={column.id}
+                      className={cn(pinningClass(pinned))}
+                      style={pinningStyle(column)}
+                    >
+                      <Skeleton className="h-4 w-20" />
+                    </TableCell>
+                  )
+                })}
               </TableRow>
             ))
           : null}

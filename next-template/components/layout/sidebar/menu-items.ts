@@ -1,9 +1,11 @@
 import {
   Bot,
   ChartColumn,
+  FilePlus,
   IdCard,
   Home,
   List,
+  Newspaper,
   Pencil,
   User,
   UserPlus,
@@ -106,6 +108,43 @@ export const menuItems: MenuEntry[] = [
       {
         href: "/users/edit",
         label: navLabel("usersEdit", {
+          de: "Bearbeiten",
+          fr: "Modifier",
+          it: "Modifica",
+        }),
+        icon: Pencil,
+      },
+    ],
+  },
+  {
+    label: navLabel("blog", {
+      de: "Blog",
+      fr: "Blog",
+      it: "Blog",
+    }),
+    icon: Newspaper,
+    children: [
+      {
+        href: "/blog",
+        label: navLabel("blogPosts", {
+          de: "Beiträge",
+          fr: "Articles",
+          it: "Articoli",
+        }),
+        icon: Newspaper,
+      },
+      {
+        href: "/blog/create",
+        label: navLabel("blogCreate", {
+          de: "Neuer Beitrag",
+          fr: "Nouvel article",
+          it: "Nuovo articolo",
+        }),
+        icon: FilePlus,
+      },
+      {
+        href: "/blog/edit",
+        label: navLabel("blogEdit", {
           de: "Bearbeiten",
           fr: "Modifier",
           it: "Modifica",

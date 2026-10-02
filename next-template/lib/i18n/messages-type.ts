@@ -58,6 +58,10 @@ export type Messages = {
       usersList: string
       usersCreate: string
       usersEdit: string
+      blog: string
+      blogPosts: string
+      blogCreate: string
+      blogEdit: string
     }
     settings: {
       side: string
@@ -85,7 +89,25 @@ export type Messages = {
       kpiPending: string
       kpiPassive: string
       kpiAdmins: string
+      kpiBadgeTotal: string
+      kpiBadgeActive: string
+      kpiBadgePending: string
+      kpiBadgePassive: string
+      kpiBadgeAdmins: string
+      edit: string
+      delete: string
+      actions: string
+      actionsMenu: string
       columns: Record<UserListColumnKey, string>
+    }
+    card: {
+      title: string
+      search: string
+      roleAll: string
+      statusAll: string
+      departmentAll: string
+      copy: string
+      copied: string
     }
     create: {
       account: string

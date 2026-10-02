@@ -9,6 +9,7 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { cn } from "cn"
 import { useThemeSettings } from "@/components/theme/theme-provider"
 import type { ThemeAppearance } from "@/lib/theme/accents"
+import type { ShellLayout } from "@/lib/theme/storage"
 import type { MenuLocale } from "../sidebar/menu-items"
 import {
   settingsColors,
@@ -55,11 +56,10 @@ function LayoutFrame({ kind }: { kind: SettingsLayout }) {
 
 export function SettingsPanel({ locale }: { locale: MenuLocale }) {
   const text = settingsText(locale)
-  const { appearance, density, setAppearance, setDensity } = useThemeSettings()
-  const [layout, setLayout] = useState<SettingsLayout>("side")
+  const { appearance, density, layout, footer, setAppearance, setDensity, setLayout, setFooter } =
+    useThemeSettings()
   const [font, setFont] = useState("nunito")
   const [size, setSize] = useState("16")
-  const [footer, setFooter] = useState(true)
 
   return (
     <div className="flex flex-col gap-4 px-4 pb-4">
@@ -67,7 +67,7 @@ export function SettingsPanel({ locale }: { locale: MenuLocale }) {
         <ToggleGroup
           value={[layout]}
           onValueChange={(value) =>
-            setLayout(pickOne(value, layout) as SettingsLayout)
+            setLayout(pickOne(value, layout) as ShellLayout)
           }
           className="grid w-full grid-cols-3"
         >

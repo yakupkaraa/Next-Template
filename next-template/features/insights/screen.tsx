@@ -8,11 +8,16 @@ import { InsightsHero } from "./hero"
 import { InsightsKpis } from "./kpis"
 import { InsightsOrders } from "./orders"
 
+import { InsightsPageHeader } from "./page-header"
+import { InsightsWelcome } from "./welcome"
+
 export function InsightsScreen({ locale }: { locale: InsightLocale }) {
   return (
-    <DensityBoard className="gap-3">
+    <DensityBoard>
+      <InsightsPageHeader locale={locale} />
+      <InsightsWelcome locale={locale} />
       <InsightsHero locale={locale} />
-      <InsightsKpis />
+      <InsightsKpis locale={locale} />
       <InsightsChartsRow locale={locale} />
       <InsightsOrders locale={locale} />
       <InsightsAside locale={locale} />

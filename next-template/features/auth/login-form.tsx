@@ -50,14 +50,16 @@ export function LoginForm({ locale: routeLocale }: { locale: string }) {
               value={password}
               onChange={(event) => setPassword(event.target.value)}
             />
-            <button
+            <Button
               type="button"
-              className="absolute top-1/2 right-2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+              variant="ghost"
+              size="icon-xs"
+              className="absolute top-1/2 right-1.5 -translate-y-1/2 text-muted-foreground"
               aria-label={showPassword ? text.hidePassword : text.showPassword}
               onClick={() => setShowPassword((current) => !current)}
             >
-              {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
-            </button>
+              {showPassword ? <EyeOff /> : <Eye />}
+            </Button>
           </div>
         </div>
         <div className="flex items-center justify-between gap-3">

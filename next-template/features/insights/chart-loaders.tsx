@@ -5,7 +5,7 @@ import { ChartBlockSkeleton } from "@/components/shared/chart-block-skeleton"
 
 export const TotalSalesLineChart = dynamic(
   () => import("./charts/total-sales-line-chart").then((mod) => mod.TotalSalesLineChart),
-  { ssr: false, loading: () => <ChartBlockSkeleton className="h-36 min-h-36" /> }
+  { ssr: false, loading: () => <ChartBlockSkeleton className="h-56 min-h-56" /> }
 )
 
 export const MiniSalesBars = dynamic(
@@ -20,10 +20,10 @@ export const SegmentationDonutChart = dynamic(
 
 export const OrderOverviewChart = dynamic(
   () => import("./charts/order-overview-chart").then((mod) => mod.OrderOverviewChart),
-  { ssr: false, loading: () => <ChartBlockSkeleton className="h-56 min-h-56" /> }
+  { ssr: false, loading: () => <ChartBlockSkeleton className="h-36 min-h-36" /> }
 )
 
 export const UserActivityChart = dynamic(
   () => import("./charts/user-activity-chart").then((mod) => mod.UserActivityChart),
-  { ssr: false, loading: () => <ChartBlockSkeleton className="h-52 min-h-52" /> }
+  { ssr: false, loading: () => <ChartBlockSkeleton className="h-40 min-h-40" /> }
 )

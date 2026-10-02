@@ -10,6 +10,7 @@ import {
   MessageSquarePlus,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import { SearchBar } from "@/components/ui/search-bar"
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
 import { cn } from "cn"
@@ -58,7 +59,7 @@ export function AiChatScreen({ locale }: { locale: ContentLocale }) {
   }
 
   return (
-    <div className="box-border flex min-h-0 flex-1 flex-col overflow-hidden rounded-xl border-2 border-border bg-card shadow-sm sm:flex-row">
+    <div className="my-6 box-border flex min-h-0 flex-1 flex-col overflow-hidden rounded-xl border-2 border-border bg-card shadow-sm sm:flex-row">
       <aside className="flex max-h-56 shrink-0 flex-col border-b border-border bg-card sm:max-h-none sm:w-72 sm:min-h-0 sm:border-r sm:border-b-0">
         <div className="shrink-0 px-4 pt-4 pb-2">
           <SearchBar
@@ -73,22 +74,23 @@ export function AiChatScreen({ locale }: { locale: ContentLocale }) {
           {chats.map((chat) => {
             const selected = chat.id === activeId
             return (
-              <button
+              <Button
                 key={chat.id}
                 type="button"
+                variant="ghost"
                 onClick={() => setActiveId(chat.id)}
                 className={cn(
-                  "mb-1 w-full rounded-lg px-3 py-2.5 text-left transition-colors",
+                  "mb-1 h-auto w-full flex-col items-start gap-0.5 px-3 py-2.5 text-left whitespace-normal",
                   selected
                     ? "bg-primary/10 text-foreground"
                     : "text-foreground hover:bg-muted/80"
                 )}
               >
                 <p className="truncate text-sm font-semibold">{chat.title}</p>
-                <p className="mt-0.5 line-clamp-2 text-xs leading-relaxed text-muted-foreground">
+                <p className="line-clamp-2 text-xs leading-relaxed font-normal text-muted-foreground">
                   {chat.preview}
                 </p>
-              </button>
+              </Button>
             )
           })}
         </div>
@@ -127,7 +129,7 @@ export function AiChatScreen({ locale }: { locale: ContentLocale }) {
             <div className="flex min-h-full flex-col items-center justify-center px-6 py-10">
               <div className="w-full max-w-4xl space-y-8">
                 <div className="text-center sm:text-left">
-                  <h1 className="bg-gradient-to-r from-primary via-chart-2 to-chart-1 bg-clip-text text-3xl font-bold tracking-tight text-transparent sm:text-4xl">
+                  <h1 className="text-3xl font-bold tracking-tight text-primary sm:text-4xl">
                     {view.greeting}
                   </h1>
                   <p className="mt-2 text-base text-muted-foreground sm:text-lg">
@@ -140,11 +142,12 @@ export function AiChatScreen({ locale }: { locale: ContentLocale }) {
                     const id = item.id as keyof typeof suggestionIcons
                     const Icon = suggestionIcons[id]
                     return (
-                      <button
+                      <Button
                         key={item.id}
                         type="button"
+                        variant="outline"
                         onClick={() => setDraft(item.detail)}
-                        className="flex flex-col gap-3 rounded-xl border-2 border-border bg-card p-5 text-left shadow-sm transition-colors hover:border-primary/40 hover:bg-muted/30"
+                        className="h-auto flex-col items-start gap-3 rounded-xl p-5 text-left whitespace-normal hover:border-primary/40 hover:bg-muted/30"
                       >
                         <span
                           className={cn(
@@ -154,11 +157,11 @@ export function AiChatScreen({ locale }: { locale: ContentLocale }) {
                         >
                           <Icon className="size-5" />
                         </span>
-                        <div>
-                          <p className="font-semibold text-foreground">{item.title}</p>
-                          <p className="mt-1 text-sm text-muted-foreground">{item.detail}</p>
-                        </div>
-                      </button>
+                        <span className="flex flex-col items-start">
+                          <span className="font-semibold text-foreground">{item.title}</span>
+                          <span className="mt-1 text-sm font-normal text-muted-foreground">{item.detail}</span>
+                        </span>
+                      </Button>
                     )
                   })}
                 </div>
@@ -178,7 +181,7 @@ export function AiChatScreen({ locale }: { locale: ContentLocale }) {
             >
               <ImageIcon className="size-5" />
             </Button>
-            <input
+            <Input
               value={draft}
               onChange={(event) => setDraft(event.target.value)}
               onKeyDown={(event) => {
@@ -188,7 +191,7 @@ export function AiChatScreen({ locale }: { locale: ContentLocale }) {
                 }
               }}
               placeholder={view.placeholder}
-              className="min-w-0 flex-1 bg-transparent py-2 text-sm outline-none placeholder:text-muted-foreground"
+              className="h-auto min-w-0 flex-1 border-0 bg-transparent py-2 shadow-none focus-visible:ring-0"
             />
             <Button
               type="button"

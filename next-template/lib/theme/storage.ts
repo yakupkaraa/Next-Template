@@ -10,43 +10,62 @@ export const THEME_STORAGE_KEY = "next-template-theme"
 
 export type DensityMode = "comfortable" | "compact"
 
+export type ShellLayout = "side" | "top" | "right"
+
 export type StoredTheme = {
   appearance: ThemeAppearance
   density: DensityMode
+  layout: ShellLayout
+  footer: boolean
 }
 
 export const DEFAULT_DENSITY: DensityMode = "comfortable"
+export const DEFAULT_LAYOUT: ShellLayout = "side"
+export const DEFAULT_FOOTER = true
 
 export const defaultStoredTheme: StoredTheme = {
   appearance: DEFAULT_THEME_APPEARANCE,
   density: DEFAULT_DENSITY,
+  layout: DEFAULT_LAYOUT,
+  footer: DEFAULT_FOOTER,
 }
 
 function parseDensity(parsed: Record<string, unknown>): DensityMode {
   return parsed.density === "compact" ? "compact" : DEFAULT_DENSITY
 }
 
+function parseLayout(parsed: Record<string, unknown>): ShellLayout {
+  return parsed.layout === "top" || parsed.layout === "right" ? parsed.layout : DEFAULT_LAYOUT
+}
+
+function parseFooter(parsed: Record<string, unknown>): boolean {
+  return parsed.footer === false ? false : DEFAULT_FOOTER
+}
+
 function migrateStoredTheme(parsed: Record<string, unknown>): StoredTheme {
   const density = parseDensity(parsed)
+  const layout = parseLayout(parsed)
+  const footer = parseFooter(parsed)
+  const extras = { density, layout, footer }
 
   if (parsed.appearance === "navy" || parsed.accent === "navy") {
-    return { appearance: DEFAULT_THEME_APPEARANCE, density }
+    return { appearance: DEFAULT_THEME_APPEARANCE, ...extras }
   }
 
   if (typeof parsed.appearance === "string" && isThemeAppearance(parsed.appearance)) {
-    return { appearance: parsed.appearance, density }
+    return { appearance: parsed.appearance, ...extras }
   }
 
   if (parsed.dark === true) {
-    return { appearance: "dark", density }
+    return { appearance: "dark", ...extras }
   }
 
   if (typeof parsed.accent === "string") {
-    if (parsed.accent === "dark") return { appearance: "dark", density }
-    if (isThemeAccent(parsed.accent)) return { appearance: parsed.accent, density }
+    if (parsed.accent === "dark") return { appearance: "dark", ...extras }
+    if (isThemeAccent(parsed.accent)) return { appearance: parsed.accent, ...extras }
   }
 
-  return { ...defaultStoredTheme, density }
+  return { ...defaultStoredTheme, ...extras }
 }
 
 export function readStoredTheme(): StoredTheme {
@@ -71,4 +90,6 @@ export function applyThemeToDocument(theme: StoredTheme) {
   root.classList.toggle("dark", isDark)
   root.dataset.accent = isDark ? DEFAULT_THEME_ACCENT : theme.appearance
   root.dataset.density = theme.density
+  root.dataset.layout = theme.layout
+  root.dataset.footer = theme.footer ? "on" : "off"
 }

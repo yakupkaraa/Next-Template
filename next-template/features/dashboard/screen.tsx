@@ -41,6 +41,7 @@ import {
   YearlyDonutChart,
 } from "./chart-loaders"
 import { WelcomeSection } from "./welcome-card"
+import { DashboardPageHeader } from "./page-header"
 import {
   dashboardBestSellers,
   dashboardCopy,
@@ -91,6 +92,7 @@ export function DashboardScreen({ locale }: { locale: DashboardLocale }) {
 
   return (
     <DensityBoard>
+      <DashboardPageHeader locale={locale} />
       <WelcomeSection locale={locale} />
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
         {dashboardKpis.map((kpi, index) => {

@@ -1,7 +1,7 @@
 import { ArrowRight, CreditCard } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { StatusBadge, type StatusBadgeTone } from "@/components/ui/status-badge"
 import {
   Table,
   TableBody,
@@ -13,11 +13,11 @@ import {
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
 import { userBillingFigures } from "./data"
 
-const statusTones = {
-  pending: "bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300",
-  paid: "bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300",
-  cancelled: "bg-rose-100 text-rose-700 dark:bg-rose-950 dark:text-rose-300",
-} as const
+const billingStatusTone: Record<"pending" | "paid" | "cancelled", StatusBadgeTone> = {
+  pending: "warning",
+  paid: "success",
+  cancelled: "neutral",
+}
 
 export function BillingPanel({ locale }: { locale: ContentLocale }) {
   const billing = getDictionary(locale).users.create.billing
@@ -67,7 +67,7 @@ export function BillingPanel({ locale }: { locale: ContentLocale }) {
               </div>
               <div className="flex items-center gap-2">
                 {method.isDefault ? (
-                  <Badge variant="secondary">{billing.defaultBadge}</Badge>
+                  <StatusBadge tone="neutral">{billing.defaultBadge}</StatusBadge>
                 ) : (
                   <Button type="button" variant="link" className="h-auto px-0">
                     {billing.makeDefault}
@@ -103,9 +103,9 @@ export function BillingPanel({ locale }: { locale: ContentLocale }) {
                   <TableCell>{row.date}</TableCell>
                   <TableCell>{row.price}</TableCell>
                   <TableCell>
-                    <Badge variant="secondary" className={statusTones[row.status]}>
+                    <StatusBadge tone={billingStatusTone[row.status]}>
                       {billing.statusLabel[row.status]}
-                    </Badge>
+                    </StatusBadge>
                   </TableCell>
                 </TableRow>
               ))}

@@ -6,6 +6,10 @@ export type ProjectPriority = "low" | "medium" | "high" | "veryHigh"
 
 export const dashboardCopy = {
   tr: {
+    pageTitle: "Ana Sayfa",
+    last30Days: "Son 30 gün",
+    filter: "Filtrele",
+    download: "Rapor indir",
     kpis: ["Lorem ipsum", "Dolor sit", "Amet elit", "Sed do", "Eiusmod", "Tempor"],
     revenueTitle: "Incididunt ut labore",
     revenueHint: "Et dolore magna",
@@ -50,6 +54,10 @@ export const dashboardCopy = {
     visitTotalLabel: "exercitation ullamco",
   },
   en: {
+    pageTitle: "Home",
+    last30Days: "Last 30 days",
+    filter: "Filter",
+    download: "Download report",
     kpis: ["Lorem ipsum", "Dolor sit", "Amet elit", "Sed do", "Eiusmod", "Tempor"],
     revenueTitle: "Incididunt ut labore",
     revenueHint: "Et dolore magna",

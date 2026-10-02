@@ -1,15 +1,18 @@
 "use client"
 
 import { useState } from "react"
-import { ChevronRight } from "lucide-react"
+import { ChevronRight, LayoutGrid, Settings } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { Button } from "@/components/ui/button"
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
 import { localeFromPath, type Locale } from "@/lib/locales"
+import { cn } from "cn"
+import { sidebarCopy } from "./copy"
 import { isMenuGroup, menuItems, type MenuGroup, type MenuLink } from "./menu-items"
 
 function itemHref(locale: Locale, href: string) {
@@ -18,14 +21,8 @@ function itemHref(locale: Locale, href: string) {
 
 function isActive(pathname: string, itemPath: string, locale: Locale) {
   const href = itemHref(locale, itemPath)
-  if (itemPath === "/") {
-    return pathname === href || pathname === `${href}/`
-  }
-  return pathname === href || pathname.startsWith(`${href}/`)
+  return pathname === href || pathname === `${href}/`
 }
-
-const rowClass =
-  "flex h-9 w-full shrink-0 items-center gap-3 overflow-hidden rounded-lg px-2.5 text-sm transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
 
 function MenuLinkItem({
   item,
@@ -33,12 +30,14 @@ function MenuLinkItem({
   locale,
   pathname,
   nested = false,
+  horizontal = false,
 }: {
   item: MenuLink
   open: boolean
   locale: Locale
   pathname: string
   nested?: boolean
+  horizontal?: boolean
 }) {
   const href = itemHref(locale, item.href)
   const label = item.label[locale]
@@ -50,12 +49,25 @@ function MenuLinkItem({
       href={href}
       title={open ? undefined : label}
       aria-current={active ? "page" : undefined}
-      className={`${rowClass} ${nested && open ? "pl-8" : ""} ${
-        active ? "bg-sidebar-accent font-medium text-sidebar-accent-foreground" : ""
-      }`}
+      className={cn(
+        "group flex h-11 shrink-0 items-center gap-3 overflow-hidden rounded-xl px-3 text-sm transition-all duration-200",
+        horizontal ? "w-auto" : "w-full",
+        nested && open && !horizontal && "h-8 rounded-lg px-2 py-1.5 text-[13px]",
+        active
+          ? nested
+            ? "font-semibold text-primary"
+            : "bg-primary font-semibold text-primary-foreground shadow-sm"
+          : "text-sidebar-foreground/85 hover:bg-card/60 hover:text-sidebar-foreground"
+      )}
     >
-      <Icon className="size-4 shrink-0" />
-      <span className={open ? "truncate" : "sr-only"}>{label}</span>
+      {nested && open && !horizontal ? null : active && !nested ? (
+        <span className="flex size-7 shrink-0 items-center justify-center rounded-lg bg-primary-foreground/20">
+          <Icon className="size-4" />
+        </span>
+      ) : (
+        <Icon className={cn("size-4 shrink-0", !active && "opacity-90")} />
+      )}
+      <span className={open ? "min-w-0 flex-1 truncate" : "sr-only"}>{label}</span>
     </Link>
   )
 }
@@ -65,11 +77,13 @@ function MenuGroupItem({
   open,
   locale,
   pathname,
+  horizontal = false,
 }: {
   item: MenuGroup
   open: boolean
   locale: Locale
   pathname: string
+  horizontal?: boolean
 }) {
   const label = item.label[locale]
   const Icon = item.icon
@@ -79,22 +93,44 @@ function MenuGroupItem({
   const [expanded, setExpanded] = useState(childActive)
 
   return (
-    <Collapsible open={open && expanded} onOpenChange={setExpanded}>
+    <Collapsible
+      open={horizontal ? expanded : open && expanded}
+      onOpenChange={setExpanded}
+      className={cn(
+        horizontal ? "relative" : "rounded-xl",
+        !horizontal && open && "pt-3"
+      )}
+    >
       <CollapsibleTrigger
-        className={`${rowClass} ${
-          childActive ? "bg-sidebar-accent font-medium text-sidebar-accent-foreground" : ""
-        }`}
+        className={cn(
+          "flex h-9 w-full shrink-0 items-center gap-2.5 overflow-hidden rounded-lg px-2.5 text-sm transition-colors",
+          horizontal && "h-11 w-auto rounded-xl px-3",
+          childActive
+            ? "font-medium text-sidebar-foreground"
+            : "text-(--sidebar-muted) hover:bg-card/60 hover:text-sidebar-foreground"
+        )}
         title={open ? undefined : label}
       >
-        <Icon className="size-4 shrink-0" />
-        <span className={open ? "truncate" : "sr-only"}>{label}</span>
+        <Icon className="size-4 shrink-0 text-(--sidebar-muted)" />
+        <span className={open ? "min-w-0 flex-1 truncate text-left" : "sr-only"}>{label}</span>
         <ChevronRight
-          className={`ml-auto size-4 shrink-0 transition-transform ${
-            open ? "" : "sr-only"
-          } ${expanded ? "rotate-90" : ""}`}
+          className={cn(
+            "ml-auto size-4 shrink-0 text-(--sidebar-muted) transition-transform",
+            open ? "" : "sr-only",
+            expanded && "rotate-90"
+          )}
         />
       </CollapsibleTrigger>
-      <CollapsibleContent className="flex flex-col gap-1 pt-1">
+      <CollapsibleContent
+        className={
+          horizontal
+            ? "absolute top-full left-0 z-50 mt-1 flex min-w-48 flex-col gap-1 rounded-lg bg-sidebar p-1 shadow-md ring-1 ring-sidebar-border"
+            : cn(
+                "flex flex-col gap-1",
+                open && "relative my-1 ml-4 border-l border-sidebar-border py-1 pl-3.5"
+              )
+        }
+      >
         {item.children.map((child) => (
           <MenuLinkItem
             key={child.href}
@@ -103,6 +139,7 @@ function MenuGroupItem({
             locale={locale}
             pathname={pathname}
             nested
+            horizontal={horizontal}
           />
         ))}
       </CollapsibleContent>
@@ -110,38 +147,127 @@ function MenuGroupItem({
   )
 }
 
-export function Sidebar({ open }: { open: boolean }) {
+export function Sidebar({
+  open,
+  orientation = "vertical",
+  placement = "start",
+}: {
+  open: boolean
+  orientation?: "vertical" | "horizontal"
+  placement?: "start" | "end"
+}) {
   const pathname = usePathname()
   const locale = localeFromPath(pathname)
+  const horizontal = orientation === "horizontal"
+  const labelsOpen = horizontal || open
+  const text = sidebarCopy[locale]
+  const initials = text.userName
+    .split(" ")
+    .map((part) => part[0])
+    .join("")
+    .slice(0, 2)
 
   return (
     <aside
       id="panel-sidebar"
-      className={`h-full min-h-0 shrink-0 self-stretch overflow-x-hidden overflow-y-auto border-r border-sidebar-border bg-sidebar text-sidebar-foreground transition-[width] duration-200 ${
-        open ? "w-60" : "w-14"
-      }`}
+      className={cn(
+        "flex shrink-0 flex-col bg-sidebar text-sidebar-foreground",
+        horizontal
+          ? "h-auto min-h-12 w-full overflow-visible border-b border-sidebar-border"
+          : cn(
+              "h-full min-h-0 self-stretch overflow-x-hidden overflow-y-auto transition-[width] duration-200",
+              open ? "w-64" : "w-14",
+              placement === "end" ? "border-l border-sidebar-border" : "border-r border-sidebar-border"
+            )
+      )}
     >
-      <nav className="flex flex-col gap-1 p-2">
+      {!horizontal ? (
+        <div className={cn("flex h-16 shrink-0 items-center gap-3", open ? "px-4" : "justify-center px-2")}>
+          <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
+            <LayoutGrid className="size-5" />
+          </div>
+          {open ? (
+            <div className="min-w-0 flex flex-col">
+              <span className="truncate text-base font-semibold tracking-tight">{text.brand}</span>
+              <span className="text-[11px] font-semibold tracking-[0.06em] text-(--sidebar-muted) uppercase">
+                {text.panel}
+              </span>
+            </div>
+          ) : null}
+        </div>
+      ) : null}
+
+      {!horizontal && open ? (
+        <p className="px-5 pt-4 pb-2 text-[11px] font-semibold tracking-[0.06em] text-(--sidebar-muted) uppercase">
+          {text.menu}
+        </p>
+      ) : null}
+
+      <nav
+        className={cn(
+          "flex gap-1 p-2",
+          horizontal ? "h-auto min-h-12 flex-row flex-wrap items-center" : "min-h-0 flex-1 flex-col"
+        )}
+      >
         {menuItems.map((item) =>
           isMenuGroup(item) ? (
             <MenuGroupItem
               key={item.label.en}
               item={item}
-              open={open}
+              open={labelsOpen}
               locale={locale}
               pathname={pathname}
+              horizontal={horizontal}
             />
           ) : (
             <MenuLinkItem
               key={item.href}
               item={item}
-              open={open}
+              open={labelsOpen}
               locale={locale}
               pathname={pathname}
+              horizontal={horizontal}
             />
           )
         )}
       </nav>
+
+      {!horizontal ? (
+        <div className={cn("mt-auto flex flex-col p-2", open ? "p-3" : "items-center")}>
+          <div
+            className={cn(
+              "flex items-center rounded-xl border border-sidebar-border/60 bg-card/50",
+              open ? "h-14 justify-between px-2.5" : "size-11 justify-center"
+            )}
+          >
+            <div className="flex min-w-0 items-center gap-2.5">
+              <div className="relative shrink-0">
+                <div className="flex size-9 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
+                  {initials}
+                </div>
+                <span className="absolute right-0 bottom-0 size-2.5 rounded-full bg-emerald-500 ring-2 ring-card" />
+              </div>
+              {open ? (
+                <div className="min-w-0 flex flex-col">
+                  <span className="truncate text-sm font-semibold">{text.userName}</span>
+                  <span className="text-xs text-(--sidebar-muted)">{text.userRole}</span>
+                </div>
+              ) : null}
+            </div>
+            {open ? (
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon-sm"
+                aria-label={text.userSettings}
+                className="shrink-0 text-(--sidebar-muted) hover:text-sidebar-foreground"
+              >
+                <Settings />
+              </Button>
+            ) : null}
+          </div>
+        </div>
+      ) : null}
     </aside>
   )
 }

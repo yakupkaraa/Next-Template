@@ -11,9 +11,9 @@ export const settingsLayouts = ["side", "top", "right"] as const
 export type SettingsLayout = (typeof settingsLayouts)[number]
 
 export const settingsColors = [
-  { id: "blue", className: "bg-[#2c5ead]" },
-  { id: "green", className: "bg-[#2a7c13]" },
-  { id: "violet", className: "bg-[#8b7cc0]" },
+  { id: "blue", className: "bg-[#2563eb]" },
+  { id: "green", className: "bg-[#006b2c]" },
+  { id: "violet", className: "bg-[#7c3aed]" },
   { id: "dark", className: "bg-zinc-900 ring-1 ring-zinc-600" },
 ] as const
 

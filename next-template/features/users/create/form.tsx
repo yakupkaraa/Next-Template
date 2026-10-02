@@ -90,7 +90,7 @@ export function UserCreateForm({
                   <AvatarFallback className="text-lg">{copy.picture.initials}</AvatarFallback>
                 </Avatar>
                 <p className="text-sm text-muted-foreground">{copy.picture.hint}</p>
-                <input
+                <Input
                   ref={fileRef}
                   type="file"
                   accept="image/*"

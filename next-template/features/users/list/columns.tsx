@@ -2,8 +2,9 @@
 
 import { createColumnHelper } from "@tanstack/react-table"
 import { CountryFlag } from "@/components/shared/locale-flag"
-import { Badge } from "@/components/ui/badge"
+import { StatusBadge, type StatusBadgeTone } from "@/components/ui/status-badge"
 import type { DataTableFeatures } from "@/components/ui/data-table-features"
+import { UserRowActions } from "@/features/users/list/row-actions"
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
 import {
   userColumnKeys,
@@ -11,40 +12,19 @@ import {
   type UserRow,
 } from "@/features/users/data"
 
-const statusColors: Record<string, string> = {
-  Aktif: "bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300",
-  Beklemede: "bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300",
-  Pasif: "bg-rose-100 text-rose-700 dark:bg-rose-950 dark:text-rose-300",
-}
-
-function StatusChip({ value }: { value: string }) {
-  return (
-    <Badge variant="secondary" className={statusColors[value]}>
-      {value}
-    </Badge>
-  )
-}
-
-function VerifiedChip({ value, confirmedLabel }: { value: string; confirmedLabel: string }) {
-  const confirmed = value === confirmedLabel
-
-  return (
-    <Badge
-      variant="secondary"
-      className={
-        confirmed
-          ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300"
-          : "bg-rose-100 text-rose-700 dark:bg-rose-950 dark:text-rose-300"
-      }
-    >
-      {value}
-    </Badge>
-  )
+function statusTone(value: string): StatusBadgeTone {
+  if (value === "Aktif") return "success"
+  if (value === "Beklemede") return "warning"
+  return "danger"
 }
 
 function renderCell(key: UserColumnKey, value: string, confirmedLabel: string) {
-  if (key === "status") return <StatusChip value={value} />
-  if (key === "verified") return <VerifiedChip value={value} confirmedLabel={confirmedLabel} />
+  if (key === "status") return <StatusBadge tone={statusTone(value)}>{value}</StatusBadge>
+  if (key === "verified") {
+    return (
+      <StatusBadge tone={value === confirmedLabel ? "success" : "danger"}>{value}</StatusBadge>
+    )
+  }
   if (key === "country") {
     return (
       <span className="inline-flex items-center gap-2">
@@ -58,16 +38,40 @@ function renderCell(key: UserColumnKey, value: string, confirmedLabel: string) {
 
 const columnHelper = createColumnHelper<DataTableFeatures, UserRow>()
 
-export function getUserListColumns(locale: ContentLocale) {
+export function getUserListColumns(
+  locale: ContentLocale,
+  actions: {
+    onEdit: (row: UserRow) => void
+    onDelete: (row: UserRow) => void
+  }
+) {
   const list = getDictionary(locale).users.list
   const upper = locale === "en" ? "en-US" : "tr-TR"
 
-  return columnHelper.columns(
-    userColumnKeys.map((key) =>
+  return columnHelper.columns([
+    ...userColumnKeys.map((key) =>
       columnHelper.accessor(key, {
         header: list.columns[key].toLocaleUpperCase(upper),
         cell: ({ row }) => renderCell(key, row.getValue(key), list.confirmed),
       })
-    )
-  )
+    ),
+    columnHelper.display({
+      id: "actions",
+      header: list.actions.toLocaleUpperCase(upper),
+      enablePinning: true,
+      size: 56,
+      cell: ({ row }) => (
+        <div className="flex justify-center">
+          <UserRowActions
+            row={row.original}
+            editLabel={list.edit}
+            deleteLabel={list.delete}
+            menuLabel={list.actionsMenu}
+            onEdit={actions.onEdit}
+            onDelete={actions.onDelete}
+          />
+        </div>
+      ),
+    }),
+  ])
 }

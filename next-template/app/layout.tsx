@@ -26,6 +26,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       data-accent={DEFAULT_THEME_ACCENT}
       data-density="comfortable"
+      data-layout="side"
+      data-footer="on"
       className={`${nunito.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >

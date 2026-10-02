@@ -17,9 +17,9 @@ export function SegmentationDonutChart() {
           data={insightSegments}
           dataKey="value"
           nameKey="key"
-          innerRadius={52}
-          outerRadius={72}
-          strokeWidth={2}
+          innerRadius={48}
+          outerRadius={66}
+          strokeWidth={8}
           stroke="var(--background)"
         >
           {insightSegments.map((seg) => (

@@ -8,10 +8,10 @@ export function InsightsAside({ locale }: InsightsSectionProps) {
   const text = insightCopy[locale]
 
   return (
-    <div className="grid items-stretch gap-3 lg:grid-cols-12">
-      <Card className="min-w-0 shadow-sm lg:col-span-4">
+    <div className="grid items-stretch gap-4 lg:grid-cols-12">
+      <Card className="min-w-0 rounded-xl shadow-sm lg:col-span-4">
         <CardHeader className="pb-2">
-          <CardTitle className="text-base">{text.latestProducts}</CardTitle>
+          <CardTitle className="text-base font-semibold">{text.latestProducts}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3 pt-0">
           {insightLatestProducts.map((product) => (
@@ -28,12 +28,12 @@ export function InsightsAside({ locale }: InsightsSectionProps) {
         </CardContent>
       </Card>
 
-      <Card className="min-w-0 shadow-sm lg:col-span-4">
+      <Card className="min-w-0 rounded-xl shadow-sm lg:col-span-4">
         <CardHeader className="pb-2">
-          <CardTitle className="text-base">{text.totalAssets}</CardTitle>
+          <CardTitle className="text-base font-semibold">{text.totalAssets}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4 pt-0">
-          <p className="text-3xl font-bold tracking-tight">{insightAssets.total}</p>
+          <p className="text-3xl font-bold tracking-tight tabular-nums">{insightAssets.total}</p>
           <div>
             <p className="mb-2 text-xs text-muted-foreground">{text.distribution}</p>
             <div className="flex h-3 overflow-hidden rounded-full">
@@ -62,11 +62,11 @@ export function InsightsAside({ locale }: InsightsSectionProps) {
         </CardContent>
       </Card>
 
-      <Card className="accent-theme-card flex min-h-48 flex-col justify-end shadow-sm lg:col-span-4">
-        <CardContent className="space-y-3 pt-6">
-          <p className="text-sm leading-relaxed">{insightPromo.body}</p>
+      <Card className="relative flex min-h-48 flex-col justify-end overflow-hidden rounded-xl bg-primary py-0 text-primary-foreground shadow-sm ring-0 lg:col-span-4">
+        <CardContent className="relative z-10 space-y-3 pt-6">
+          <p className="text-sm leading-relaxed text-primary-foreground/90">{insightPromo.body}</p>
           <h3 className="text-lg font-semibold">{text.promoTitle}</h3>
-          <Button type="button" className="w-fit">
+          <Button type="button" className="w-fit bg-card text-primary hover:bg-card/90">
             {text.shopNow}
           </Button>
         </CardContent>

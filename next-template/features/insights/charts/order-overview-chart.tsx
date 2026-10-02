@@ -5,8 +5,8 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/
 import { insightOrderOverview } from "../data"
 
 const config = {
-  seriesA: { label: "Lorem", color: "var(--chart-1)" },
-  seriesB: { label: "Ipsum", color: "var(--chart-2)" },
+  seriesA: { label: "Gelir", color: "var(--chart-1)" },
+  seriesB: { label: "Gider", color: "var(--chart-3)" },
 }
 
 export function OrderOverviewChart() {
@@ -17,7 +17,7 @@ export function OrderOverviewChart() {
   }))
 
   return (
-    <ChartContainer config={config} className="aspect-auto h-56 w-full min-h-56">
+    <ChartContainer config={config} className="aspect-auto h-36 w-full min-h-36">
       <LineChart data={data} margin={{ left: 8, right: 8, top: 8, bottom: 0 }}>
         <CartesianGrid vertical={false} strokeDasharray="3 3" className="stroke-border/50" />
         <XAxis dataKey="month" tickLine={false} axisLine={false} tickMargin={8} />
@@ -26,15 +26,15 @@ export function OrderOverviewChart() {
           type="monotone"
           dataKey="seriesA"
           stroke="var(--color-seriesA)"
-          strokeWidth={2}
-          dot={false}
+          strokeWidth={2.5}
+          dot={{ r: 3, fill: "var(--color-seriesA)", strokeWidth: 0 }}
         />
         <Line
           type="monotone"
           dataKey="seriesB"
           stroke="var(--color-seriesB)"
           strokeWidth={2}
-          dot={false}
+          dot={{ r: 3, fill: "var(--color-seriesB)", strokeWidth: 0 }}
         />
       </LineChart>
     </ChartContainer>

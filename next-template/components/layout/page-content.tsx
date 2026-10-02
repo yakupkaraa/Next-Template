@@ -30,14 +30,14 @@ export function PageContent({
         data-page-scroll
         className={cn(
           "flex min-h-0 min-w-0 flex-1 flex-col overscroll-y-contain",
-          fill ? "overflow-hidden py-0" : "overflow-x-hidden overflow-y-auto py-3"
+          fill ? "overflow-hidden" : "overflow-x-hidden overflow-y-auto"
         )}
       >
         <div
           data-page-content
           className={cn(
             "flex min-h-0 flex-1 flex-col",
-            fill ? "gap-0 pb-0" : "gap-4 pb-6",
+            fill ? "gap-0" : "gap-4",
             widthClasses[width],
             className
           )}

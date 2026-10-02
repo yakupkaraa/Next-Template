@@ -16,14 +16,19 @@ import {
   readStoredTheme,
   writeStoredTheme,
   type DensityMode,
+  type ShellLayout,
   type StoredTheme,
 } from "@/lib/theme/storage"
 
 type ThemeContextValue = {
   appearance: ThemeAppearance
   density: DensityMode
+  layout: ShellLayout
+  footer: boolean
   setAppearance: (appearance: ThemeAppearance) => void
   setDensity: (density: DensityMode) => void
+  setLayout: (layout: ShellLayout) => void
+  setFooter: (footer: boolean) => void
 }
 
 const ThemeContext = createContext<ThemeContextValue | null>(null)
@@ -53,14 +58,35 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     setTheme((current) => ({ ...current, density }))
   }, [])
 
+  const setLayout = useCallback((layout: ShellLayout) => {
+    setTheme((current) => ({ ...current, layout }))
+  }, [])
+
+  const setFooter = useCallback((footer: boolean) => {
+    setTheme((current) => ({ ...current, footer }))
+  }, [])
+
   const value = useMemo(
     () => ({
       appearance: theme.appearance,
       density: theme.density,
+      layout: theme.layout,
+      footer: theme.footer,
       setAppearance,
       setDensity,
+      setLayout,
+      setFooter,
     }),
-    [setAppearance, setDensity, theme.appearance, theme.density]
+    [
+      setAppearance,
+      setDensity,
+      setFooter,
+      setLayout,
+      theme.appearance,
+      theme.density,
+      theme.footer,
+      theme.layout,
+    ]
   )
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>

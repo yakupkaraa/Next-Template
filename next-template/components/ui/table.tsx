@@ -16,7 +16,7 @@ function Table({
     <div
       ref={containerRef}
       data-slot="table-container"
-      className={cn("relative w-full overflow-auto", containerClassName)}
+      className={cn("relative w-full overflow-auto bg-card", containerClassName)}
     >
       <table
         data-slot="table"

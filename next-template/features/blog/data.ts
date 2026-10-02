@@ -1,0 +1,176 @@
+import type { ContentLocale } from "@/lib/i18n"
+
+export type BlogLocale = ContentLocale
+
+export type BlogCategoryId = "design" | "product" | "engineering" | "marketing" | "research"
+
+export const blogCopy = {
+  tr: {
+    all: "Tümü",
+    featured: "Öne çıkan",
+    read: "Oku",
+    popular: "Popüler konular",
+    newsletterTitle: "Bülten",
+    newsletterBody:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.",
+    newsletterPlaceholder: "E-posta adresiniz",
+    newsletterCta: "Kayıt ol",
+    recent: "Son okuduklarınız",
+  },
+  en: {
+    all: "All",
+    featured: "Featured",
+    read: "Read",
+    popular: "Popular topics",
+    newsletterTitle: "Newsletter",
+    newsletterBody:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.",
+    newsletterPlaceholder: "Your email",
+    newsletterCta: "Subscribe",
+    recent: "Recently read",
+  },
+} as const
+
+export const blogCategories: { id: BlogCategoryId; tr: string; en: string }[] = [
+  { id: "design", tr: "Tasarım", en: "Design" },
+  { id: "product", tr: "Ürün", en: "Product" },
+  { id: "engineering", tr: "Yazılım", en: "Engineering" },
+  { id: "marketing", tr: "Pazarlama", en: "Marketing" },
+  { id: "research", tr: "Araştırma", en: "Research" },
+]
+
+export const blogTags = [
+  "DesignSystems",
+  "ProductOps",
+  "Accessibility",
+  "Roadmap",
+  "RemoteWork",
+]
+
+export const blogPosts = [
+  {
+    id: "1",
+    category: "design" as BlogCategoryId,
+    featured: true,
+    title: "Lorem ipsum dolor sit amet consectetur",
+    excerpt:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante venenatis dapibus posuere velit aliquet.",
+    author: "Alex Rivera",
+    role: "Product designer",
+    time: "3s",
+    read: "5 dk",
+    likes: 124,
+    views: "1.2k",
+    cover: "bg-primary/40",
+  },
+  {
+    id: "2",
+    category: "product" as BlogCategoryId,
+    featured: false,
+    title: "Sed ut perspiciatis unde omnis iste natus",
+    excerpt:
+      "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.",
+    author: "Maya Chen",
+    role: "Product manager",
+    time: "5s",
+    read: "7 dk",
+    likes: 89,
+    views: "940",
+    cover: "bg-chart-2/50",
+  },
+  {
+    id: "3",
+    category: "engineering" as BlogCategoryId,
+    featured: false,
+    title: "Nemo enim ipsam voluptatem quia voluptas",
+    excerpt:
+      "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores.",
+    author: "Jordan Blake",
+    role: "Staff engineer",
+    time: "1g",
+    read: "4 dk",
+    likes: 210,
+    views: "2.5k",
+    cover: "bg-chart-3/50",
+  },
+  {
+    id: "4",
+    category: "marketing" as BlogCategoryId,
+    featured: false,
+    title: "Ut enim ad minima veniam quis nostrum",
+    excerpt:
+      "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi.",
+    author: "Sam Ortega",
+    role: "Growth lead",
+    time: "2g",
+    read: "6 dk",
+    likes: 156,
+    views: "1.8k",
+    cover: "bg-chart-4/40",
+  },
+  {
+    id: "5",
+    category: "research" as BlogCategoryId,
+    featured: false,
+    title: "Quis autem vel eum iure reprehenderit qui in ea",
+    excerpt:
+      "Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
+    author: "Riley Patel",
+    role: "Researcher",
+    time: "3g",
+    read: "8 dk",
+    likes: 72,
+    views: "610",
+    cover: "bg-chart-5/40",
+  },
+  {
+    id: "6",
+    category: "design" as BlogCategoryId,
+    featured: false,
+    title: "Neque porro quisquam est qui dolorem ipsum",
+    excerpt:
+      "Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.",
+    author: "Chris Novak",
+    role: "UX writer",
+    time: "4g",
+    read: "5 dk",
+    likes: 98,
+    views: "1.1k",
+    cover: "bg-primary/25",
+  },
+  {
+    id: "7",
+    category: "engineering" as BlogCategoryId,
+    featured: false,
+    title: "Temporibus autem quibusdam et aut officiis",
+    excerpt:
+      "Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates.",
+    author: "Elena Frost",
+    role: "Frontend lead",
+    time: "6g",
+    read: "9 dk",
+    likes: 143,
+    views: "1.6k",
+    cover: "bg-chart-1/40",
+  },
+  {
+    id: "8",
+    category: "product" as BlogCategoryId,
+    featured: false,
+    title: "Itaque earum rerum hic tenetur a sapiente",
+    excerpt:
+      "Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur.",
+    author: "Noah Kim",
+    role: "Product ops",
+    time: "1h",
+    read: "6 dk",
+    likes: 54,
+    views: "480",
+    cover: "bg-chart-3/40",
+  },
+]
+
+export const blogRecent = [
+  { id: "r1", title: "Quis autem vel eum iure reprehenderit", time: "2g", cover: "bg-primary/30" },
+  { id: "r2", title: "At vero eos et accusamus et iusto odio", time: "5g", cover: "bg-chart-2/40" },
+]

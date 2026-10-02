@@ -1,6 +1,6 @@
 "use client"
 
-import { CartesianGrid, Line, LineChart } from "recharts"
+import { Area, AreaChart, CartesianGrid } from "recharts"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 
 const config = {
@@ -13,18 +13,21 @@ export function TotalSalesLineChart({
   data: { label: string; value: number }[]
 }) {
   return (
-    <ChartContainer config={config} className="aspect-auto h-36 w-full min-h-36">
-      <LineChart data={data} margin={{ left: 0, right: 8, top: 8, bottom: 0 }}>
-        <CartesianGrid vertical={false} strokeDasharray="3 3" className="stroke-border/50" />
+    <ChartContainer config={config} className="aspect-auto h-56 w-full min-h-56">
+      <AreaChart data={data} margin={{ left: 0, right: 8, top: 28, bottom: 0 }}>
+        <CartesianGrid vertical={false} strokeDasharray="4 4" className="stroke-border/70" />
         <ChartTooltip content={<ChartTooltipContent hideLabel />} />
-        <Line
+        <Area
           type="monotone"
           dataKey="value"
           stroke="var(--color-value)"
           strokeWidth={2.5}
+          fill="var(--chart-1)"
+          fillOpacity={0.16}
           dot={false}
+          activeDot={{ r: 5, stroke: "#fff", strokeWidth: 2 }}
         />
-      </LineChart>
+      </AreaChart>
     </ChartContainer>
   )
 }

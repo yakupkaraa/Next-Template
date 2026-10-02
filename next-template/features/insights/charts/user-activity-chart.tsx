@@ -5,13 +5,13 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/
 import { insightUserActivity } from "../data"
 
 const config = {
-  viewed: { label: "Viewed", color: "var(--chart-2)" },
-  checkout: { label: "Checkout", color: "var(--chart-1)" },
+  viewed: { label: "Completed", color: "var(--chart-1)" },
+  checkout: { label: "Pending", color: "var(--chart-5)" },
 }
 
 export function UserActivityChart() {
   return (
-    <ChartContainer config={config} className="aspect-auto h-52 w-full min-h-52">
+    <ChartContainer config={config} className="aspect-auto h-40 w-full min-h-40">
       <BarChart data={insightUserActivity} margin={{ left: 0, right: 0, top: 8, bottom: 0 }}>
         <XAxis dataKey="day" tickLine={false} axisLine={false} tickMargin={8} />
         <ChartTooltip content={<ChartTooltipContent />} />
