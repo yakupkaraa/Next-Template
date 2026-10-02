@@ -83,35 +83,36 @@ export function UserListTable({ locale }: { locale: ContentLocale }) {
       value: stats.total,
       icon: Users,
       badge: list.kpiBadgeTotal,
-      surface: "bg-primary text-primary-foreground",
+      surface: "bg-[color-mix(in_oklch,var(--primary)_88%,white)] text-primary-foreground",
     },
     {
       label: list.kpiActive,
       value: stats.active,
       icon: UserCheck,
       badge: list.kpiBadgeActive,
-      surface: "bg-chart-2 text-white",
+      surface: "bg-[color-mix(in_oklch,var(--chart-2)_88%,white)] text-white",
     },
     {
       label: list.kpiPending,
       value: stats.pending,
       icon: Hourglass,
       badge: list.kpiBadgePending,
-      surface: "bg-chart-3 text-white",
+      surface: "bg-[color-mix(in_oklch,var(--chart-3)_88%,white)] text-white",
     },
     {
       label: list.kpiPassive,
       value: stats.passive,
       icon: UserMinus,
       badge: list.kpiBadgePassive,
-      surface: "bg-muted-foreground text-white",
+      surface: "bg-[color-mix(in_oklch,var(--muted-foreground)_88%,white)] text-white",
     },
     {
       label: list.kpiAdmins,
       value: stats.admins,
       icon: Shield,
       badge: list.kpiBadgeAdmins,
-      surface: "bg-[color-mix(in_srgb,var(--primary)_78%,black)] text-primary-foreground",
+      surface:
+        "bg-[color-mix(in_oklch,color-mix(in_srgb,var(--primary)_78%,black)_88%,white)] text-primary-foreground",
     },
   ] as const
 
@@ -129,20 +130,20 @@ export function UserListTable({ locale }: { locale: ContentLocale }) {
                 size="sm"
                 className={`min-w-0 border-0 py-0 shadow-sm ring-0 ${kpi.surface}`}
               >
-                <CardContent className="flex flex-col gap-1.5 px-3 py-2.5">
+                <CardContent className="flex flex-col gap-1.5 px-3 py-2">
                   <div className="flex min-w-0 items-center justify-between gap-2">
-                    <span className="flex size-7 shrink-0 items-center justify-center rounded-lg bg-white/20">
+                    <span className="flex size-6 shrink-0 items-center justify-center rounded-md bg-white/20">
                       <Icon className="size-3.5" />
                     </span>
                     <span className="min-w-0 truncate rounded-full bg-white/20 px-2 py-0.5 text-[10px] font-medium leading-4">
                       {kpi.badge}
                     </span>
                   </div>
-                  <div className="min-w-0">
-                    <p className="text-xl font-bold tracking-tight tabular-nums">
+                  <div className="flex min-w-0 items-baseline gap-2">
+                    <span className="text-xl font-bold tracking-tight tabular-nums leading-none">
                       {kpi.value.toLocaleString(locale === "en" ? "en" : "tr")}
-                    </p>
-                    <p className="truncate text-[11px] font-medium text-white/80">{kpi.label}</p>
+                    </span>
+                    <span className="truncate text-xs font-medium text-white/80">{kpi.label}</span>
                   </div>
                 </CardContent>
               </Card>
