@@ -1,10 +1,11 @@
 import type { ReactNode } from "react"
 import { cn } from "cn"
 
-type PageContentWidth = "default" | "full"
+type PageContentWidth = "default" | "wide" | "full"
 
 const widthClasses: Record<PageContentWidth, string> = {
   default: "mx-auto w-[90%] max-w-full",
+  wide: "mx-auto w-[99%] max-w-full",
   full: "w-full max-w-full",
 }
 

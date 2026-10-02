@@ -174,13 +174,13 @@ export function UserListTable({ locale }: { locale: ContentLocale }) {
             </div>
           </CardContent>
         </Card>
-        <div data-density-fill="" className="min-h-0 flex-1">
+        <div data-density-fill="" className="min-h-0 flex-1 p-0.5">
         <DataTable
           columns={columns}
           data={filtered}
           empty={list.empty}
           loading={loading}
-          containerClassName="h-full min-h-0 flex-1 overflow-x-scroll overflow-y-auto rounded-xl bg-card ring-1 ring-foreground/10"
+          containerClassName="h-full min-h-0 flex-1 overflow-auto rounded-xl bg-card ring-1 ring-foreground/10"
           className="w-max min-w-full"
           pinEnd={["actions"]}
         />

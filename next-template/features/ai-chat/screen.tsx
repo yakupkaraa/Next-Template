@@ -9,6 +9,7 @@ import {
   Mail,
   MessageSquarePlus,
 } from "lucide-react"
+import { DensityBoard } from "@/components/layout/density-board"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { SearchBar } from "@/components/ui/search-bar"
@@ -59,8 +60,13 @@ export function AiChatScreen({ locale }: { locale: ContentLocale }) {
   }
 
   return (
-    <div className="my-6 box-border flex min-h-0 flex-1 flex-col overflow-hidden rounded-xl border-2 border-border bg-card shadow-sm sm:flex-row">
-      <aside className="flex max-h-56 shrink-0 flex-col border-b border-border bg-card sm:max-h-none sm:w-72 sm:min-h-0 sm:border-r sm:border-b-0">
+    <DensityBoard className="min-h-0 flex-1">
+    <div
+      data-density-fill=""
+      data-ai-chat=""
+      className="box-border flex min-h-0 flex-1 flex-col overflow-hidden rounded-xl border-2 border-border bg-card sm:flex-row"
+    >
+      <aside className="flex max-h-56 shrink-0 flex-col border-b-2 border-border bg-card sm:max-h-none sm:w-72 sm:min-h-0 sm:border-r-2 sm:border-b-0">
         <div className="shrink-0 px-4 pt-4 pb-2">
           <SearchBar
             value={query}
@@ -95,7 +101,7 @@ export function AiChatScreen({ locale }: { locale: ContentLocale }) {
           })}
         </div>
 
-        <div className="shrink-0 border-t border-border p-4">
+        <div className="shrink-0 border-t-2 border-border p-4">
           <Button
             type="button"
             className="h-10 w-full rounded-lg text-base font-medium"
@@ -137,7 +143,7 @@ export function AiChatScreen({ locale }: { locale: ContentLocale }) {
                   </p>
                 </div>
 
-                <div className="grid gap-4 md:grid-cols-3">
+                <div data-ai-suggest="" className="grid gap-4 md:grid-cols-3">
                   {view.suggestions.map((item) => {
                     const id = item.id as keyof typeof suggestionIcons
                     const Icon = suggestionIcons[id]
@@ -147,7 +153,7 @@ export function AiChatScreen({ locale }: { locale: ContentLocale }) {
                         type="button"
                         variant="outline"
                         onClick={() => setDraft(item.detail)}
-                        className="h-auto flex-col items-start gap-3 rounded-xl p-5 text-left whitespace-normal hover:border-primary/40 hover:bg-muted/30"
+                        className="h-auto flex-col items-start gap-3 rounded-xl border-2 p-5 text-left whitespace-normal hover:border-primary/40 hover:bg-muted/30"
                       >
                         <span
                           className={cn(
@@ -171,7 +177,7 @@ export function AiChatScreen({ locale }: { locale: ContentLocale }) {
         </div>
 
         <div className="shrink-0 border-t-2 border-border bg-card p-4">
-          <div className="mx-auto flex max-w-3xl items-center gap-2 rounded-2xl border-2 border-border bg-background px-3 py-2 shadow-sm">
+          <div className="mx-auto flex max-w-3xl items-center gap-2 rounded-2xl border-2 border-border bg-background px-3 py-2">
             <Button
               type="button"
               variant="ghost"
@@ -207,5 +213,6 @@ export function AiChatScreen({ locale }: { locale: ContentLocale }) {
         </div>
       </div>
     </div>
+    </DensityBoard>
   )
 }

@@ -225,6 +225,10 @@
     --tw-ring-shadow: 0 0 0 2px var(--border) !important;
   }
 
+  html[data-density="compact"] [data-density-board] > [data-density-fill] {
+    padding: 0 !important;
+  }
+
   html[data-density="compact"] [data-density-board] [data-skeleton-grid] [data-slot="card"] {
     border-radius: 0.75rem !important;
     border-width: 1px !important;
@@ -235,6 +239,20 @@
 
   html[data-density="compact"] [data-density-board] .grid {
     gap: 0 !important;
+  }
+
+  html[data-density="compact"] [data-density-board] [data-ai-suggest] {
+    gap: 1rem !important;
+  }
+
+  html[data-density="compact"] [data-ai-chat] {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    border-width: 2px !important;
+    border-style: solid !important;
+    border-color: var(--border) !important;
+    --tw-ring-shadow: 0 0 0 2px var(--border) !important;
   }
 
   html[data-density="compact"] [data-density-board] [data-kpi-row] {
