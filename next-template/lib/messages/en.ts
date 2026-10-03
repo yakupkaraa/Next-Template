@@ -37,6 +37,9 @@ export const en = {
       blogPosts: "Posts",
       blogCreate: "New post",
       blogEdit: "Edit",
+      tickets: "Tickets",
+      ticketsInbox: "Tickets",
+      ticketsCreate: "Create Ticket",
     },
     settings: {
       side: "Side menu",

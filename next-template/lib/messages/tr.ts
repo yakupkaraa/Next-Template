@@ -37,6 +37,9 @@ export const tr = {
       blogPosts: "Yazılar",
       blogCreate: "Yeni yazı",
       blogEdit: "Düzenle",
+      tickets: "Bilet",
+      ticketsInbox: "Biletler",
+      ticketsCreate: "Bilet Oluştur",
     },
     settings: {
       side: "Yan menü",

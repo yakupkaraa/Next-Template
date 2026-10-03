@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/collapsible"
 import { localeFromPath, type Locale } from "@/lib/locales"
 import { cn } from "cn"
+import { getCurrentUser, openTicketCount, seedTickets } from "@/features/ticket/data"
 import { sidebarCopy } from "./copy"
 import { isMenuGroup, menuItems, type MenuGroup, type MenuLink } from "./menu-items"
 
@@ -68,6 +69,11 @@ function MenuLinkItem({
         <Icon className={cn("size-4 shrink-0", !active && "opacity-90")} />
       )}
       <span className={open ? "min-w-0 flex-1 truncate" : "sr-only"}>{label}</span>
+      {item.badge === "open-tickets" && getCurrentUser().role === "admin" && open ? (
+        <span className="rounded-full bg-primary/15 px-1.5 py-0.5 text-[10px] font-semibold text-primary">
+          {openTicketCount(seedTickets)}
+        </span>
+      ) : null}
     </Link>
   )
 }
@@ -175,7 +181,7 @@ export function Sidebar({
         horizontal
           ? "h-auto min-h-12 w-full overflow-visible border-b border-sidebar-border"
           : cn(
-              "h-full min-h-0 self-stretch overflow-x-hidden overflow-y-auto transition-[width] duration-200",
+              "h-full min-h-0 self-stretch overflow-hidden transition-[width] duration-200",
               open ? "w-64" : "w-14",
               placement === "end" ? "border-l border-sidebar-border" : "border-r border-sidebar-border"
             )
@@ -206,7 +212,7 @@ export function Sidebar({
       <nav
         className={cn(
           "flex gap-1 p-2",
-          horizontal ? "h-auto min-h-12 flex-row flex-wrap items-center" : "min-h-0 flex-1 flex-col"
+          horizontal ? "h-auto min-h-12 flex-row flex-wrap items-center" : "min-h-0 flex-1 flex-col overflow-x-hidden overflow-y-auto overscroll-y-contain"
         )}
       >
         {menuItems.map((item) =>
@@ -233,7 +239,7 @@ export function Sidebar({
       </nav>
 
       {!horizontal ? (
-        <div className={cn("mt-auto flex flex-col p-2", open ? "p-3" : "items-center")}>
+        <div className={cn("flex shrink-0 flex-col p-2", open ? "p-3" : "items-center")}>
           <div
             className={cn(
               "flex items-center rounded-xl border border-sidebar-border/60 bg-card/50",

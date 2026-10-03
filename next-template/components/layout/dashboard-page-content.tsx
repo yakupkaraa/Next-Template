@@ -9,12 +9,22 @@ export function DashboardPageContent({ children }: { children: ReactNode }) {
   const pathname = usePathname()
   const isAiChat = /\/ai-chat\/?$/.test(pathname)
   const isUserList = /\/users\/list\/?$/.test(pathname)
+  const isUserCards = /\/users\/card\/?$/.test(pathname)
   const isBlog = /\/blog\/?$/.test(pathname)
   const isBlogEditor = /\/blog\/(create|edit)\/?$/.test(pathname)
   const isHome = /^\/[^/]+\/?$/.test(pathname)
   const isInsights = /\/insights\/?$/.test(pathname)
+  const isTicketInbox = /\/ticket\/?$/.test(pathname)
+  const isTicketCreate = /\/ticket\/create\/?$/.test(pathname)
   const fill = isAiChat || isUserList || isBlog
-  const wide = isUserList || isHome || isInsights || isBlog
+  const wide =
+    isUserList ||
+    isUserCards ||
+    isHome ||
+    isInsights ||
+    isBlog ||
+    isTicketInbox ||
+    isTicketCreate
 
   return (
     <PageContent

@@ -7,6 +7,7 @@ export const headerCopy: Record<
   {
     menuCollapse: string
     menuExpand: string
+    breadcrumb: string
     language: string
     notifications: string
     settings: string
@@ -17,6 +18,7 @@ export const headerCopy: Record<
   tr: {
     menuCollapse: "Menüyü daralt",
     menuExpand: "Menüyü genişlet",
+    breadcrumb: "Sayfa yolu",
     language: "Dil",
     notifications: "Bildirimler",
     settings: "Ayarlar",
@@ -26,6 +28,7 @@ export const headerCopy: Record<
   en: {
     menuCollapse: "Collapse menu",
     menuExpand: "Expand menu",
+    breadcrumb: "Breadcrumb",
     language: "Language",
     notifications: "Notifications",
     settings: "Settings",
@@ -35,6 +38,7 @@ export const headerCopy: Record<
   de: {
     menuCollapse: "Menü einklappen",
     menuExpand: "Menü ausklappen",
+    breadcrumb: "Brotkrumen",
     language: "Sprache",
     notifications: "Benachrichtigungen",
     settings: "Einstellungen",
@@ -44,6 +48,7 @@ export const headerCopy: Record<
   fr: {
     menuCollapse: "Réduire le menu",
     menuExpand: "Agrandir le menu",
+    breadcrumb: "Fil d’Ariane",
     language: "Langue",
     notifications: "Notifications",
     settings: "Paramètres",
@@ -53,6 +58,7 @@ export const headerCopy: Record<
   it: {
     menuCollapse: "Comprimi menu",
     menuExpand: "Espandi menu",
+    breadcrumb: "Percorso",
     language: "Lingua",
     notifications: "Notifiche",
     settings: "Impostazioni",

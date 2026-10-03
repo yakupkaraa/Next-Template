@@ -1,8 +1,7 @@
 "use client"
 
-import { memo, useEffect, useMemo, useRef, useState } from "react"
+import { memo, useEffect, useMemo, useState } from "react"
 import { usePathname, useRouter } from "next/navigation"
-import { useVirtualizer } from "@tanstack/react-virtual"
 import {
   Building2,
   Copy,
@@ -55,9 +54,10 @@ import {
 } from "@/features/users/data"
 import { AddUserForm, addUserFormId } from "@/features/users/list/add-user-form"
 
-const CARD_MIN_WIDTH_PX = 248
-const GRID_GAP_PX = 16
-const ROW_ESTIMATE_HEIGHT = 320
+const CARD_FRAME_CLASS = "h-full min-h-[21rem]"
+const CARD_CELL_CLASS =
+  "col-span-6 sm:col-span-3 xl:col-span-2 [contain-intrinsic-size:auto_21rem] [content-visibility:auto]"
+const GRID_CLASS = "grid grid-cols-12 items-stretch gap-4"
 const ALL = "all"
 
 const cardSurfaces = [
@@ -103,7 +103,7 @@ function FilterSelect({
 }) {
   return (
     <Select value={value} onValueChange={(next) => onValueChange(next ?? ALL)}>
-      <SelectTrigger id={id} className="h-9 rounded-full border-border bg-card">
+      <SelectTrigger id={id} className="h-9 min-w-38 rounded-full border-border bg-card">
         <SelectValue />
       </SelectTrigger>
       <SelectContent align="start">
@@ -146,7 +146,8 @@ const UserCard = memo(function UserCard({
   return (
     <Card
       className={cn(
-        "h-full gap-0 overflow-hidden rounded-2xl border-0 py-0 shadow-none ring-1",
+        CARD_FRAME_CLASS,
+        "gap-0 overflow-hidden rounded-2xl border-0 py-0 shadow-none ring-1",
         cardSurfaces[tone]
       )}
     >
@@ -196,10 +197,10 @@ const UserCard = memo(function UserCard({
               {initials(user)}
             </AvatarFallback>
           </Avatar>
-          <CardTitle className="mt-3 text-[15px] font-semibold">
+          <CardTitle className="mt-3 max-w-full truncate text-[15px] font-semibold">
             {user.firstName} {user.lastName}
           </CardTitle>
-          <p className="mt-0.5 text-xs text-muted-foreground">{user.title}</p>
+          <p className="mt-0.5 max-w-full truncate text-xs text-muted-foreground">{user.title}</p>
           <StatusBadge className="mt-2" tone={statusTone(user.status)}>
             {user.status}
           </StatusBadge>
@@ -263,46 +264,39 @@ const UserCard = memo(function UserCard({
 
 function UserCardSkeleton() {
   return (
-    <Card className="h-full gap-0 overflow-hidden rounded-2xl border-0 bg-primary/10 py-0 shadow-none ring-1 ring-primary/15">
-      <CardContent className="flex flex-col items-center gap-3 px-4 pt-4 pb-3">
+    <Card
+      className={cn(
+        CARD_FRAME_CLASS,
+        "gap-0 overflow-hidden rounded-2xl border-0 bg-primary/10 py-0 shadow-none ring-1 ring-primary/15"
+      )}
+    >
+      <CardContent className="flex flex-col gap-3 px-4 pt-4 pb-3">
         <div className="flex w-full justify-between">
           <Skeleton className="size-5 rounded-md" />
           <Skeleton className="size-7 rounded-md" />
         </div>
-        <Skeleton className="size-16 rounded-full" />
-        <Skeleton className="h-4 w-28" />
-        <Skeleton className="h-3 w-36" />
-        <Skeleton className="h-5 w-16 rounded-full" />
-        <Skeleton className="h-3 w-full" />
-        <Skeleton className="h-3 w-4/5" />
+        <div className="flex flex-col items-center text-center">
+          <Skeleton className="size-16 rounded-full" />
+          <Skeleton className="mt-3 h-3.75 w-28" />
+          <Skeleton className="mt-0.5 h-3 w-24" />
+          <Skeleton className="mt-2 h-5 w-16 rounded-full" />
+        </div>
+        <div className="flex flex-col gap-1.5">
+          <Skeleton className="h-3.5 w-full" />
+          <Skeleton className="h-3.5 w-4/5" />
+          <Skeleton className="h-3.5 w-2/3" />
+        </div>
       </CardContent>
+      <CardFooter className="mt-auto justify-between border-t border-primary/10 bg-transparent px-4 py-2">
+        <Skeleton className="h-3 w-16" />
+        <div className="flex items-center gap-0.5">
+          <Skeleton className="size-6 rounded-md" />
+          <Skeleton className="size-6 rounded-md" />
+          <Skeleton className="size-6 rounded-md" />
+        </div>
+      </CardFooter>
     </Card>
   )
-}
-
-function useGridColumnCount(containerRef: React.RefObject<HTMLDivElement | null>) {
-  const [columnCount, setColumnCount] = useState(1)
-
-  useEffect(() => {
-    const element = containerRef.current
-    if (!element) return
-
-    const update = () => {
-      const width = element.clientWidth
-      const count = Math.max(
-        1,
-        Math.floor((width + GRID_GAP_PX) / (CARD_MIN_WIDTH_PX + GRID_GAP_PX))
-      )
-      setColumnCount(count)
-    }
-
-    update()
-    const observer = new ResizeObserver(update)
-    observer.observe(element)
-    return () => observer.disconnect()
-  }, [containerRef])
-
-  return columnCount
 }
 
 export function UserCardGrid({ locale }: { locale: ContentLocale }) {
@@ -320,11 +314,9 @@ export function UserCardGrid({ locale }: { locale: ContentLocale }) {
   const [createOpen, setCreateOpen] = useState(false)
   const [rows, setRows] = useState<UserRow[]>(userList)
   const [selected, setSelected] = useState<Set<string>>(new Set())
-  const scrollRef = useRef<HTMLDivElement>(null)
-  const columnCount = useGridColumnCount(scrollRef)
 
   useEffect(() => {
-    const timer = window.setTimeout(() => setLoading(false), 2500)
+    const timer = window.setTimeout(() => setLoading(false), 1000)
     return () => window.clearTimeout(timer)
   }, [])
 
@@ -343,17 +335,6 @@ export function UserCardGrid({ locale }: { locale: ContentLocale }) {
       return haystack.includes(normalized)
     })
   }, [department, locale, query, role, rows, status])
-
-  const rowCount = Math.ceil(filtered.length / columnCount)
-
-  const rowVirtualizer = useVirtualizer({
-    count: loading ? 0 : rowCount,
-    getScrollElement: () =>
-      scrollRef.current?.closest<HTMLElement>("[data-page-scroll]") ?? scrollRef.current,
-    estimateSize: () => ROW_ESTIMATE_HEIGHT,
-    overscan: 2,
-    measureElement: (element) => element.getBoundingClientRect().height,
-  })
 
   const nextId = String(
     rows.reduce((max, row) => Math.max(max, Number.parseInt(row.id, 10) || 0), 0) + 1
@@ -441,62 +422,49 @@ export function UserCardGrid({ locale }: { locale: ContentLocale }) {
         </CardContent>
       </Card>
 
-      <div ref={scrollRef} className="w-full">
+      <div className="relative w-full">
+        {filtered.length === 0 && !loading ? (
+          <p className="py-10 text-center text-sm text-muted-foreground">{list.empty}</p>
+        ) : (
+          <div className={GRID_CLASS}>
+            {filtered.map((user) => (
+              <div key={user.id} className={CARD_CELL_CLASS}>
+                <UserCard
+                  user={user}
+                  selected={selected.has(user.id)}
+                  copyLabel={card.copy}
+                  editLabel={list.edit}
+                  deleteLabel={list.delete}
+                  menuLabel={list.actionsMenu}
+                  onToggle={toggleSelected}
+                  onEdit={goEdit}
+                  onDelete={(row) => {
+                    setRows((current) => current.filter((item) => item.id !== row.id))
+                    setSelected((current) => {
+                      const next = new Set(current)
+                      next.delete(row.id)
+                      return next
+                    })
+                  }}
+                  onCopy={copyUser}
+                />
+              </div>
+            ))}
+          </div>
+        )}
         {loading ? (
           <div
             data-skeleton-grid=""
-            className="grid grid-cols-[repeat(auto-fill,minmax(15.5rem,1fr))] gap-4"
+            className={cn("absolute inset-x-0 top-0 z-10 bg-background", GRID_CLASS)}
+            aria-hidden
           >
-            {Array.from({ length: 8 }, (_, index) => (
-              <UserCardSkeleton key={index} />
+            {Array.from({ length: 12 }, (_, index) => (
+              <div key={index} className={CARD_CELL_CLASS}>
+                <UserCardSkeleton />
+              </div>
             ))}
           </div>
-        ) : filtered.length === 0 ? (
-          <p className="py-10 text-center text-sm text-muted-foreground">{list.empty}</p>
-        ) : (
-          <div className="relative w-full" style={{ height: rowVirtualizer.getTotalSize() }}>
-            {rowVirtualizer.getVirtualItems().map((virtualRow) => {
-              const startIndex = virtualRow.index * columnCount
-              const rowUsers = filtered.slice(startIndex, startIndex + columnCount)
-
-              return (
-                <div
-                  key={virtualRow.key}
-                  ref={rowVirtualizer.measureElement}
-                  data-index={virtualRow.index}
-                  className="absolute top-0 left-0 grid w-full gap-4 pb-4"
-                  style={{
-                    transform: `translateY(${virtualRow.start}px)`,
-                    gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))`,
-                  }}
-                >
-                  {rowUsers.map((user) => (
-                    <UserCard
-                      key={user.id}
-                      user={user}
-                      selected={selected.has(user.id)}
-                      copyLabel={card.copy}
-                      editLabel={list.edit}
-                      deleteLabel={list.delete}
-                      menuLabel={list.actionsMenu}
-                      onToggle={toggleSelected}
-                      onEdit={goEdit}
-                      onDelete={(row) => {
-                        setRows((current) => current.filter((item) => item.id !== row.id))
-                        setSelected((current) => {
-                          const next = new Set(current)
-                          next.delete(row.id)
-                          return next
-                        })
-                      }}
-                      onCopy={copyUser}
-                    />
-                  ))}
-                </div>
-              )
-            })}
-          </div>
-        )}
+        ) : null}
       </div>
 
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>

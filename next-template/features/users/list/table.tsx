@@ -44,7 +44,7 @@ export function UserListTable({ locale }: { locale: ContentLocale }) {
   )
 
   useEffect(() => {
-    const timer = window.setTimeout(() => setLoading(false), 2500)
+    const timer = window.setTimeout(() => setLoading(false), 1000)
     return () => window.clearTimeout(timer)
   }, [])
 

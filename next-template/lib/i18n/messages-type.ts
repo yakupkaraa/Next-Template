@@ -62,6 +62,9 @@ export type Messages = {
       blogPosts: string
       blogCreate: string
       blogEdit: string
+      tickets: string
+      ticketsInbox: string
+      ticketsCreate: string
     }
     settings: {
       side: string

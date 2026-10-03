@@ -20,7 +20,8 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { languages, localeFromPath, swapLocale } from "@/lib/locales"
-import { headerBrand, headerCopy } from "./copy"
+import { HeaderBreadcrumbs } from "./breadcrumbs"
+import { headerCopy } from "./copy"
 import { signOut } from "@/lib/session"
 import { isMenuGroup, menuItems, type MenuGroup, type MenuLink } from "../sidebar/menu-items"
 import { LocaleFlag } from "@/components/shared/locale-flag"
@@ -245,19 +246,21 @@ export function Header({
       </div>
   )
 
-  const brand = <span className="shrink-0 text-sm font-medium">{headerBrand}</span>
-  const spacer = showMenu ? (
-        <nav className="flex min-w-0 flex-1 items-center gap-0.5 overflow-x-auto">
-          {menuItems.map((item) =>
-            isMenuGroup(item) ? (
-              <HeaderNavGroup key={item.label.en} item={item} locale={locale} pathname={pathname} />
-            ) : (
-              <HeaderNavLink key={item.href} item={item} locale={locale} pathname={pathname} />
-            )
-          )}
-        </nav>
-      ) : (
-        <div className="min-w-0 flex-1" />
+  const spacer = (
+        <div className="flex min-w-0 flex-1 items-center gap-3">
+          <HeaderBreadcrumbs locale={locale} pathname={pathname} />
+          {showMenu ? (
+            <nav className="flex min-w-0 items-center gap-0.5 overflow-x-auto">
+              {menuItems.map((item) =>
+                isMenuGroup(item) ? (
+                  <HeaderNavGroup key={item.label.en} item={item} locale={locale} pathname={pathname} />
+                ) : (
+                  <HeaderNavLink key={item.href} item={item} locale={locale} pathname={pathname} />
+                )
+              )}
+            </nav>
+          ) : null}
+        </div>
       )
 
   return (
@@ -272,13 +275,11 @@ export function Header({
         <>
           {headerActions}
           {spacer}
-          {brand}
           {sidebarToggle}
         </>
       ) : (
         <>
           {sidebarToggle}
-          {brand}
           {spacer}
           {headerActions}
         </>

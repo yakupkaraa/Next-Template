@@ -17,6 +17,7 @@ import { dataTableFeatures, type DataTableFeatures } from "@/components/ui/data-
 
 const ROW_ESTIMATE_HEIGHT = 41
 const VIRTUALIZE_MIN_ROWS = 16
+const INITIAL_SCROLL_RECT = { width: 1280, height: 720 }
 
 function pinningStyle(column: {
   getIsPinned: () => false | "start" | "end"
@@ -88,7 +89,8 @@ export function DataTable<TData extends RowData>({
     count: useVirtualRows ? rows.length : 0,
     getScrollElement: () => scrollRef.current,
     estimateSize: () => ROW_ESTIMATE_HEIGHT,
-    overscan: 10,
+    overscan: 8,
+    initialRect: INITIAL_SCROLL_RECT,
   })
 
   const virtualRows = rowVirtualizer.getVirtualItems()

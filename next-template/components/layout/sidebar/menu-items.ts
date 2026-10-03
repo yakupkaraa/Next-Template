@@ -4,6 +4,7 @@ import {
   FilePlus,
   IdCard,
   Home,
+  LifeBuoy,
   List,
   Newspaper,
   Pencil,
@@ -19,6 +20,7 @@ export type MenuLink = {
   href: string
   label: MenuLabel
   icon: LucideIcon
+  badge?: "open-tickets"
 }
 
 export type MenuGroup = {
@@ -150,6 +152,35 @@ export const menuItems: MenuEntry[] = [
           it: "Modifica",
         }),
         icon: Pencil,
+      },
+    ],
+  },
+  {
+    label: navLabel("tickets", {
+      de: "Tickets",
+      fr: "Tickets",
+      it: "Ticket",
+    }),
+    icon: LifeBuoy,
+    children: [
+      {
+        href: "/ticket/create",
+        label: navLabel("ticketsCreate", {
+          de: "Ticket erstellen",
+          fr: "Créer un ticket",
+          it: "Crea ticket",
+        }),
+        icon: FilePlus,
+      },
+      {
+        href: "/ticket",
+        label: navLabel("ticketsInbox", {
+          de: "Tickets",
+          fr: "Tickets",
+          it: "Ticket",
+        }),
+        icon: LifeBuoy,
+        badge: "open-tickets",
       },
     ],
   },
