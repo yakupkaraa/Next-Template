@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 export function RouteLoading() {
   return (
-    <DensityBoard>
+    <DensityBoard data-skeleton-layout="">
       <Skeleton className="h-10 w-48 rounded-lg" />
       <div className="grid gap-3 lg:grid-cols-12">
         <Skeleton className="h-36 rounded-xl lg:col-span-8" />

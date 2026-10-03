@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 export function DashboardRouteFallback() {
   return (
-    <DensityBoard>
+    <DensityBoard data-skeleton-layout="">
       <div data-skeleton-grid="" className="grid gap-4 lg:grid-cols-12">
         <Skeleton className="h-28 rounded-xl lg:col-span-8" />
         <Skeleton className="h-28 rounded-xl lg:col-span-4" />

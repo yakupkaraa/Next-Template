@@ -276,6 +276,36 @@
     gap: 0 !important;
   }
 
+  /* Skeleton: yoğunluk yerleşimini yemez, her zaman konforlu görünür */
+  html[data-density="compact"] [data-density-board][data-skeleton-layout] {
+    --density-pad-y: 1.5rem;
+    --density-gap: 1rem;
+    --sticky-bleed-x: calc(100% / 18 + 1.5rem);
+    gap: 1rem !important;
+    padding-top: 1.5rem !important;
+    padding-bottom: 1.5rem !important;
+  }
+
+  html[data-density="compact"] [data-density-board][data-skeleton-layout] .grid {
+    gap: revert-layer !important;
+  }
+
+  html[data-density="compact"]:has([data-skeleton-layout]) [data-app-main] {
+    padding: revert-layer !important;
+  }
+
+  html[data-density="compact"]:has([data-skeleton-layout]) [data-page-scroll] {
+    padding-top: revert-layer !important;
+    padding-bottom: revert-layer !important;
+  }
+
+  html[data-density="compact"] [data-page-content]:has([data-skeleton-layout]) {
+    width: revert-layer !important;
+    max-width: revert-layer !important;
+    margin-inline: revert-layer !important;
+    gap: revert-layer !important;
+  }
+
   [data-blog-board] {
     min-height: 0 !important;
     height: 100% !important;
@@ -511,9 +541,17 @@
     --tw-ring-shadow: 0 0 #0000 !important;
   }
 
-  html[data-density="compact"] [data-slot="skeleton"] {
-    border-radius: 0.5rem !important;
-    background-color: color-mix(in oklch, var(--foreground) 18%, var(--background)) !important;
+  html[data-density="compact"] [data-density-board][data-skeleton-layout] {
+    --density-pad-y: 1.5rem;
+    --density-gap: 1rem;
+    --sticky-bleed-x: calc(100% / 18 + 1.5rem);
+    gap: 1rem !important;
+    padding-top: 1.5rem !important;
+    padding-bottom: 1.5rem !important;
+  }
+
+  html[data-density="compact"] [data-density-board][data-skeleton-layout] .grid {
+    gap: revert-layer !important;
   }
 }
 

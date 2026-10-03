@@ -231,11 +231,12 @@ export function Header({
             <User />
             {text.profile}
           </DropdownMenuItem>
-          <form action={signOut.bind(null, locale)}>
+          <form action={signOut.bind(null, locale)} className="w-full">
             <DropdownMenuItem
               nativeButton
               variant="destructive"
-              render={<Button type="submit" variant="destructive" />}
+              className="w-full justify-start"
+              render={<Button type="submit" variant="destructive" className="w-full justify-start" />}
             >
               <LogOut />
               {text.signOut}
