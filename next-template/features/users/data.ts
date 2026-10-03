@@ -64,7 +64,7 @@ function pick<T>(list: readonly T[], index: number) {
   return list[index % list.length]
 }
 
-export const userList: UserRow[] = Array.from({ length: 200 }, (_, index) => {
+export const userList: UserRow[] = Array.from({ length: 50 }, (_, index) => {
   const n = index + 1
   const firstName = pick(firstNames, index)
   const lastName = pick(lastNames, index * 3)

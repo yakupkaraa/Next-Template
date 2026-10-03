@@ -40,6 +40,11 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  --color-brand-deep: var(--brand-deep);
+  --color-brand-deep-2: var(--brand-deep-2);
+  --color-brand-deep-accent: var(--brand-deep-accent);
+  --color-warning: var(--warning);
+  --color-success: var(--success);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -87,6 +92,11 @@
   --insights-card-deep-foreground: var(--primary-foreground);
   --insights-card-bright: color-mix(in oklch, var(--primary) 68%, oklch(1 0 0));
   --insights-card-bright-foreground: oklch(0.985 0 0);
+  --warning: #d4940a;
+  --success: #1f8a4c;
+  --brand-deep: #1e3a8a;
+  --brand-deep-2: #1e40af;
+  --brand-deep-accent: #93c5fd;
 }
 
 .dark {
@@ -125,6 +135,11 @@
   --insights-card-deep-foreground: var(--card-foreground);
   --insights-card-bright: var(--card);
   --insights-card-bright-foreground: var(--card-foreground);
+  --warning: #f0c56a;
+  --success: #86d9a8;
+  --brand-deep: #080f24;
+  --brand-deep-2: #0c1733;
+  --brand-deep-accent: #93c5fd;
 }
 
 @layer utilities {

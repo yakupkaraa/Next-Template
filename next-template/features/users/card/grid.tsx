@@ -1,7 +1,9 @@
 "use client"
 
-import { memo, useEffect, useMemo, useState } from "react"
+import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from "react"
 import { usePathname, useRouter } from "next/navigation"
+import { useVirtualizer } from "@tanstack/react-virtual"
+import { useThemeSettings } from "@/components/theme/theme-provider"
 import {
   Building2,
   Copy,
@@ -55,10 +57,32 @@ import {
 import { AddUserForm, addUserFormId } from "@/features/users/list/add-user-form"
 
 const CARD_FRAME_CLASS = "h-full min-h-[21rem]"
-const CARD_CELL_CLASS =
-  "col-span-6 sm:col-span-3 xl:col-span-2 [contain-intrinsic-size:auto_21rem] [content-visibility:auto]"
+const CARD_CELL_CLASS = "col-span-6 sm:col-span-3 xl:col-span-2"
 const GRID_CLASS = "grid grid-cols-12 items-stretch gap-4"
+const CARD_ROW_PX = 336
+const INITIAL_SCROLL_RECT = { width: 1280, height: 720 }
 const ALL = "all"
+
+function subscribeCardColumns(onStoreChange: () => void) {
+  const mqSm = window.matchMedia("(min-width: 640px)")
+  const mqXl = window.matchMedia("(min-width: 1280px)")
+  mqSm.addEventListener("change", onStoreChange)
+  mqXl.addEventListener("change", onStoreChange)
+  return () => {
+    mqSm.removeEventListener("change", onStoreChange)
+    mqXl.removeEventListener("change", onStoreChange)
+  }
+}
+
+function getCardColumns() {
+  if (window.matchMedia("(min-width: 1280px)").matches) return 6
+  if (window.matchMedia("(min-width: 640px)").matches) return 4
+  return 2
+}
+
+function useCardColumns() {
+  return useSyncExternalStore(subscribeCardColumns, getCardColumns, () => 6)
+}
 
 const cardSurfaces = [
   "bg-primary/12 ring-primary/20",
@@ -299,6 +323,86 @@ function UserCardSkeleton() {
   )
 }
 
+function UserCardsVirtualized({
+  users,
+  renderCard,
+}: {
+  users: UserRow[]
+  renderCard: (user: UserRow) => ReactNode
+}) {
+  const listRef = useRef<HTMLDivElement>(null)
+  const columns = useCardColumns()
+  const { density } = useThemeSettings()
+  const gap = density === "compact" ? 0 : 16
+  const [scrollMargin, setScrollMargin] = useState(0)
+  const rowCount = Math.ceil(users.length / columns)
+
+  const getScrollElement = useCallback(
+    () => listRef.current?.closest("[data-page-scroll]") ?? null,
+    []
+  )
+
+  useLayoutEffect(() => {
+    const list = listRef.current
+    const scroll = list?.closest("[data-page-scroll]")
+    if (!(list instanceof HTMLElement) || !(scroll instanceof HTMLElement)) return
+
+    const update = () => {
+      setScrollMargin(
+        list.getBoundingClientRect().top - scroll.getBoundingClientRect().top + scroll.scrollTop
+      )
+    }
+
+    update()
+    window.addEventListener("resize", update)
+    return () => window.removeEventListener("resize", update)
+  }, [columns, gap, users.length])
+
+  const rowVirtualizer = useVirtualizer({
+    count: rowCount,
+    getScrollElement,
+    estimateSize: () => CARD_ROW_PX,
+    overscan: 2,
+    gap,
+    scrollMargin,
+    initialRect: INITIAL_SCROLL_RECT,
+  })
+
+  return (
+    <div
+      ref={listRef}
+      className="relative w-full"
+      style={{ height: rowVirtualizer.getTotalSize() }}
+    >
+      {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+        const start = virtualRow.index * columns
+        const rowUsers = users.slice(start, start + columns)
+        return (
+          <div
+            key={virtualRow.key}
+            data-index={virtualRow.index}
+            className={GRID_CLASS}
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: CARD_ROW_PX,
+              transform: `translateY(${virtualRow.start - scrollMargin}px)`,
+            }}
+          >
+            {rowUsers.map((user) => (
+              <div key={user.id} className={CARD_CELL_CLASS}>
+                {renderCard(user)}
+              </div>
+            ))}
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
 export function UserCardGrid({ locale }: { locale: ContentLocale }) {
   const router = useRouter()
   const pathname = usePathname()
@@ -306,12 +410,12 @@ export function UserCardGrid({ locale }: { locale: ContentLocale }) {
   const list = dict.users.list
   const card = dict.users.card
   const prefix = pathname.match(/^\/[^/]+/)?.[0] ?? `/${locale}`
-  const [loading, setLoading] = useState(true)
   const [query, setQuery] = useState("")
   const [role, setRole] = useState(ALL)
   const [status, setStatus] = useState(ALL)
   const [department, setDepartment] = useState(ALL)
   const [createOpen, setCreateOpen] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [rows, setRows] = useState<UserRow[]>(userList)
   const [selected, setSelected] = useState<Set<string>>(new Set())
 
@@ -340,31 +444,40 @@ export function UserCardGrid({ locale }: { locale: ContentLocale }) {
     rows.reduce((max, row) => Math.max(max, Number.parseInt(row.id, 10) || 0), 0) + 1
   )
 
-  function handleCreated(row: UserRow) {
+  const handleCreated = useCallback((row: UserRow) => {
     setRows((current) => [row, ...current])
     setCreateOpen(false)
-  }
+  }, [])
 
-  function goEdit() {
+  const goEdit = useCallback(() => {
     router.push(`${prefix}/users/edit`)
-  }
+  }, [prefix, router])
 
-  function toggleSelected(id: string, checked: boolean) {
+  const toggleSelected = useCallback((id: string, checked: boolean) => {
     setSelected((current) => {
       const next = new Set(current)
       if (checked) next.add(id)
       else next.delete(id)
       return next
     })
-  }
+  }, [])
 
-  async function copyUser(user: UserRow) {
+  const copyUser = useCallback(async (user: UserRow) => {
     try {
       await navigator.clipboard.writeText(user.email)
     } catch {
       /* ignore */
     }
-  }
+  }, [])
+
+  const handleDelete = useCallback((row: UserRow) => {
+    setRows((current) => current.filter((item) => item.id !== row.id))
+    setSelected((current) => {
+      const next = new Set(current)
+      next.delete(row.id)
+      return next
+    })
+  }, [])
 
   return (
     <DensityBoard>
@@ -425,45 +538,33 @@ export function UserCardGrid({ locale }: { locale: ContentLocale }) {
       <div className="relative w-full">
         {filtered.length === 0 && !loading ? (
           <p className="py-10 text-center text-sm text-muted-foreground">{list.empty}</p>
-        ) : (
-          <div className={GRID_CLASS}>
-            {filtered.map((user) => (
-              <div key={user.id} className={CARD_CELL_CLASS}>
-                <UserCard
-                  user={user}
-                  selected={selected.has(user.id)}
-                  copyLabel={card.copy}
-                  editLabel={list.edit}
-                  deleteLabel={list.delete}
-                  menuLabel={list.actionsMenu}
-                  onToggle={toggleSelected}
-                  onEdit={goEdit}
-                  onDelete={(row) => {
-                    setRows((current) => current.filter((item) => item.id !== row.id))
-                    setSelected((current) => {
-                      const next = new Set(current)
-                      next.delete(row.id)
-                      return next
-                    })
-                  }}
-                  onCopy={copyUser}
-                />
-              </div>
-            ))}
-          </div>
-        )}
+        ) : null}
         {loading ? (
-          <div
-            data-skeleton-grid=""
-            className={cn("absolute inset-x-0 top-0 z-10 bg-background", GRID_CLASS)}
-            aria-hidden
-          >
+          <div data-skeleton-grid="" className={GRID_CLASS} aria-hidden>
             {Array.from({ length: 12 }, (_, index) => (
               <div key={index} className={CARD_CELL_CLASS}>
                 <UserCardSkeleton />
               </div>
             ))}
           </div>
+        ) : filtered.length > 0 ? (
+          <UserCardsVirtualized
+            users={filtered}
+            renderCard={(user) => (
+              <UserCard
+                user={user}
+                selected={selected.has(user.id)}
+                copyLabel={card.copy}
+                editLabel={list.edit}
+                deleteLabel={list.delete}
+                menuLabel={list.actionsMenu}
+                onToggle={toggleSelected}
+                onEdit={goEdit}
+                onDelete={handleDelete}
+                onCopy={copyUser}
+              />
+            )}
+          />
         ) : null}
       </div>
 

@@ -2,7 +2,7 @@
 
 import { FileSpreadsheet, LineChart, X } from "lucide-react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import { DensityBoard } from "@/components/layout/density-board"
 import { Button } from "@/components/ui/button"
 import {
@@ -49,17 +49,11 @@ export function TicketScreen({ locale }: { locale: ContentLocale }) {
   const isAdmin = user.role === "admin"
   const wide = useMediaQuery("(min-width: 1280px)")
   const [tickets, setTickets] = useState<Ticket[]>(seedTickets)
-  const [loading, setLoading] = useState(true)
   const [notice, setNotice] = useState("")
   const [checked, setChecked] = useState<Set<number>>(new Set())
   const [assignOpen, setAssignOpen] = useState(false)
   const [assignIds, setAssignIds] = useState<number[]>([])
   const [closeOpen, setCloseOpen] = useState(false)
-
-  useEffect(() => {
-    const timer = window.setTimeout(() => setLoading(false), 1000)
-    return () => window.clearTimeout(timer)
-  }, [])
 
   const queryString = searchParams.toString()
   const filters: TicketFilters = useMemo(() => {
@@ -315,7 +309,7 @@ export function TicketScreen({ locale }: { locale: ContentLocale }) {
             selectedId={selectedId}
             checkedIds={checked}
             isAdmin={isAdmin}
-            loading={loading}
+            loading={false}
             onOpen={(id) => patch({ id: String(id) })}
             onToggle={(id, value) => {
               setChecked((current) => {

@@ -1,4 +1,5 @@
 import { Suspense } from "react"
+import { RouteLoading } from "@/components/layout/route-loading"
 import { TicketScreen } from "@/features/ticket/screen"
 import { resolveContentLocale } from "@/lib/i18n"
 
@@ -11,7 +12,7 @@ export default async function Page({
   const locale = resolveContentLocale(routeLocale)
 
   return (
-    <Suspense>
+    <Suspense fallback={<RouteLoading />}>
       <TicketScreen locale={locale} />
     </Suspense>
   )

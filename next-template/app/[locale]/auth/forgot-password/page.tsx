@@ -1,5 +1,4 @@
 import { ForgotForm } from "@/features/auth/forgot-form"
-import { LoginShell } from "@/features/auth/login-shell"
 
 export default async function ForgotPage({
   params,
@@ -9,8 +8,10 @@ export default async function ForgotPage({
   const { locale } = await params
 
   return (
-    <LoginShell>
-      <ForgotForm locale={locale} />
-    </LoginShell>
+    <main className="flex min-h-dvh items-center justify-center bg-background px-6 py-12">
+      <div className="w-full max-w-sm">
+        <ForgotForm locale={locale} />
+      </div>
+    </main>
   )
 }

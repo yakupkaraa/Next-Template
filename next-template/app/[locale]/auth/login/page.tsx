@@ -1,5 +1,4 @@
-import { LoginForm } from "@/features/auth/login-form"
-import { LoginShell } from "@/features/auth/login-shell"
+import { LoginScreen } from "@/features/login/components/login-screen"
 
 export default async function LoginPage({
   params,
@@ -8,9 +7,5 @@ export default async function LoginPage({
 }) {
   const { locale } = await params
 
-  return (
-    <LoginShell>
-      <LoginForm locale={locale} />
-    </LoginShell>
-  )
+  return <LoginScreen routeLocale={locale} />
 }

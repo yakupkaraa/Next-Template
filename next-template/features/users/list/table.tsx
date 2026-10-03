@@ -24,9 +24,9 @@ import { getUserListColumns } from "@/features/users/list/columns"
 export function UserListTable({ locale }: { locale: ContentLocale }) {
   const router = useRouter()
   const pathname = usePathname()
-  const [loading, setLoading] = useState(true)
   const [query, setQuery] = useState("")
   const [createOpen, setCreateOpen] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [rows, setRows] = useState<UserRow[]>(userList)
   const list = getDictionary(locale).users.list
   const columns = useMemo(

@@ -48,6 +48,7 @@ function MenuLinkItem({
   return (
     <Link
       href={href}
+      prefetch
       title={open ? undefined : label}
       aria-current={active ? "page" : undefined}
       className={cn(
