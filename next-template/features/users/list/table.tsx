@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { usePathname, useRouter } from "next/navigation"
 import { FileSpreadsheet, Hourglass, Shield, UserCheck, UserMinus, UserPlus, Users, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -18,6 +18,7 @@ import {
 import { SearchBar } from "@/components/ui/search-bar"
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
 import { userColumnKeys, userList, type UserRow } from "@/features/users/data"
+import { deleteUser } from "@/features/users/actions"
 import { AddUserForm, addUserFormId } from "@/features/users/list/add-user-form"
 import { getUserListColumns } from "@/features/users/list/columns"
 
@@ -29,6 +30,14 @@ export function UserListTable({ locale }: { locale: ContentLocale }) {
   const [loading, setLoading] = useState(true)
   const [rows, setRows] = useState<UserRow[]>(userList)
   const list = getDictionary(locale).users.list
+  const handleDelete = useCallback(
+    async (row: UserRow) => {
+      const ok = await deleteUser(row, locale)
+      if (!ok) return
+      setRows((current) => current.filter((item) => item.id !== row.id))
+    },
+    [locale]
+  )
   const columns = useMemo(
     () =>
       getUserListColumns(locale, {
@@ -36,11 +45,9 @@ export function UserListTable({ locale }: { locale: ContentLocale }) {
           const prefix = pathname.match(/^\/[^/]+/)?.[0] ?? `/${locale}`
           router.push(`${prefix}/users/edit`)
         },
-        onDelete: (row) => {
-          setRows((current) => current.filter((item) => item.id !== row.id))
-        },
+        onDelete: handleDelete,
       }),
-    [locale, pathname, router]
+    [handleDelete, locale, pathname, router]
   )
 
   useEffect(() => {

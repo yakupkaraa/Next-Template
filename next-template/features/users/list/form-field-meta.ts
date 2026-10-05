@@ -39,6 +39,7 @@ export function userFormFieldKind(
     case "orders":
       return { type: "number" }
     case "joined":
+    case "lastSeen":
       return { type: "date" }
     case "note":
       return { type: "textarea" }

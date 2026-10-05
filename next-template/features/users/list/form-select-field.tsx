@@ -14,19 +14,21 @@ export function FormSelectField({
   placeholder,
   options,
   onValueChange,
+  size = "sm",
 }: {
   id: string
   value: string
   placeholder: string
   options: readonly string[]
   onValueChange: (value: string) => void
+  size?: "sm" | "default"
 }) {
   return (
     <Select
       value={value === "" ? null : value}
       onValueChange={(next) => onValueChange(next ?? "")}
     >
-      <SelectTrigger id={id} size="sm" className="w-full min-w-0">
+      <SelectTrigger id={id} size={size} className="w-full min-w-0">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent align="start" sideOffset={4}>

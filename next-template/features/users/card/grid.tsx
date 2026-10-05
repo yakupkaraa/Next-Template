@@ -54,6 +54,7 @@ import {
   userStatusOptions,
   type UserRow,
 } from "@/features/users/data"
+import { deleteUser } from "@/features/users/actions"
 import { AddUserForm, addUserFormId } from "@/features/users/list/add-user-form"
 
 const CARD_FRAME_CLASS = "h-full min-h-[21rem]"
@@ -470,14 +471,19 @@ export function UserCardGrid({ locale }: { locale: ContentLocale }) {
     }
   }, [])
 
-  const handleDelete = useCallback((row: UserRow) => {
-    setRows((current) => current.filter((item) => item.id !== row.id))
-    setSelected((current) => {
-      const next = new Set(current)
-      next.delete(row.id)
-      return next
-    })
-  }, [])
+  const handleDelete = useCallback(
+    async (row: UserRow) => {
+      const ok = await deleteUser(row, locale)
+      if (!ok) return
+      setRows((current) => current.filter((item) => item.id !== row.id))
+      setSelected((current) => {
+        const next = new Set(current)
+        next.delete(row.id)
+        return next
+      })
+    },
+    [locale]
+  )
 
   return (
     <DensityBoard>

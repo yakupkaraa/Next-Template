@@ -1,4 +1,4 @@
-import { ArrowRight, CreditCard } from "lucide-react"
+import { ArrowRight, CreditCard, HardDrive, Package, Wallet } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { StatusBadge, type StatusBadgeTone } from "@/components/ui/status-badge"
@@ -11,6 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
+import { cn } from "cn"
 import { userBillingFigures } from "./data"
 
 const billingStatusTone: Record<"pending" | "paid" | "cancelled", StatusBadgeTone> = {
@@ -19,26 +20,55 @@ const billingStatusTone: Record<"pending" | "paid" | "cancelled", StatusBadgeTon
   cancelled: "neutral",
 }
 
+const summaryIcons = [Wallet, HardDrive, Package] as const
+
+const summaryToneClass = [
+  "bg-[color-mix(in_oklch,var(--chart-1)_16%,var(--card))] text-primary",
+  "bg-[color-mix(in_oklch,var(--chart-2)_18%,var(--card))] text-primary",
+  "bg-[color-mix(in_oklch,var(--chart-3)_18%,var(--card))] text-primary",
+] as const
+
 export function BillingPanel({ locale }: { locale: ContentLocale }) {
   const billing = getDictionary(locale).users.create.billing
 
   return (
     <div className="flex flex-col gap-4">
+      <div className="flex items-start gap-3">
+        <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+          <Wallet className="size-5" />
+        </span>
+        <div>
+          <p className="text-[11px] font-semibold tracking-[0.08em] text-primary uppercase">
+            {billing.kicker}
+          </p>
+          <h3 className="text-lg font-semibold tracking-tight">{billing.pageTitle}</h3>
+          <p className="text-sm text-muted-foreground">{billing.pageHint}</p>
+        </div>
+      </div>
       <div className="grid gap-3 md:grid-cols-3">
-        {billing.summaries.map((item, index) => (
-          <Card key={item.label}>
-            <CardHeader>
-              <CardTitle>{item.label}</CardTitle>
-            </CardHeader>
-            <CardContent className="flex flex-col gap-4">
-              <p className="text-2xl font-semibold">{userBillingFigures.summaries[index]}</p>
-              <Button type="button" variant="link" className="h-auto w-fit px-0">
-                {item.action}
-                <ArrowRight />
-              </Button>
-            </CardContent>
-          </Card>
-        ))}
+        {billing.summaries.map((item, index) => {
+          const Icon = summaryIcons[index]
+          return (
+            <Card
+              key={item.label}
+              className={cn("border-0 shadow-sm ring-0", summaryToneClass[index])}
+            >
+              <CardContent className="flex flex-col gap-3 py-5">
+                <span className="flex size-11 items-center justify-center rounded-full bg-background/70 text-primary">
+                  <Icon className="size-5" />
+                </span>
+                <p className="text-xs font-medium text-muted-foreground">{item.label}</p>
+                <p className="text-2xl font-bold tracking-tight">
+                  {userBillingFigures.summaries[index]}
+                </p>
+                <Button type="button" variant="link" className="h-auto w-fit px-0">
+                  {item.action}
+                  <ArrowRight />
+                </Button>
+              </CardContent>
+            </Card>
+          )
+        })}
       </div>
 
       <Card className="gap-0 py-0">

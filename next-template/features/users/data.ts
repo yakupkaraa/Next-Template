@@ -34,6 +34,13 @@ export const userFormFieldKeys = userColumnKeys.filter(
   (key): key is UserColumnKey => key !== "id" && key !== "lastSeen"
 )
 
+export function emptyUserFormValues(): Record<UserColumnKey, string> {
+  return Object.fromEntries(userFormFieldKeys.map((key) => [key, ""])) as Record<
+    UserColumnKey,
+    string
+  >
+}
+
 const firstNames = ["Ayşe", "Mehmet", "Elif", "Can", "Zeynep", "Emre", "Deniz", "Selin"]
 const lastNames = ["Yılmaz", "Kaya", "Demir", "Şahin", "Çelik", "Aydın", "Koç", "Arslan"]
 export const userRoleOptions = ["Yönetici", "Editör", "Üye", "Analist"] as const

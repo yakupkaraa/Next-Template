@@ -52,22 +52,16 @@ function MenuLinkItem({
       title={open ? undefined : label}
       aria-current={active ? "page" : undefined}
       className={cn(
-        "group flex h-11 shrink-0 items-center gap-3 overflow-hidden rounded-xl px-3 text-sm transition-all duration-200",
+        "group flex h-11 shrink-0 items-center gap-3 overflow-hidden rounded-lg px-3 text-sm transition-colors",
         horizontal ? "w-auto" : "w-full",
-        nested && open && !horizontal && "h-8 rounded-lg px-2 py-1.5 text-[13px]",
+        nested && open && !horizontal && "h-8 px-2 py-1.5 text-[13px]",
         active
-          ? nested
-            ? "font-semibold text-primary"
-            : "bg-primary font-semibold text-primary-foreground shadow-sm"
+          ? "bg-[color-mix(in_oklch,var(--primary)_28%,var(--sidebar))] font-medium text-sidebar-foreground"
           : "text-sidebar-foreground/85 hover:bg-card/60 hover:text-sidebar-foreground"
       )}
     >
-      {nested && open && !horizontal ? null : active && !nested ? (
-        <span className="flex size-7 shrink-0 items-center justify-center rounded-lg bg-primary-foreground/20">
-          <Icon className="size-4" />
-        </span>
-      ) : (
-        <Icon className={cn("size-4 shrink-0", !active && "opacity-90")} />
+      {nested && open && !horizontal ? null : (
+        <Icon className="size-4 shrink-0 opacity-90" />
       )}
       <span className={open ? "min-w-0 flex-1 truncate" : "sr-only"}>{label}</span>
       {item.badge === "open-tickets" && getCurrentUser().role === "admin" && open ? (

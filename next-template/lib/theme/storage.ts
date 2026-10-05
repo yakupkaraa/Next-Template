@@ -5,6 +5,14 @@ import {
   isThemeAppearance,
   type ThemeAppearance,
 } from "./accents"
+import {
+  DEFAULT_FONT_FAMILY,
+  DEFAULT_FONT_SIZE,
+  isFontFamily,
+  isFontSize,
+  type FontFamily,
+  type FontSize,
+} from "./fonts"
 
 export const THEME_STORAGE_KEY = "next-template-theme"
 
@@ -17,6 +25,8 @@ export type StoredTheme = {
   density: DensityMode
   layout: ShellLayout
   footer: boolean
+  fontFamily: FontFamily
+  fontSize: FontSize
 }
 
 export const DEFAULT_DENSITY: DensityMode = "comfortable"
@@ -28,6 +38,8 @@ export const defaultStoredTheme: StoredTheme = {
   density: DEFAULT_DENSITY,
   layout: DEFAULT_LAYOUT,
   footer: DEFAULT_FOOTER,
+  fontFamily: DEFAULT_FONT_FAMILY,
+  fontSize: DEFAULT_FONT_SIZE,
 }
 
 function parseDensity(parsed: Record<string, unknown>): DensityMode {
@@ -42,11 +54,25 @@ function parseFooter(parsed: Record<string, unknown>): boolean {
   return parsed.footer === false ? false : DEFAULT_FOOTER
 }
 
+function parseFontFamily(parsed: Record<string, unknown>): FontFamily {
+  return typeof parsed.fontFamily === "string" && isFontFamily(parsed.fontFamily)
+    ? parsed.fontFamily
+    : DEFAULT_FONT_FAMILY
+}
+
+function parseFontSize(parsed: Record<string, unknown>): FontSize {
+  return typeof parsed.fontSize === "string" && isFontSize(parsed.fontSize)
+    ? parsed.fontSize
+    : DEFAULT_FONT_SIZE
+}
+
 function migrateStoredTheme(parsed: Record<string, unknown>): StoredTheme {
   const density = parseDensity(parsed)
   const layout = parseLayout(parsed)
   const footer = parseFooter(parsed)
-  const extras = { density, layout, footer }
+  const fontFamily = parseFontFamily(parsed)
+  const fontSize = parseFontSize(parsed)
+  const extras = { density, layout, footer, fontFamily, fontSize }
 
   if (parsed.appearance === "navy" || parsed.accent === "navy") {
     return { appearance: DEFAULT_THEME_APPEARANCE, ...extras }
@@ -92,4 +118,6 @@ export function applyThemeToDocument(theme: StoredTheme) {
   root.dataset.density = theme.density
   root.dataset.layout = theme.layout
   root.dataset.footer = theme.footer ? "on" : "off"
+  root.dataset.font = theme.fontFamily
+  root.dataset.fontSize = theme.fontSize
 }

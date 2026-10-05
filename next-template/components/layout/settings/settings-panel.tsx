@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, type ReactNode } from "react"
+import { type ReactNode } from "react"
 import { LayoutGrid, Rows3 } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
@@ -9,6 +9,7 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { cn } from "cn"
 import { useThemeSettings } from "@/components/theme/theme-provider"
 import type { ThemeAppearance } from "@/lib/theme/accents"
+import type { FontFamily, FontSize } from "@/lib/theme/fonts"
 import type { ShellLayout } from "@/lib/theme/storage"
 import type { MenuLocale } from "../sidebar/menu-items"
 import {
@@ -56,10 +57,8 @@ function LayoutFrame({ kind }: { kind: SettingsLayout }) {
 
 export function SettingsPanel({ locale }: { locale: MenuLocale }) {
   const text = settingsText(locale)
-  const { appearance, density, layout, footer, setAppearance, setDensity, setLayout, setFooter } =
+  const { appearance, density, layout, footer, fontFamily, fontSize, setAppearance, setDensity, setLayout, setFooter, setFontFamily, setFontSize } =
     useThemeSettings()
-  const [font, setFont] = useState("nunito")
-  const [size, setSize] = useState("16")
 
   return (
     <div className="flex flex-col gap-4 px-4 pb-4">
@@ -125,8 +124,10 @@ export function SettingsPanel({ locale }: { locale: MenuLocale }) {
       <Section title="Font">
         <p className="text-xs text-muted-foreground">{text.family}</p>
         <ToggleGroup
-          value={[font]}
-          onValueChange={(value) => setFont(pickOne(value, font))}
+          value={[fontFamily]}
+          onValueChange={(value) =>
+            setFontFamily(pickOne(value, fontFamily) as FontFamily)
+          }
           className="grid w-full grid-cols-2"
         >
           {settingsFonts.map((item) => (
@@ -143,8 +144,10 @@ export function SettingsPanel({ locale }: { locale: MenuLocale }) {
         <div className="flex items-center justify-between">
           <p className="text-xs text-muted-foreground">{text.size}</p>
           <ToggleGroup
-            value={[size]}
-            onValueChange={(value) => setSize(pickOne(value, size))}
+            value={[fontSize]}
+            onValueChange={(value) =>
+              setFontSize(pickOne(value, fontSize) as FontSize)
+            }
             spacing={1}
           >
             {settingsSizes.map((item) => (

@@ -101,6 +101,7 @@ export type Messages = {
       delete: string
       actions: string
       actionsMenu: string
+      toast: { deleting: string; deleted: string; deleteFailed: string }
       columns: Record<UserListColumnKey, string>
     }
     card: {
@@ -115,30 +116,83 @@ export type Messages = {
     create: {
       account: string
       tabs: { profile: string; billing: string; security: string; notifications: string }
-      picture: { title: string; hint: string; action: string; initials: string }
+      picture: { title: string; hint: string; action: string; remove: string; initials: string }
       form: {
         title: string
         name: string
         nameHint: string
+        kicker: string
+        pageTitle: string
+        pageHint: string
         email: string
         company: string
         country: string
         phone: string
         birthday: string
         submit: string
+        verified: string
+        emailHint: string
+        phoneHint: string
+        noteHint: string
+        visibilityTitle: string
+        visibilityHint: string
+        unsaved: string
+        reset: string
+        save: string
       }
       notifications: {
-        title: string
-        hint: string
-        items: { id: string; title: string; detail: string; enabled: boolean }[]
+        kicker: string
+        pageTitle: string
+        muteTitle: string
+        muteHint: string
+        muteDurations: Record<"1h" | "2h" | "4h" | "8h", string>
+        matrixTitle: string
+        enableAll: string
+        disableAll: string
+        colType: string
+        colEmail: string
+        colInApp: string
+        colPush: string
+        rows: { id: string; title: string }[]
+        requiredBadge: string
+        digestTitle: string
+        digestInstantTitle: string
+        digestInstantHint: string
+        digestDailyTitle: string
+        digestDailyHint: string
+        digestWeeklyTitle: string
+        digestWeeklyHint: string
+        quietTitle: string
+        quietHint: string
+        reset: string
+        save: string
       }
       security: {
+        kicker: string
+        pageTitle: string
         passwordTitle: string
         current: string
         next: string
         confirm: string
+        required: string
+        strength: string
+        strengthWeak: string
+        strengthFair: string
+        strengthStrong: string
+        reqTitle: string
+        reqMin: string
+        reqUpper: string
+        reqNumber: string
+        reqSpecial: string
+        lastChanged: string
+        cancel: string
         save: string
-        accountTitle: string
+        showPassword: string
+        hidePassword: string
+        twoFactorTitle: string
+        twoFactorHint: string
+        twoFactorOn: string
+        backupCodes: string
         pauseTitle: string
         pauseHint: string
         pause: string
@@ -147,6 +201,9 @@ export type Messages = {
         delete: string
       }
       billing: {
+        kicker: string
+        pageTitle: string
+        pageHint: string
         summaries: { label: string; action: string }[]
         methodsTitle: string
         addMethod: string

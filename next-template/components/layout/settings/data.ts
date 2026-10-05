@@ -1,10 +1,11 @@
-import { Inter, Outfit, Source_Sans_3 } from "next/font/google"
 import { getDictionary, resolveContentLocale, type ContentLocale } from "@/lib/i18n"
 import type { Locale } from "@/lib/locales"
-
-const inter = Inter({ subsets: ["latin"], weight: "600" })
-const outfit = Outfit({ subsets: ["latin"], weight: "600" })
-const sourceSans = Source_Sans_3({ subsets: ["latin"], weight: "600" })
+import {
+  fontFamilies,
+  fontFamilyLabels,
+  fontFamilyVars,
+  fontSizes,
+} from "@/lib/theme/fonts"
 
 export const settingsLayouts = ["side", "top", "right"] as const
 
@@ -17,14 +18,13 @@ export const settingsColors = [
   { id: "dark", className: "bg-zinc-900 ring-1 ring-zinc-600" },
 ] as const
 
-export const settingsFonts = [
-  { id: "nunito", label: "Nunito", className: "" },
-  { id: "inter", label: "Inter", className: inter.className },
-  { id: "outfit", label: "Outfit", className: outfit.className },
-  { id: "source", label: "Source Sans", className: sourceSans.className },
-]
+export const settingsFonts = fontFamilies.map((id) => ({
+  id,
+  label: fontFamilyLabels[id],
+  className: `[font-family:var(${fontFamilyVars[id]})]`,
+}))
 
-export const settingsSizes = ["14", "16", "18"]
+export const settingsSizes = fontSizes
 
 export function settingsText(routeLocale: Locale) {
   const locale: ContentLocale = resolveContentLocale(routeLocale)
