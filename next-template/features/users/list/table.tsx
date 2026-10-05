@@ -29,26 +29,29 @@ export function UserListTable({ locale }: { locale: ContentLocale }) {
   const [createOpen, setCreateOpen] = useState(false)
   const [loading, setLoading] = useState(true)
   const [rows, setRows] = useState<UserRow[]>(userList)
+  const [selected, setSelected] = useState<Set<string>>(new Set())
   const list = getDictionary(locale).users.list
   const handleDelete = useCallback(
     async (row: UserRow) => {
       const ok = await deleteUser(row, locale)
       if (!ok) return
       setRows((current) => current.filter((item) => item.id !== row.id))
+      setSelected((current) => {
+        const next = new Set(current)
+        next.delete(row.id)
+        return next
+      })
     },
     [locale]
   )
-  const columns = useMemo(
-    () =>
-      getUserListColumns(locale, {
-        onEdit: () => {
-          const prefix = pathname.match(/^\/[^/]+/)?.[0] ?? `/${locale}`
-          router.push(`${prefix}/users/edit`)
-        },
-        onDelete: handleDelete,
-      }),
-    [handleDelete, locale, pathname, router]
-  )
+  const handleToggle = useCallback((id: string, checked: boolean) => {
+    setSelected((current) => {
+      const next = new Set(current)
+      if (checked) next.add(id)
+      else next.delete(id)
+      return next
+    })
+  }, [])
 
   useEffect(() => {
     const timer = window.setTimeout(() => setLoading(false), 1000)
@@ -74,6 +77,50 @@ export function UserListTable({ locale }: { locale: ContentLocale }) {
       )
     )
   }, [locale, query, rows])
+
+  const allVisibleSelected =
+    filtered.length > 0 && filtered.every((row) => selected.has(row.id))
+  const someVisibleSelected =
+    !allVisibleSelected && filtered.some((row) => selected.has(row.id))
+
+  const handleToggleAll = useCallback(
+    (checked: boolean) => {
+      setSelected((current) => {
+        const next = new Set(current)
+        if (checked) filtered.forEach((row) => next.add(row.id))
+        else filtered.forEach((row) => next.delete(row.id))
+        return next
+      })
+    },
+    [filtered]
+  )
+
+  const columns = useMemo(
+    () =>
+      getUserListColumns(locale, {
+        onEdit: () => {
+          const prefix = pathname.match(/^\/[^/]+/)?.[0] ?? `/${locale}`
+          router.push(`${prefix}/users/edit`)
+        },
+        onDelete: handleDelete,
+        selected,
+        onToggle: handleToggle,
+        onToggleAll: handleToggleAll,
+        allSelected: allVisibleSelected,
+        someSelected: someVisibleSelected,
+      }),
+    [
+      allVisibleSelected,
+      handleDelete,
+      handleToggle,
+      handleToggleAll,
+      locale,
+      pathname,
+      router,
+      selected,
+      someVisibleSelected,
+    ]
+  )
 
   const nextId = String(
     rows.reduce((max, row) => Math.max(max, Number.parseInt(row.id, 10) || 0), 0) + 1
@@ -188,8 +235,12 @@ export function UserListTable({ locale }: { locale: ContentLocale }) {
           empty={list.empty}
           loading={loading}
           containerClassName="h-full min-h-0 flex-1 overflow-auto rounded-xl bg-card ring-1 ring-foreground/10"
-          className="w-max min-w-full"
+          className="w-max min-w-full table-auto"
           pinEnd={["actions"]}
+          pinStart={["select"]}
+          columnMenu={list.columnMenu}
+          clearFiltersLabel={list.clearFilters}
+          isRowSelected={(row) => selected.has(row.id)}
         />
         </div>
 

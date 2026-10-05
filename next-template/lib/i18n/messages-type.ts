@@ -102,6 +102,19 @@ export type Messages = {
       actions: string
       actionsMenu: string
       toast: { deleting: string; deleted: string; deleteFailed: string }
+      name: string
+      selectAll: string
+      selectRow: string
+      clearFilters: string
+      columnMenu: {
+        sortAsc: string
+        sortDesc: string
+        clearSort: string
+        search: string
+        selectAll: string
+        clearFilter: string
+        empty: string
+      }
       columns: Record<UserListColumnKey, string>
     }
     card: {

@@ -1,8 +1,10 @@
 "use client"
 
 import { useRef, type CSSProperties } from "react"
+import { FilterX } from "lucide-react"
 import { useVirtualizer } from "@tanstack/react-virtual"
 import { useTable, type ColumnDef, type RowData } from "@tanstack/react-table"
+import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import {
   Table,
@@ -13,7 +15,12 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { cn } from "cn"
-import { dataTableFeatures, type DataTableFeatures } from "@/components/ui/data-table-features"
+import { DataTableColumnHeader } from "@/components/ui/data-table-column-header"
+import {
+  dataTableFeatures,
+  type DataTableColumnMenuCopy,
+  type DataTableFeatures,
+} from "@/components/ui/data-table-features"
 
 const ROW_ESTIMATE_HEIGHT = 41
 const VIRTUALIZE_MIN_ROWS = 16
@@ -37,12 +44,12 @@ function pinningStyle(column: {
 
 function pinningClass(pinned: false | "start" | "end") {
   if (pinned === "end") {
-    return "sticky right-0 z-20 bg-card shadow-[-8px_0_12px_-8px_hsl(0_0%_0%/0.18)]"
+    return "sticky right-0 z-20 bg-card group-hover:bg-primary/10 group-data-[state=selected]:bg-primary/10 shadow-[-8px_0_12px_-8px_hsl(0_0%_0%/0.18)]"
   }
   if (pinned === "start") {
-    return "sticky left-0 z-20 bg-card shadow-[8px_0_12px_-8px_hsl(0_0%_0%/0.18)]"
+    return "sticky left-0 z-20 bg-card group-hover:bg-primary/10 group-data-[state=selected]:bg-primary/10 shadow-[8px_0_12px_-8px_hsl(0_0%_0%/0.18)]"
   }
-  return "bg-card"
+  return "bg-transparent group-hover:bg-primary/10 group-data-[state=selected]:bg-primary/10"
 }
 
 export function DataTable<TData extends RowData>({
@@ -55,6 +62,9 @@ export function DataTable<TData extends RowData>({
   virtualize = true,
   pinEnd,
   pinStart,
+  columnMenu,
+  clearFiltersLabel,
+  isRowSelected,
 }: {
   columns: ColumnDef<DataTableFeatures, TData>[]
   data: TData[]
@@ -67,12 +77,17 @@ export function DataTable<TData extends RowData>({
   pinEnd?: string[]
   /** Sola sabitlenen kolon id'leri (LTR). */
   pinStart?: string[]
+  columnMenu?: DataTableColumnMenuCopy
+  clearFiltersLabel?: string
+  isRowSelected?: (row: TData) => boolean
 }) {
   const scrollRef = useRef<HTMLDivElement>(null)
   const table = useTable({
     features: dataTableFeatures,
     data,
     columns,
+    enableSortingRemoval: true,
+    enableMultiSort: false,
     initialState: {
       columnPinning: {
         start: pinStart ?? [],
@@ -102,7 +117,11 @@ export function DataTable<TData extends RowData>({
 
   function renderRow(row: (typeof rows)[number]) {
     return (
-      <TableRow key={row.id}>
+      <TableRow
+        key={row.id}
+        className="group"
+        data-state={isRowSelected?.(row.original) ? "selected" : undefined}
+      >
         {row.getVisibleCells().map((cell) => {
           const pinned = cell.column.getIsPinned()
           return (
@@ -123,7 +142,29 @@ export function DataTable<TData extends RowData>({
     )
   }
 
+  const hasColumnFilters = table.getAllColumns().some((column) => column.getIsFiltered())
+  const hasSorting = table.getAllColumns().some((column) => column.getIsSorted())
+
   return (
+    <div className="flex h-full min-h-0 flex-col gap-2">
+      {clearFiltersLabel ? (
+        <div className="flex shrink-0 justify-end">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="bg-card"
+            disabled={!hasColumnFilters && !hasSorting}
+            onClick={() => {
+              table.resetColumnFilters(true)
+              table.resetSorting(true)
+            }}
+          >
+            <FilterX />
+            {clearFiltersLabel}
+          </Button>
+        </div>
+      ) : null}
     <Table
       containerRef={scrollRef}
       containerClassName={containerClassName}
@@ -138,14 +179,24 @@ export function DataTable<TData extends RowData>({
                 <TableHead
                   key={header.id}
                   className={cn(
-                    "whitespace-nowrap",
+                    "w-max min-w-max whitespace-nowrap",
                     pinningClass(pinned),
                     pinned && "z-30",
                     header.column.id === "actions" && "text-center"
                   )}
                   style={pinningStyle(header.column)}
                 >
-                  {header.isPlaceholder ? null : <table.FlexRender header={header} />}
+                  {header.isPlaceholder ? null : columnMenu &&
+                    (header.column.getCanSort() || header.column.getCanFilter()) &&
+                    typeof header.column.columnDef.header === "string" ? (
+                    <DataTableColumnHeader
+                      column={header.column}
+                      title={header.column.columnDef.header}
+                      copy={columnMenu}
+                    />
+                  ) : (
+                    <table.FlexRender header={header} />
+                  )}
                 </TableHead>
               )
             })}
@@ -198,5 +249,6 @@ export function DataTable<TData extends RowData>({
           : null}
       </TableBody>
     </Table>
+    </div>
   )
 }
