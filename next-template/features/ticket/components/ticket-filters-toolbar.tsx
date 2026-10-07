@@ -3,7 +3,7 @@
 import { useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { SearchBar } from "@/components/ui/search-bar"
+import { SearchBar } from "@/components/shared/search-bar"
 import {
   Select,
   SelectContent,

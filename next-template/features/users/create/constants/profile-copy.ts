@@ -2,7 +2,6 @@ import type { ContentLocale } from "@/lib/i18n"
 
 export const profileFormCopy = {
   tr: {
-    tocTitle: "İçindekiler",
     accountSummary: "Hesap özeti",
     sections: {
       personal: {
@@ -19,7 +18,7 @@ export const profileFormCopy = {
       },
       prefs: {
         title: "Tercihler",
-        hint: "Dil, saat dilimi ve görünürlük.",
+        hint: "Dil ve saat dilimi.",
       },
       account: {
         title: "Hesap özeti",
@@ -46,7 +45,6 @@ export const profileFormCopy = {
     roleChip: "Rol",
   },
   en: {
-    tocTitle: "On this page",
     accountSummary: "Account summary",
     sections: {
       personal: {
@@ -63,7 +61,7 @@ export const profileFormCopy = {
       },
       prefs: {
         title: "Preferences",
-        hint: "Language, time zone and visibility.",
+        hint: "Language and time zone.",
       },
       account: {
         title: "Account summary",

@@ -18,7 +18,7 @@ import {
   settingsSizes,
   settingsText,
   type SettingsLayout,
-} from "../data"
+} from "../constants/data"
 
 function pickOne(next: string[], current: string) {
   return next.at(-1) ?? current

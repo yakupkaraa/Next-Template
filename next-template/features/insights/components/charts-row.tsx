@@ -23,7 +23,7 @@ import {
   insightSegmentTotal,
   insightSegments,
 } from "../data"
-import type { InsightsSectionProps } from "./utils"
+import type { InsightsSectionProps } from "../utils/section-props"
 
 export function InsightsChartsRow({ locale }: InsightsSectionProps) {
   const text = insightCopy[locale]

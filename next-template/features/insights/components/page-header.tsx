@@ -1,7 +1,7 @@
 import { Calendar, Download, SlidersHorizontal } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { insightCopy } from "../data"
-import type { InsightsSectionProps } from "./utils"
+import type { InsightsSectionProps } from "../utils/section-props"
 
 export function InsightsPageHeader({ locale }: InsightsSectionProps) {
   const text = insightCopy[locale]

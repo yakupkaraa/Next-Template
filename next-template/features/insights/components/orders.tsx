@@ -1,5 +1,5 @@
 import { Box, CreditCard } from "lucide-react"
-import { StatusBadge } from "@/components/ui/status-badge"
+import { StatusBadge, type StatusBadgeTone } from "@/components/shared/status-badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   Table,
@@ -9,8 +9,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { insightCopy, insightRecentOrders, insightStatusLabels } from "../data"
-import { statusTone, type InsightsSectionProps } from "./utils"
+import { insightCopy, insightRecentOrders, insightStatusLabels, type OrderStatus } from "../data"
+import type { InsightsSectionProps } from "../utils/section-props"
+
+const statusTone: Record<OrderStatus, StatusBadgeTone> = {
+  pending: "warning",
+  shipped: "neutral",
+  delivered: "success",
+}
 
 export function InsightsOrders({ locale }: InsightsSectionProps) {
   const text = insightCopy[locale]

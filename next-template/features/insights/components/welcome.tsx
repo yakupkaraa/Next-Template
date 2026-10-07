@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { insightCopy, insightWelcome } from "../data"
-import type { InsightsSectionProps } from "./utils"
+import type { InsightsSectionProps } from "../utils/section-props"
 
 export function InsightsWelcome({ locale }: InsightsSectionProps) {
   const text = insightCopy[locale]

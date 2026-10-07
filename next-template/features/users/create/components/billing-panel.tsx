@@ -1,7 +1,10 @@
+"use client"
+
+import { useState } from "react"
 import { ArrowRight, CreditCard, HardDrive, Package, Wallet } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { StatusBadge, type StatusBadgeTone } from "@/components/ui/status-badge"
+import { StatusBadge, type StatusBadgeTone } from "@/components/shared/status-badge"
 import {
   Table,
   TableBody,
@@ -13,6 +16,7 @@ import {
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
 import { cn } from "cn"
 import { userBillingFigures } from "../data"
+import { AddCardSheet, type SavedCard } from "./add-card-sheet"
 
 const billingStatusTone: Record<"pending" | "paid" | "cancelled", StatusBadgeTone> = {
   pending: "warning",
@@ -30,6 +34,17 @@ const summaryToneClass = [
 
 export function BillingPanel({ locale }: { locale: ContentLocale }) {
   const billing = getDictionary(locale).users.create.billing
+  const [open, setOpen] = useState(false)
+  const [methods, setMethods] = useState(userBillingFigures.methods)
+
+  function handleSaved(card: SavedCard) {
+    setMethods((current) => {
+      const next = card.isDefault
+        ? current.map((item) => ({ ...item, isDefault: false }))
+        : current
+      return [card, ...next]
+    })
+  }
 
   return (
     <div className="flex flex-col gap-4">
@@ -75,13 +90,13 @@ export function BillingPanel({ locale }: { locale: ContentLocale }) {
         <CardHeader className="items-center border-b py-3">
           <CardTitle>{billing.methodsTitle}</CardTitle>
           <CardAction>
-            <Button type="button" size="sm">
+            <Button type="button" size="sm" onClick={() => setOpen(true)}>
               {billing.addMethod}
             </Button>
           </CardAction>
         </CardHeader>
         <CardContent className="px-0">
-          {userBillingFigures.methods.map((method) => (
+          {methods.map((method) => (
             <div
               key={method.detail}
               className="flex items-center justify-between gap-3 border-b px-4 py-3 last:border-b-0"
@@ -143,6 +158,8 @@ export function BillingPanel({ locale }: { locale: ContentLocale }) {
           </Table>
         </CardContent>
       </Card>
+
+      <AddCardSheet locale={locale} open={open} onOpenChange={setOpen} onSaved={handleSaved} />
     </div>
   )
 }

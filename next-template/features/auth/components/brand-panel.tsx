@@ -1,7 +1,7 @@
 import { BarChart3, Languages, LayoutGrid, ShieldCheck } from "lucide-react"
 import { LoginChrome } from "@/features/auth/components/login-chrome"
 import { getLoginCopy } from "@/features/auth/constants/copy"
-import { headerBrand } from "@/components/layout/header/copy"
+import { headerBrand } from "@/components/layout/constants/header/copy"
 import type { ContentLocale } from "@/lib/i18n"
 import type { Locale } from "@/lib/locales"
 import { cn } from "cn"

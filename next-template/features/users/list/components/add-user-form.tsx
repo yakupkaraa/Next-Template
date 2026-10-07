@@ -6,7 +6,7 @@ import {
   emptyUserFormValues,
   type UserRow,
 } from "@/features/users/data"
-import { normalizeEmail } from "@/features/users/list/form-field-meta"
+import { normalizeEmail } from "@/features/users/utils/form-field-meta"
 import type { ContentLocale } from "@/lib/i18n"
 
 function todayJoined() {

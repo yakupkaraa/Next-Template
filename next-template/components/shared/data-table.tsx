@@ -1,10 +1,8 @@
 "use client"
 
-import { useRef, type CSSProperties } from "react"
-import { FilterX } from "lucide-react"
+import { useEffect, useImperativeHandle, useRef, type CSSProperties, type Ref } from "react"
 import { useVirtualizer } from "@tanstack/react-virtual"
 import { useTable, type ColumnDef, type RowData } from "@tanstack/react-table"
-import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import {
   Table,
@@ -15,12 +13,12 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { cn } from "cn"
-import { DataTableColumnHeader } from "@/components/ui/data-table-column-header"
+import { DataTableColumnHeader } from "@/components/shared/data-table-column-header"
 import {
   dataTableFeatures,
   type DataTableColumnMenuCopy,
   type DataTableFeatures,
-} from "@/components/ui/data-table-features"
+} from "@/components/shared/data-table-features"
 
 const ROW_ESTIMATE_HEIGHT = 41
 const VIRTUALIZE_MIN_ROWS = 16
@@ -36,15 +34,18 @@ function pinningStyle(column: {
 
   return {
     position: "sticky",
-    zIndex: 2,
     left: pinned === "start" ? `${column.getStart("start")}px` : undefined,
     right: pinned === "end" ? `${column.getAfter("end")}px` : undefined,
   }
 }
 
+export type DataTableApi = {
+  resetColumnState: () => void
+}
+
 function pinningClass(pinned: false | "start" | "end") {
   if (pinned === "end") {
-    return "sticky right-0 z-20 bg-card group-hover:bg-primary/10 group-data-[state=selected]:bg-primary/10 shadow-[-8px_0_12px_-8px_hsl(0_0%_0%/0.18)]"
+    return "sticky right-0 z-20 bg-card shadow-[-8px_0_12px_-8px_hsl(0_0%_0%/0.18)]"
   }
   if (pinned === "start") {
     return "sticky left-0 z-20 bg-card group-hover:bg-primary/10 group-data-[state=selected]:bg-primary/10 shadow-[8px_0_12px_-8px_hsl(0_0%_0%/0.18)]"
@@ -63,7 +64,8 @@ export function DataTable<TData extends RowData>({
   pinEnd,
   pinStart,
   columnMenu,
-  clearFiltersLabel,
+  tableApiRef,
+  onColumnStateChange,
   isRowSelected,
 }: {
   columns: ColumnDef<DataTableFeatures, TData>[]
@@ -78,7 +80,8 @@ export function DataTable<TData extends RowData>({
   /** Sola sabitlenen kolon id'leri (LTR). */
   pinStart?: string[]
   columnMenu?: DataTableColumnMenuCopy
-  clearFiltersLabel?: string
+  tableApiRef?: Ref<DataTableApi | null>
+  onColumnStateChange?: (active: boolean) => void
   isRowSelected?: (row: TData) => boolean
 }) {
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -144,33 +147,26 @@ export function DataTable<TData extends RowData>({
 
   const hasColumnFilters = table.getAllColumns().some((column) => column.getIsFiltered())
   const hasSorting = table.getAllColumns().some((column) => column.getIsSorted())
+  const columnStateActive = hasColumnFilters || hasSorting
+
+  useImperativeHandle(tableApiRef, () => ({
+    resetColumnState: () => {
+      table.resetColumnFilters(true)
+      table.resetSorting(true)
+    },
+  }))
+
+  useEffect(() => {
+    onColumnStateChange?.(columnStateActive)
+  }, [columnStateActive, onColumnStateChange])
 
   return (
-    <div className="flex h-full min-h-0 flex-col gap-2">
-      {clearFiltersLabel ? (
-        <div className="flex shrink-0 justify-end">
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="bg-card"
-            disabled={!hasColumnFilters && !hasSorting}
-            onClick={() => {
-              table.resetColumnFilters(true)
-              table.resetSorting(true)
-            }}
-          >
-            <FilterX />
-            {clearFiltersLabel}
-          </Button>
-        </div>
-      ) : null}
     <Table
       containerRef={scrollRef}
       containerClassName={containerClassName}
       className={className}
     >
-      <TableHeader className="sticky top-0 z-10 bg-card">
+      <TableHeader className="sticky top-0 z-30 bg-card">
         {table.getHeaderGroups().map((headerGroup) => (
           <TableRow key={headerGroup.id}>
             {headerGroup.headers.map((header) => {
@@ -181,7 +177,7 @@ export function DataTable<TData extends RowData>({
                   className={cn(
                     "w-max min-w-max whitespace-nowrap",
                     pinningClass(pinned),
-                    pinned && "z-30",
+                    pinned && "z-40",
                     header.column.id === "actions" && "text-center"
                   )}
                   style={pinningStyle(header.column)}
@@ -249,6 +245,5 @@ export function DataTable<TData extends RowData>({
           : null}
       </TableBody>
     </Table>
-    </div>
   )
 }

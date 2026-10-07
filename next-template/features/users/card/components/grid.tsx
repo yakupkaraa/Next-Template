@@ -35,7 +35,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { SearchBar } from "@/components/ui/search-bar"
+import { SearchBar } from "@/components/shared/search-bar"
 import {
   Select,
   SelectContent,
@@ -44,7 +44,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Skeleton } from "@/components/ui/skeleton"
-import { StatusBadge, type StatusBadgeTone } from "@/components/ui/status-badge"
+import { StatusBadge, type StatusBadgeTone } from "@/components/shared/status-badge"
 import { cn } from "cn"
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
 import {

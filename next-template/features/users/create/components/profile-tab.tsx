@@ -22,8 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
-import { StatusBadge, type StatusBadgeTone } from "@/components/ui/status-badge"
-import { Switch } from "@/components/ui/switch"
+import { StatusBadge, type StatusBadgeTone } from "@/components/shared/status-badge"
 import { Textarea } from "@/components/ui/textarea"
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
 import {
@@ -39,19 +38,21 @@ import { ProfileCombobox } from "./profile-combobox"
 import {
   citiesByCountry,
   controlClass,
-  EMAIL_PATTERN,
   fieldComboboxOptions,
   fieldSelectOptions,
-  formatProfileBalance,
-  formatProfileDate,
-  isFieldEditable,
-  NOTE_MAX,
   profileFields,
   profileSectionKeys,
   type ProfileFieldConfig,
   type ProfileSectionKey,
 } from "../constants/profile-fields"
-import { formatPhoneInput, normalizeEmail } from "@/features/users/list/form-field-meta"
+import {
+  EMAIL_PATTERN,
+  formatProfileBalance,
+  formatProfileDate,
+  isFieldEditable,
+  NOTE_MAX,
+} from "./profile-tab.utils"
+import { formatPhoneInput, normalizeEmail } from "@/features/users/utils/form-field-meta"
 
 export type ProfileFormMode = "self" | "admin"
 
@@ -175,18 +176,12 @@ export function ProfileTab({
   const fileRef = useRef<HTMLInputElement>(null)
   const [preview, setPreview] = useState<string | null>(null)
   const [values, setValues] = useState(snapshot)
-  const [visible, setVisible] = useState(intent === "edit")
   const [errors, setErrors] = useState<FieldErrors>({})
   const [saved, setSaved] = useState(false)
   const [saving, setSaving] = useState(false)
   const [baseline, setBaseline] = useState(snapshot)
-  const [baselineVisible, setBaselineVisible] = useState(intent === "edit")
-  const [activeSection, setActiveSection] = useState<ProfileSectionKey>("personal")
 
-  const dirty =
-    preview !== null ||
-    visible !== baselineVisible ||
-    JSON.stringify(values) !== JSON.stringify(baseline)
+  const dirty = preview !== null || JSON.stringify(values) !== JSON.stringify(baseline)
 
   const dateLocale = locale === "en" ? "en" : "tr"
   const fullName = `${values.firstName} ${values.lastName}`.trim() || "—"
@@ -202,27 +197,6 @@ export function ProfileTab({
       if (preview) URL.revokeObjectURL(preview)
     }
   }, [preview])
-
-  useEffect(() => {
-    const nodes = profileSectionKeys
-      .map((key) => document.getElementById(`profile-section-${key}`))
-      .filter((node): node is HTMLElement => node !== null)
-    if (nodes.length === 0) return
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visibleEntry = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
-        const id = visibleEntry?.target.id.replace("profile-section-", "") as
-          | ProfileSectionKey
-          | undefined
-        if (id && (profileSectionKeys as readonly string[]).includes(id)) setActiveSection(id)
-      },
-      { rootMargin: "-20% 0px -60% 0px", threshold: [0, 0.25, 0.5, 1] }
-    )
-    nodes.forEach((node) => observer.observe(node))
-    return () => observer.disconnect()
-  }, [])
 
   function setField(key: UserColumnKey, value: string) {
     setSaved(false)
@@ -244,7 +218,6 @@ export function ProfileTab({
   function reset() {
     clearPreview()
     setValues(baseline)
-    setVisible(baselineVisible)
     setErrors({})
     setSaved(false)
   }
@@ -270,7 +243,6 @@ export function ProfileTab({
     setSaving(true)
     window.setTimeout(() => {
       setBaseline(values)
-      setBaselineVisible(visible)
       setSaving(false)
       setSaved(true)
     }, 600)
@@ -589,31 +561,7 @@ export function ProfileTab({
                 </div>
               </div>
               <div className="hidden xl:block">
-                <Separator />
-                <p className="mt-4 mb-2 text-xs font-medium text-muted-foreground">{text.tocTitle}</p>
-                <nav className="flex flex-col">
-                  {profileSectionKeys.map((key) => (
-                    <a
-                      key={key}
-                      href={`#profile-section-${key}`}
-                      className={cn(
-                        "relative min-h-11 border-l-2 px-3 py-2 text-sm",
-                        activeSection === key
-                          ? "border-primary font-medium text-primary"
-                          : "border-transparent text-muted-foreground hover:text-foreground"
-                      )}
-                      onClick={(event) => {
-                        event.preventDefault()
-                        document
-                          .getElementById(`profile-section-${key}`)
-                          ?.scrollIntoView({ behavior: "smooth" })
-                      }}
-                    >
-                      {text.sections[key].title}
-                    </a>
-                  ))}
-                </nav>
-                <Separator className="my-4" />
+                <Separator className="mb-4" />
                 <p className="mb-3 text-sm font-semibold">{text.accountSummary}</p>
                 <AccountSummaryList items={summaryItems} />
               </div>
@@ -677,19 +625,6 @@ export function ProfileTab({
                     <div className="grid grid-cols-1 gap-x-4 gap-y-5 sm:grid-cols-2">
                       {byKey.language ? renderControl(byKey.language) : null}
                       {byKey.timezone ? renderControl(byKey.timezone) : null}
-                    </div>
-                  ) : null}
-                  {section === "prefs" ? (
-                    <div className="mt-5 flex items-center justify-between gap-4 border-t border-border pt-5">
-                      <div>
-                        <p className="text-sm font-medium">{dict.form.visibilityTitle}</p>
-                        <p className="text-xs text-muted-foreground">{dict.form.visibilityHint}</p>
-                      </div>
-                      <Switch
-                        checked={visible}
-                        onCheckedChange={setVisible}
-                        aria-label={dict.form.visibilityTitle}
-                      />
                     </div>
                   ) : null}
                 </section>

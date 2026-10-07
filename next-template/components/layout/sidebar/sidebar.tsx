@@ -13,7 +13,7 @@ import {
 import { localeFromPath, type Locale } from "@/lib/locales"
 import { cn } from "cn"
 import { getCurrentUser, openTicketCount, seedTickets } from "@/features/ticket/data"
-import { sidebarCopy } from "./copy"
+import { sidebarCopy } from "@/components/layout/constants/sidebar/copy"
 import { isMenuGroup, menuItems, type MenuGroup, type MenuLink } from "./menu-items"
 
 function itemHref(locale: Locale, href: string) {

@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { localeFromPath } from "@/lib/locales"
-import { footerContent } from "./content"
+import { footerContent } from "@/components/layout/constants/footer/content"
 
 export function Footer() {
   const pathname = usePathname()

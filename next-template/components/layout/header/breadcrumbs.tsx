@@ -10,7 +10,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
-import { headerCopy } from "@/components/layout/header/copy"
+import { headerCopy } from "@/components/layout/constants/header/copy"
 import {
   isMenuGroup,
   menuItems,

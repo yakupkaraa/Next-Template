@@ -21,11 +21,11 @@ import {
 } from "@/components/ui/sheet"
 import { languages, localeFromPath, swapLocale } from "@/lib/locales"
 import { HeaderBreadcrumbs } from "./breadcrumbs"
-import { headerCopy } from "./copy"
+import { headerCopy } from "@/components/layout/constants/header/copy"
 import { signOut } from "@/lib/session"
 import { isMenuGroup, menuItems, type MenuGroup, type MenuLink } from "../sidebar/menu-items"
 import { LocaleFlag } from "@/components/shared/locale-flag"
-import { notifications } from "./notifications"
+import { notifications } from "@/components/layout/mocks/notifications"
 import { SettingsPanel } from "@/features/settings"
 import { useThemeSettings } from "@/components/theme/theme-provider"
 

@@ -1,11 +1,11 @@
 "use client"
 
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { usePathname, useRouter } from "next/navigation"
-import { FileSpreadsheet, Hourglass, Shield, UserCheck, UserMinus, UserPlus, Users, X } from "lucide-react"
+import { FileSpreadsheet, FilterX, Hourglass, Shield, UserCheck, UserMinus, UserPlus, Users, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { DataTable } from "@/components/ui/data-table"
+import { DataTable, type DataTableApi } from "@/components/shared/data-table"
 import { DensityBoard } from "@/components/layout/density-board"
 import {
   Dialog,
@@ -15,7 +15,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { SearchBar } from "@/components/ui/search-bar"
+import { SearchBar } from "@/components/shared/search-bar"
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
 import { userColumnKeys, userList, type UserRow } from "@/features/users/data"
 import { deleteUser } from "@/features/users/actions"
@@ -30,6 +30,8 @@ export function UserListTable({ locale }: { locale: ContentLocale }) {
   const [loading, setLoading] = useState(true)
   const [rows, setRows] = useState<UserRow[]>(userList)
   const [selected, setSelected] = useState<Set<string>>(new Set())
+  const [columnStateActive, setColumnStateActive] = useState(false)
+  const tableApiRef = useRef<DataTableApi | null>(null)
   const list = getDictionary(locale).users.list
   const handleDelete = useCallback(
     async (row: UserRow) => {
@@ -217,6 +219,16 @@ export function UserListTable({ locale }: { locale: ContentLocale }) {
               placeholder={list.search}
             />
             <div className="flex items-center gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                className="bg-card"
+                disabled={!columnStateActive}
+                onClick={() => tableApiRef.current?.resetColumnState()}
+              >
+                <FilterX />
+                {list.clearFilters}
+              </Button>
               <Button type="button" variant="outline" className="bg-card">
                 <FileSpreadsheet />
                 {list.excel}
@@ -239,7 +251,8 @@ export function UserListTable({ locale }: { locale: ContentLocale }) {
           pinEnd={["actions"]}
           pinStart={["select"]}
           columnMenu={list.columnMenu}
-          clearFiltersLabel={list.clearFilters}
+          tableApiRef={tableApiRef}
+          onColumnStateChange={setColumnStateActive}
           isRowSelected={(row) => selected.has(row.id)}
         />
         </div>

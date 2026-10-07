@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Separator } from "@/components/ui/separator"
 import { cn } from "cn"
-import type { DataTableColumnMenuCopy, DataTableFeatures } from "@/components/ui/data-table-features"
+import type { DataTableColumnMenuCopy, DataTableFeatures } from "@/components/shared/data-table-features"
 
 export function DataTableColumnHeader<TData extends RowData>({
   column,

@@ -13,7 +13,7 @@ import {
   Users,
   type LucideIcon,
 } from "lucide-react"
-import { navLabel, type MenuLabel } from "@/lib/navigation/nav-label"
+import { navLabel, type MenuLabel } from "@/components/layout/sidebar/nav-label"
 import type { Locale } from "@/lib/locales"
 
 export type MenuLink = {

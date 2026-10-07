@@ -34,7 +34,7 @@ export function TicketThread({
       : ticket.messages.filter((message) => message.type !== "internal")
 
   return (
-    <div className="px-4 py-4">
+    <div className="min-h-0 flex-1 px-4 py-4">
       <ul className="flex flex-col gap-3">
         {messages.map((message) => {
           const author = personById(message.authorId)

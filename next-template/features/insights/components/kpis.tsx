@@ -1,6 +1,15 @@
+import { CreditCard, Package, ShoppingBag, Star } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { insightCopy, insightKpiLabels, insightKpis } from "../data"
-import { Delta, kpiIcons, type InsightsSectionProps } from "./utils"
+import { Delta } from "./delta"
+import type { InsightsSectionProps } from "../utils/section-props"
+
+const kpiIcons = {
+  orders: ShoppingBag,
+  shipped: Package,
+  revenue: CreditCard,
+  rating: Star,
+} as const
 
 export function InsightsKpis({ locale }: InsightsSectionProps) {
   const vs = insightCopy[locale].vsLastWeek

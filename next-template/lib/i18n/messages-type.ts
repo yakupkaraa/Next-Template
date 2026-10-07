@@ -147,8 +147,6 @@ export type Messages = {
         emailHint: string
         phoneHint: string
         noteHint: string
-        visibilityTitle: string
-        visibilityHint: string
         unsaved: string
         reset: string
         save: string
@@ -226,6 +224,35 @@ export type Messages = {
         historyTitle: string
         columns: [string, string, string, string]
         statusLabel: { pending: string; paid: string; cancelled: string }
+        addCard: {
+          title: string
+          hint: string
+          number: string
+          numberHint: string
+          name: string
+          nameHint: string
+          expiry: string
+          cvv: string
+          nickname: string
+          nicknamePlaceholder: string
+          defaultTitle: string
+          defaultHint: string
+          saveTitle: string
+          saveHint: string
+          cancel: string
+          submit: string
+          previewLabel: string
+          previewHolder: string
+          previewExpiry: string
+          previewCvv: string
+          saving: string
+          saved: string
+          saveFailed: string
+          numberError: string
+          nameError: string
+          expiryError: string
+          cvvError: string
+        }
       }
     }
   }

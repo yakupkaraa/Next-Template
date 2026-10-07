@@ -3,7 +3,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { MiniSalesBars, TotalSalesLineChart } from "./chart-loaders"
 import { insightCopy, insightMonthly, insightTotalSales } from "../data"
-import { Delta, type InsightsSectionProps } from "./utils"
+import { Delta } from "./delta"
+import type { InsightsSectionProps } from "../utils/section-props"
 
 export function InsightsHero({ locale }: InsightsSectionProps) {
   const text = insightCopy[locale]

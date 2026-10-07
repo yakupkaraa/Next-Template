@@ -19,7 +19,7 @@ import { TicketFiltersToolbar, type TicketFilters } from "@/features/ticket/comp
 import { TicketList } from "@/features/ticket/components/ticket-list"
 import { TicketNotice } from "@/features/ticket/components/ticket-notice"
 import { TicketStatChips } from "@/features/ticket/components/ticket-stat-chips"
-import { useMediaQuery } from "@/features/ticket/components/use-media-query"
+import { useMediaQuery } from "@/hooks/use-media-query"
 import { inboxCopy } from "@/features/ticket/constants/copy"
 import {
   getCurrentUser,

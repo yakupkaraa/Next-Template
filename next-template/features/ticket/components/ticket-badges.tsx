@@ -1,7 +1,7 @@
 import type { ReactNode } from "react"
 import type { LucideIcon } from "lucide-react"
 import { Flag, Receipt, Tag, User, Wrench } from "lucide-react"
-import { StatusBadge, statusBadgeTones, type StatusBadgeTone } from "@/components/ui/status-badge"
+import { StatusBadge, statusBadgeTones, type StatusBadgeTone } from "@/components/shared/status-badge"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "cn"
 import type { ContentLocale } from "@/lib/i18n"

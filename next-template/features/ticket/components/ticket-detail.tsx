@@ -70,7 +70,7 @@ export function TicketDetail({
 
   if (!ticket) {
     return (
-      <Card className="flex min-h-80 flex-col items-center justify-center gap-2 py-16 text-center shadow-sm">
+      <Card className="flex min-h-[60rem] flex-col items-center justify-center gap-2 py-16 text-center shadow-sm">
         <TicketIcon className="size-8 text-muted-foreground" />
         <p className="text-sm text-muted-foreground">{text.emptyDetail}</p>
       </Card>
@@ -81,7 +81,7 @@ export function TicketDetail({
   const isAdmin = role === "admin"
 
   return (
-    <Card className="flex flex-col gap-0 py-0 shadow-sm">
+    <Card className="flex min-h-[60rem] flex-col gap-0 py-0 shadow-sm">
       <div className="flex items-start justify-between gap-3 border-b border-border px-4 py-3">
         <div className="min-w-0">
           <div className="flex items-center gap-2">

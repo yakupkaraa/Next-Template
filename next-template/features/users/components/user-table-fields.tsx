@@ -15,7 +15,7 @@ import {
   formatPhoneInput,
   normalizeEmail,
   userFormFieldKind,
-} from "@/features/users/list/form-field-meta"
+} from "@/features/users/utils/form-field-meta"
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
 import { cn } from "cn"
 

@@ -1,25 +1,8 @@
-import { CreditCard, Package, ShoppingBag, Star, TrendingDown, TrendingUp } from "lucide-react"
-import type { StatusBadgeTone } from "@/components/ui/status-badge"
-import type { InsightLocale, OrderStatus } from "../data"
+import { TrendingDown, TrendingUp } from "lucide-react"
 
-export type InsightsSectionProps = { locale: InsightLocale }
+type DeltaSurface = "primary" | "soft" | "default"
 
-export type DeltaSurface = "primary" | "soft" | "default"
-
-export const kpiIcons = {
-  orders: ShoppingBag,
-  shipped: Package,
-  revenue: CreditCard,
-  rating: Star,
-} as const
-
-export const statusTone: Record<OrderStatus, StatusBadgeTone> = {
-  pending: "warning",
-  shipped: "neutral",
-  delivered: "success",
-}
-
-export function deltaToneClass(direction: "up" | "down", onSurface: DeltaSurface = "default") {
+function deltaToneClass(direction: "up" | "down", onSurface: DeltaSurface = "default") {
   if (onSurface === "primary") {
     return direction === "up"
       ? "text-[color-mix(in_oklch,var(--primary-foreground)_92%,var(--chart-2))]"
