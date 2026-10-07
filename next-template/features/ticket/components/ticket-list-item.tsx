@@ -15,7 +15,7 @@ import {
   TicketPriorityIconBadge,
   TicketStatusBadge,
 } from "@/features/ticket/components/ticket-badges"
-import { inboxCopy } from "@/features/ticket/copy"
+import { inboxCopy } from "@/features/ticket/constants/copy"
 import {
   formatRelative,
   initialsOf,

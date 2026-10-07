@@ -1,4 +1,4 @@
-import { TicketCreateScreen } from "@/features/ticket/create/screen"
+import { TicketCreateScreen } from "@/features/ticket"
 import { resolveContentLocale } from "@/lib/i18n"
 
 export default async function Page({

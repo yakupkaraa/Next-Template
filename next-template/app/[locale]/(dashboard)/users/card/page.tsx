@@ -1,4 +1,4 @@
-import { UserCardGrid } from "@/features/users/card/grid"
+import { UserCardGrid } from "@/features/users"
 import { resolveContentLocale } from "@/lib/i18n"
 
 export default async function Page({

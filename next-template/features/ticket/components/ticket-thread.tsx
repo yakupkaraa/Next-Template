@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react"
 import { Lock } from "lucide-react"
-import { inboxCopy } from "@/features/ticket/copy"
+import { inboxCopy } from "@/features/ticket/constants/copy"
 import {
   formatRelative,
   personById,

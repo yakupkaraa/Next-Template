@@ -1,4 +1,4 @@
-import { UserCreateScreen } from "@/features/users/create/screen"
+import { UserCreateScreen } from "@/features/users"
 import { resolveContentLocale } from "@/lib/i18n"
 
 export default async function Page({

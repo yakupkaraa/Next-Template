@@ -1,4 +1,4 @@
-import { InsightsPageClient } from "@/features/insights/page-client"
+import { InsightsPageClient } from "@/features/insights"
 import { resolveContentLocale } from "@/lib/i18n"
 
 export default async function Page({

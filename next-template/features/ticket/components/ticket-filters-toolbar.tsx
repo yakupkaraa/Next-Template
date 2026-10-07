@@ -17,7 +17,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet"
-import { inboxCopy } from "@/features/ticket/copy"
+import { inboxCopy } from "@/features/ticket/constants/copy"
 import { ticketCategories, ticketPeople } from "@/features/ticket/data"
 import type { ContentLocale } from "@/lib/i18n"
 

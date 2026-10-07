@@ -1,4 +1,4 @@
-import { BlogEditorScreen } from "@/features/blog/editor/screen"
+import { BlogEditorScreen } from "@/features/blog"
 import { resolveContentLocale } from "@/lib/i18n"
 
 export default async function Page({

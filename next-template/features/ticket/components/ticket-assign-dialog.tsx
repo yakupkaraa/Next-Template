@@ -11,7 +11,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
-import { inboxCopy } from "@/features/ticket/copy"
+import { inboxCopy } from "@/features/ticket/constants/copy"
 import { initialsOf, openTicketCount, ticketPeople, type Ticket } from "@/features/ticket/data"
 import type { ContentLocale } from "@/lib/i18n"
 

@@ -1,4 +1,4 @@
-import { UserEditScreen } from "@/features/users/edit/screen"
+import { UserEditScreen } from "@/features/users"
 import { resolveContentLocale } from "@/lib/i18n"
 
 export default async function Page({

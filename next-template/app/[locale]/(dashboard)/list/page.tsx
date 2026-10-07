@@ -1,3 +1,5 @@
+import { ListScreen } from "@/features/list"
+
 export default function Page() {
-  return null
+  return <ListScreen />
 }

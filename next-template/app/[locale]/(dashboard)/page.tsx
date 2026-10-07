@@ -1,4 +1,4 @@
-import { DashboardPageClient } from "@/features/dashboard/page-client"
+import { DashboardPageClient } from "@/features/dashboard"
 import { resolveContentLocale } from "@/lib/i18n"
 
 export default async function Page({

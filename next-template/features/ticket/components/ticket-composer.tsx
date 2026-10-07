@@ -13,7 +13,7 @@ import {
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
-import { inboxCopy } from "@/features/ticket/copy"
+import { inboxCopy } from "@/features/ticket/constants/copy"
 import type { TicketMessageType, TicketRole } from "@/features/ticket/data"
 import type { ContentLocale } from "@/lib/i18n"
 

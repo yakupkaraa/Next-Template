@@ -27,7 +27,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { TicketAttachments, type TicketFile } from "@/features/ticket/components/ticket-attachments"
 import { priorityDotClass } from "@/features/ticket/components/ticket-badges"
-import { createCopy } from "@/features/ticket/create/copy"
+import { createCopy } from "@/features/ticket/create/constants/copy"
 import {
   ticketCategories,
   ticketEnvironments,

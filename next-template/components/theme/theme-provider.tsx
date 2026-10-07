@@ -44,6 +44,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const stored = readStoredTheme()
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- hydrate stored theme after mount
     setTheme(stored)
     applyThemeToDocument(stored)
     setReady(true)

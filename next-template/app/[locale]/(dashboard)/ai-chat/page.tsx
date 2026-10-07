@@ -1,4 +1,4 @@
-import { AiChatScreen } from "@/features/ai-chat/screen"
+import { AiChatScreen } from "@/features/ai-chat"
 import { resolveContentLocale } from "@/lib/i18n"
 
 export default async function Page({

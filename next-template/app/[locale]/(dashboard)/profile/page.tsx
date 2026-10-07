@@ -1,4 +1,4 @@
-import { ProfileScreen } from "@/features/profile/screen"
+import { ProfileScreen } from "@/features/profile"
 import { resolveContentLocale } from "@/lib/i18n"
 
 export default async function Page({

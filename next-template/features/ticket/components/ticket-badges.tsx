@@ -5,7 +5,7 @@ import { StatusBadge, statusBadgeTones, type StatusBadgeTone } from "@/component
 import { Badge } from "@/components/ui/badge"
 import { cn } from "cn"
 import type { ContentLocale } from "@/lib/i18n"
-import { inboxCopy } from "@/features/ticket/copy"
+import { inboxCopy } from "@/features/ticket/constants/copy"
 import type { TicketCategory, TicketPriority, TicketStatus } from "@/features/ticket/data"
 
 const infoClass =

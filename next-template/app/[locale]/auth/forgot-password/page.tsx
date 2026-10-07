@@ -1,4 +1,4 @@
-import { ForgotForm } from "@/features/auth/forgot-form"
+import { ForgotForm } from "@/features/auth"
 
 export default async function ForgotPage({
   params,

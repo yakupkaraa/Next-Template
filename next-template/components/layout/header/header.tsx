@@ -26,7 +26,7 @@ import { signOut } from "@/lib/session"
 import { isMenuGroup, menuItems, type MenuGroup, type MenuLink } from "../sidebar/menu-items"
 import { LocaleFlag } from "@/components/shared/locale-flag"
 import { notifications } from "./notifications"
-import { SettingsPanel } from "../settings/settings-panel"
+import { SettingsPanel } from "@/features/settings"
 import { useThemeSettings } from "@/components/theme/theme-provider"
 
 function itemHref(locale: ReturnType<typeof localeFromPath>, href: string) {

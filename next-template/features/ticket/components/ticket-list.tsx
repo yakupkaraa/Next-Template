@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Skeleton } from "@/components/ui/skeleton"
 import { TicketListItem } from "@/features/ticket/components/ticket-list-item"
-import { inboxCopy } from "@/features/ticket/copy"
+import { inboxCopy } from "@/features/ticket/constants/copy"
 import type { Ticket } from "@/features/ticket/data"
 import type { ContentLocale } from "@/lib/i18n"
 

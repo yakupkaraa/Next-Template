@@ -1,6 +1,6 @@
 import { Suspense } from "react"
 import { RouteLoading } from "@/components/layout/route-loading"
-import { TicketScreen } from "@/features/ticket/screen"
+import { TicketScreen } from "@/features/ticket"
 import { resolveContentLocale } from "@/lib/i18n"
 
 export default async function Page({

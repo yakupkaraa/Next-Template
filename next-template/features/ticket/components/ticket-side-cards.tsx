@@ -4,7 +4,7 @@ import { BookOpen, ChevronRight, Clock } from "lucide-react"
 import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
 import { TicketStatusBadge } from "@/features/ticket/components/ticket-badges"
-import { createCopy } from "@/features/ticket/create/copy"
+import { createCopy } from "@/features/ticket/create/constants/copy"
 import {
   formatRelative,
   helpArticles,

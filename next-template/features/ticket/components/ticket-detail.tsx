@@ -23,7 +23,7 @@ import {
 } from "@/features/ticket/components/ticket-badges"
 import { TicketComposer } from "@/features/ticket/components/ticket-composer"
 import { TicketThread } from "@/features/ticket/components/ticket-thread"
-import { inboxCopy } from "@/features/ticket/copy"
+import { inboxCopy } from "@/features/ticket/constants/copy"
 import {
   formatDateTime,
   formatSla,

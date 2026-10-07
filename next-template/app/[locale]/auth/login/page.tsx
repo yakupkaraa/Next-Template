@@ -1,4 +1,4 @@
-import { LoginScreen } from "@/features/login/components/login-screen"
+import { LoginScreen } from "@/features/auth"
 
 export default async function LoginPage({
   params,
