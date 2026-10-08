@@ -12,8 +12,7 @@ import type {
   TicketStatus,
 } from "@/features/ticket/constants/ticket"
 
-const infoClass =
-  "border border-primary/30 bg-primary/10 font-medium text-primary"
+const infoClass = "border border-info bg-info-bg font-medium text-info"
 
 export function TicketStatusBadge({
   status,
@@ -92,9 +91,9 @@ export function TicketPriorityBadge({
 
 export function priorityDotClass(priority: TicketPriority) {
   if (priority === "low") return "bg-muted-foreground"
-  if (priority === "normal") return "bg-primary"
-  if (priority === "high") return "bg-chart-3"
-  return "bg-destructive"
+  if (priority === "normal") return "bg-info"
+  if (priority === "high") return "bg-warning"
+  return "bg-error"
 }
 
 function IconBadge({
