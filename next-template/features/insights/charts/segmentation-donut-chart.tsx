@@ -2,7 +2,7 @@
 
 import { Cell, Pie, PieChart } from "recharts"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
-import { insightSegments } from "../data"
+import { insightSegments } from "../mocks/insights.mock"
 
 export function SegmentationDonutChart() {
   const config = Object.fromEntries(

@@ -5,11 +5,8 @@ import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
 import { TicketStatusBadge } from "@/features/ticket/components/ticket-badges"
 import { createCopy } from "@/features/ticket/create/constants/copy"
-import {
-  formatRelative,
-  helpArticles,
-  type Ticket,
-} from "@/features/ticket/data"
+import { formatRelative, type Ticket } from "@/features/ticket/constants/ticket"
+import { helpArticles } from "@/features/ticket/mocks/ticket.mock"
 import type { ContentLocale } from "@/lib/i18n"
 
 export function TicketSideCards({

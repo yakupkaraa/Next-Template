@@ -3,7 +3,7 @@
 import { runAction } from "@/components/toast/run-action"
 import { mockRequest } from "@/lib/mock-request"
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
-import type { UserRow } from "@/features/users/data"
+import type { UserRow } from "@/features/users/constants/users"
 
 export async function deleteUser(row: UserRow, locale: ContentLocale): Promise<boolean> {
   const toast = getDictionary(locale).users.list.toast

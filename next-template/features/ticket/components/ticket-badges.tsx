@@ -6,7 +6,11 @@ import { Badge } from "@/components/ui/badge"
 import { cn } from "cn"
 import type { ContentLocale } from "@/lib/i18n"
 import { inboxCopy } from "@/features/ticket/constants/copy"
-import type { TicketCategory, TicketPriority, TicketStatus } from "@/features/ticket/data"
+import type {
+  TicketCategory,
+  TicketPriority,
+  TicketStatus,
+} from "@/features/ticket/constants/ticket"
 
 const infoClass =
   "border border-primary/30 bg-primary/10 font-medium text-primary"

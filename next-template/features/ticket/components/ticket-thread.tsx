@@ -5,10 +5,10 @@ import { Lock } from "lucide-react"
 import { inboxCopy } from "@/features/ticket/constants/copy"
 import {
   formatRelative,
-  personById,
   type Ticket,
   type TicketRole,
-} from "@/features/ticket/data"
+} from "@/features/ticket/constants/ticket"
+import { personById } from "@/features/ticket/mocks/ticket.mock"
 import type { ContentLocale } from "@/lib/i18n"
 import { cn } from "cn"
 

@@ -12,7 +12,12 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { inboxCopy } from "@/features/ticket/constants/copy"
-import { initialsOf, openTicketCount, ticketPeople, type Ticket } from "@/features/ticket/data"
+import {
+  initialsOf,
+  openTicketCount,
+  type Ticket,
+} from "@/features/ticket/constants/ticket"
+import { ticketPeople } from "@/features/ticket/mocks/ticket.mock"
 import type { ContentLocale } from "@/lib/i18n"
 
 export function TicketAssignDialog({

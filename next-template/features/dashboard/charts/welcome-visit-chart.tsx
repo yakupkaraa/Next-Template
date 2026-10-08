@@ -2,7 +2,7 @@
 
 import { Cell, Pie, PieChart } from "recharts"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
-import { dashboardVisit } from "../data"
+import { dashboardVisit } from "../mocks/dashboard.mock"
 
 const config = Object.fromEntries(
   dashboardVisit.segments.map((s) => [s.key, { label: s.key, color: s.color }])

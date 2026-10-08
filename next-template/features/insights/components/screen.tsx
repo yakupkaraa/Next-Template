@@ -3,7 +3,7 @@
 import { DensityBoard } from "@/components/layout/density-board"
 import { InsightsAside } from "./aside"
 import { InsightsChartsRow } from "./charts-row"
-import type { InsightLocale } from "../data"
+import type { InsightLocale } from "../constants/insights"
 import { InsightsHero } from "./hero"
 import { InsightsKpis } from "./kpis"
 import { InsightsOrders } from "./orders"

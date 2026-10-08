@@ -22,15 +22,17 @@ import { TicketStatChips } from "@/features/ticket/components/ticket-stat-chips"
 import { useMediaQuery } from "@/hooks/use-media-query"
 import { inboxCopy } from "@/features/ticket/constants/copy"
 import {
-  getCurrentUser,
-  personById,
-  seedTickets,
   slaBreached,
   TICKET_NOW_MS,
   type Ticket,
   type TicketMessageType,
   type TicketPriority,
-} from "@/features/ticket/data"
+} from "@/features/ticket/constants/ticket"
+import {
+  getCurrentUser,
+  personById,
+  seedTickets,
+} from "@/features/ticket/mocks/ticket.mock"
 import type { ContentLocale } from "@/lib/i18n"
 
 const PRIORITY_RANK: Record<TicketPriority, number> = {

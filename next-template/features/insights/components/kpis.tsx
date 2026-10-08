@@ -1,6 +1,7 @@
 import { CreditCard, Package, ShoppingBag, Star } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
-import { insightCopy, insightKpiLabels, insightKpis } from "../data"
+import { insightCopy, insightKpiLabels } from "../constants/insights"
+import { insightKpis } from "../mocks/insights.mock"
 import { Delta } from "./delta"
 import type { InsightsSectionProps } from "../utils/section-props"
 

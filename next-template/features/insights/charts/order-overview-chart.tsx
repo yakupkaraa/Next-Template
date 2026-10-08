@@ -2,7 +2,7 @@
 
 import { CartesianGrid, Line, LineChart, XAxis } from "recharts"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
-import { insightOrderOverview } from "../data"
+import { insightOrderOverview } from "../mocks/insights.mock"
 
 const config = {
   seriesA: { label: "Gelir", color: "var(--chart-1)" },

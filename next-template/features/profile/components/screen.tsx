@@ -25,12 +25,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
-import {
-  profileContent,
-  profileCopy,
-  profileMedia,
-  type ProfileLocale,
-} from "../data"
+import { profileCopy, type ProfileLocale } from "../constants/profile"
+import { profileContent, profileMedia } from "../mocks/profile.mock"
 
 function Person({
   name,

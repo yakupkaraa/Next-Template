@@ -1,4 +1,4 @@
-import type { UserColumnKey } from "@/features/users/data"
+import type { UserColumnKey } from "@/features/users/constants/users"
 import {
   userCountryOptions,
   userDepartmentOptions,
@@ -9,7 +9,7 @@ import {
   userTeamOptions,
   userTimezoneOptions,
   userTitleOptions,
-} from "@/features/users/data"
+} from "@/features/users/constants/users"
 
 export const profileSectionKeys = ["personal", "contact", "org", "prefs"] as const
 export type ProfileSectionKey = (typeof profileSectionKeys)[number]

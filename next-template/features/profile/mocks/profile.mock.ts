@@ -1,0 +1,21 @@
+export const profileMedia = {
+  avatar:
+    "https://lh3.googleusercontent.com/aida-public/AB6AXuAhq_jWJsCv_ho5WBDPZzlW-EvJFKVSYsSE3LT4TtxrYY5btwWGZyEA7HNTh24c9R85uDkFbOKzqtBsWH1PKnqcg5xVUzXynjUTbzr_6P8uK3gu1cMlijWNsHA2ujolFLh0SpewU6JrFG3GYymg-h2xdDzGdIhRDu4y1Lj328HmKt97pldwUkuvvtVTVlFCoVFR3eabXqXZQcCDpA-RGzr7FlXAOis06azuNUsn1GrfLDowuyx1xPgsraNfAjgiIxFk44KmLDRE7A",
+  post: "https://lh3.googleusercontent.com/aida-public/AB6AXuBli-vhQYvyR3fJlzeQWF5X_qgOL4cftJYxSrY4orPRJZIkXkob2eLB_T20nDTIkOplqQMWkbExcixBKeDlTAXyQcoJ-UpaLlRABdu0A7mTIBKTO8scN66xoiLsYFo2t3KeG8Mh26f8LNK_WdxvIhUzkQRiXKcwSx00kQARgLCSEq-ov5hSI2RHNawoUTlSdw57lR-RPlcuo1iVFm9Tu_L9sG_qW0thyT_s5ZckvZEb1EcQ2V9fLBMPcb8LSOTxed91ogL55cwEzQ",
+}
+
+export const profileContent = {
+  name: "John Doe",
+  email: "lorem@ipsum.com",
+  followersCount: "2,566",
+  followingCount: "2,566",
+  socials: ["Facebook", "Instagram", "LinkedIn", "Twitter"],
+  postDate: "Lorem ipsum",
+  postBody:
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  likes: "20",
+  commenter: "Lorem Ipsum",
+  commentDate: "Lorem ipsum",
+  commentBody:
+    "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+}

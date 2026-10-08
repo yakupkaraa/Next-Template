@@ -14,7 +14,7 @@ import {
   userColumnKeys,
   type UserColumnKey,
   type UserRow,
-} from "@/features/users/data"
+} from "@/features/users/constants/users"
 
 const tableCheckboxClass =
   "size-[18px] border-2 border-muted-foreground bg-background data-checked:border-primary dark:border-foreground/70"

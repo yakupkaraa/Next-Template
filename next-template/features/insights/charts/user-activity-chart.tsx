@@ -2,7 +2,7 @@
 
 import { Bar, BarChart, XAxis } from "recharts"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
-import { insightUserActivity } from "../data"
+import { insightUserActivity } from "../mocks/insights.mock"
 
 const config = {
   viewed: { label: "Completed", color: "var(--chart-1)" },

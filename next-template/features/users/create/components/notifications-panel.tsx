@@ -18,13 +18,13 @@ import { getDictionary, type ContentLocale } from "@/lib/i18n"
 import { cn } from "cn"
 import {
   notificationChannels,
-  notificationMatrixDefault,
   notificationMuteDurations,
   notificationQuietHours,
   notificationRequiredRow,
   type NotificationChannel,
   type NotificationRowId,
-} from "../data"
+} from "../constants/notifications"
+import { notificationMatrixDefault } from "../../mocks/users.mock"
 
 type DigestId = "instant" | "daily" | "weekly"
 type MuteDuration = (typeof notificationMuteDurations)[number]

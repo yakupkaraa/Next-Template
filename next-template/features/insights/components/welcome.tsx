@@ -2,7 +2,8 @@ import { Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
-import { insightCopy, insightWelcome } from "../data"
+import { insightCopy } from "../constants/insights"
+import { insightWelcome } from "../mocks/insights.mock"
 import type { InsightsSectionProps } from "../utils/section-props"
 
 export function InsightsWelcome({ locale }: InsightsSectionProps) {

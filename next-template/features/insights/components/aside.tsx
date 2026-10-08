@@ -1,7 +1,12 @@
 import { Package } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { insightAssets, insightCopy, insightLatestProducts, insightPromo } from "../data"
+import { insightCopy } from "../constants/insights"
+import {
+  insightAssets,
+  insightLatestProducts,
+  insightPromo,
+} from "../mocks/insights.mock"
 import type { InsightsSectionProps } from "../utils/section-props"
 
 export function InsightsAside({ locale }: InsightsSectionProps) {

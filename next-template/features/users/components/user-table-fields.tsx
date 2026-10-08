@@ -6,10 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { FormSelectField } from "@/features/users/list/components/form-select-field"
-import {
-  userFormFieldKeys,
-  type UserColumnKey,
-} from "@/features/users/data"
+import { userFormFieldKeys, type UserColumnKey } from "@/features/users/constants/users"
 import {
   formatDateInput,
   formatPhoneInput,

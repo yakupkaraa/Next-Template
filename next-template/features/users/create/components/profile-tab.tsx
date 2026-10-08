@@ -30,9 +30,9 @@ import {
   userColumnKeys,
   type UserColumnKey,
   type UserRow,
-} from "@/features/users/data"
+} from "@/features/users/constants/users"
 import { cn } from "cn"
-import { userCreateDemo } from "../data"
+import { userCreateDemo } from "../../mocks/users.mock"
 import { getProfileFormCopy } from "../constants/profile-copy"
 import { ProfileCombobox } from "./profile-combobox"
 import {

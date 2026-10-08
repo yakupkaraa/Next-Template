@@ -17,12 +17,11 @@ import { TicketNotice } from "@/features/ticket/components/ticket-notice"
 import { TicketSideCards } from "@/features/ticket/components/ticket-side-cards"
 import { createCopy } from "@/features/ticket/create/constants/copy"
 import {
-  getCurrentUser,
   nextTicketId,
-  seedTickets,
   TICKET_NOW_MS,
   type Ticket,
-} from "@/features/ticket/data"
+} from "@/features/ticket/constants/ticket"
+import { getCurrentUser, seedTickets } from "@/features/ticket/mocks/ticket.mock"
 import type { ContentLocale } from "@/lib/i18n"
 
 const DRAFT_KEY = "ticket-create-draft"

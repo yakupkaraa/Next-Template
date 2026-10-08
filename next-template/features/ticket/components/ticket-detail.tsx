@@ -29,16 +29,15 @@ import {
   formatSla,
   initialsOf,
   labelOf,
-  personById,
   ticketCategories,
   ticketModules,
-  ticketPeople,
   type Ticket,
   type TicketMessageType,
   type TicketPriority,
   type TicketRole,
   type TicketStatus,
-} from "@/features/ticket/data"
+} from "@/features/ticket/constants/ticket"
+import { personById, ticketPeople } from "@/features/ticket/mocks/ticket.mock"
 import type { ContentLocale } from "@/lib/i18n"
 
 export function TicketDetail({

@@ -1,91 +1,4 @@
-import type { ContentLocale } from "@/lib/i18n"
-
-export type InsightLocale = ContentLocale
-
-export const insightCopy = {
-  tr: {
-    pageTitle: "Operasyon",
-    last30Days: "Son 30 gün",
-    filter: "Filtrele",
-    download: "Rapor indir",
-    welcome: "Hoş geldin Yakup. Bu ay hedefinin",
-    welcomeSuffix: "sine ulaştın.",
-    details: "Detaylar",
-    totalSales: "Toplam gelir",
-    storeHint: "Genel performans ve operasyon özeti",
-    monthlySales: "Aylık yeni müşteri",
-    sinceMonth: "geçen aya göre",
-    last7Weeks: "Son 7 Hafta",
-    thisWeek: "Bu Hafta",
-    intervals: ["1H", "1A", "3A", "1Y"] as const,
-    segmentation: "Müşteri dağılımı",
-    segmentHint: "Segmentlere göre oranlar",
-    orderOverview: "Gelir ve gider",
-    userActivity: "Haftalık aktivite",
-    recentOrders: "Son siparişler",
-    latestProducts: "Son ürünler",
-    totalAssets: "Toplam varlıklar",
-    distribution: "Dağılım",
-    promoTitle: "Kampanya",
-    promoCta: "Şimdi bak",
-    viewed: "Tamamlanan",
-    checkout: "Bekleyen",
-    total: "Toplam",
-    orders: "Siparişler",
-    year: "2025",
-    shopNow: "Alışverişe git",
-    payment: "Ödeme",
-    customer: "Müşteri",
-    quantity: "Adet",
-    status: "Durum",
-    price: "Fiyat",
-    vsLastMonth: "geçen aya göre",
-    vsLastWeek: "geçen haftaya göre",
-    netRevenue: "Net Gelir",
-    opExpense: "Operasyon Gideri",
-  },
-  en: {
-    pageTitle: "Operations",
-    last30Days: "Last 30 days",
-    filter: "Filter",
-    download: "Download report",
-    welcome: "Welcome Yakup. You reached",
-    welcomeSuffix: "of this month’s goal.",
-    details: "Details",
-    totalSales: "Total revenue",
-    storeHint: "Overall performance and operations summary",
-    monthlySales: "New customers this month",
-    sinceMonth: "vs last month",
-    last7Weeks: "Last 7 weeks",
-    thisWeek: "This week",
-    intervals: ["1W", "1M", "3M", "1Y"] as const,
-    segmentation: "Customer mix",
-    segmentHint: "Share by segment",
-    orderOverview: "Revenue and expense",
-    userActivity: "Weekly activity",
-    recentOrders: "Recent orders",
-    latestProducts: "Latest products",
-    totalAssets: "Total assets",
-    distribution: "Distribution",
-    promoTitle: "Campaign",
-    promoCta: "Shop now",
-    viewed: "Completed",
-    checkout: "Pending",
-    total: "Total",
-    orders: "Orders",
-    year: "2025",
-    shopNow: "Shop now",
-    payment: "Payment",
-    customer: "Customer",
-    quantity: "Qty",
-    status: "Status",
-    price: "Price",
-    vsLastMonth: "vs last month",
-    vsLastWeek: "vs last week",
-    netRevenue: "Net revenue",
-    opExpense: "Operating expense",
-  },
-} as const
+import type { OrderStatus } from "../constants/insights"
 
 export const insightWelcome = {
   progress: 82,
@@ -162,13 +75,6 @@ export const insightKpis = [
   },
 ]
 
-export const insightKpiLabels = {
-  orders: { tr: "Siparişler", en: "Orders" },
-  shipped: { tr: "Ürün stoğu", en: "Stock" },
-  revenue: { tr: "Ortalama sepet", en: "Avg. basket" },
-  rating: { tr: "Memnuniyet", en: "Satisfaction" },
-}
-
 export const insightSegments = [
   { key: "a", label: "Kurumsal", value: 1984, delta: 4.2, color: "var(--chart-1)" },
   { key: "b", label: "KOBİ", value: 923, delta: 1.8, color: "var(--chart-2)" },
@@ -196,8 +102,6 @@ export const insightUserActivity = [
 ]
 
 export const insightActivityTotals = { viewed: "1.420", checkout: "310" }
-
-export type OrderStatus = "pending" | "shipped" | "delivered"
 
 export const insightRecentOrders = [
   {
@@ -276,10 +180,4 @@ export const insightAssets = {
 
 export const insightPromo = {
   body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
-}
-
-export const insightStatusLabels: Record<OrderStatus, { tr: string; en: string }> = {
-  pending: { tr: "Lorem", en: "Lorem" },
-  shipped: { tr: "Ipsum", en: "Ipsum" },
-  delivered: { tr: "Dolor", en: "Dolor" },
 }

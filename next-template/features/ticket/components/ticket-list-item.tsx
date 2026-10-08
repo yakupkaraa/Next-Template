@@ -20,10 +20,10 @@ import {
   formatRelative,
   initialsOf,
   labelOf,
-  personById,
   ticketCategories,
   type Ticket,
-} from "@/features/ticket/data"
+} from "@/features/ticket/constants/ticket"
+import { personById } from "@/features/ticket/mocks/ticket.mock"
 import type { ContentLocale } from "@/lib/i18n"
 import { cn } from "cn"
 

@@ -9,7 +9,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { insightCopy, insightRecentOrders, insightStatusLabels, type OrderStatus } from "../data"
+import {
+  insightCopy,
+  insightStatusLabels,
+  type OrderStatus,
+} from "../constants/insights"
+import { insightRecentOrders } from "../mocks/insights.mock"
 import type { InsightsSectionProps } from "../utils/section-props"
 
 const statusTone: Record<OrderStatus, StatusBadgeTone> = {

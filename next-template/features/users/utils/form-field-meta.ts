@@ -13,7 +13,7 @@ import {
   userTimezoneOptions,
   userTitleOptions,
   type UserColumnKey,
-} from "@/features/users/data"
+} from "@/features/users/constants/users"
 
 export type UserFormFieldKind =
   | { type: "text" }

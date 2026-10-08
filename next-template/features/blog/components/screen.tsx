@@ -5,7 +5,12 @@ import { DensityBoard } from "@/components/layout/density-board"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { BlogArticleCard } from "./article-card"
 import { BlogAside } from "./aside"
-import { blogCategories, blogCopy, blogPosts, type BlogLocale } from "../data"
+import {
+  blogCategories,
+  blogCopy,
+  type BlogLocale,
+} from "../constants/blog"
+import { blogPosts } from "../mocks/blog.mock"
 
 function pickOne(value: string[], fallback: string) {
   return value[0] ?? fallback

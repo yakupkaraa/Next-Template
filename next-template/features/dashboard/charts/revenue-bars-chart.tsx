@@ -2,7 +2,7 @@
 
 import { Bar, BarChart, CartesianGrid, Cell, ReferenceLine, XAxis, YAxis } from "recharts"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
-import { dashboardRevenue } from "../data"
+import { dashboardRevenue } from "../mocks/dashboard.mock"
 
 const config = {
   value: { label: "Value", color: "var(--chart-1)" },

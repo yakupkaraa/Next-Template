@@ -43,13 +43,17 @@ import {
 import { WelcomeSection } from "./welcome-card"
 import { DashboardPageHeader } from "./page-header"
 import {
-  dashboardBestSellers,
   dashboardCopy,
+  dashboardPriorityLabels,
+  type DashboardLocale,
+  type ProjectPriority,
+} from "../constants/dashboard"
+import {
+  dashboardBestSellers,
   dashboardCustomersSpark,
   dashboardKpis,
   dashboardMiniStats,
   dashboardMonthly,
-  dashboardPriorityLabels,
   dashboardProjectsBars,
   dashboardProjectsTable,
   dashboardPromoPeople,
@@ -57,9 +61,7 @@ import {
   dashboardSalary,
   dashboardWeekly,
   dashboardYearly,
-  type DashboardLocale,
-  type ProjectPriority,
-} from "../data"
+} from "../mocks/dashboard.mock"
 
 const kpiIcons = [Users, Briefcase, FolderKanban, Bookmark, MessageCircle, Share2] as const
 

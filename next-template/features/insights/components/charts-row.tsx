@@ -16,13 +16,13 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { OrderOverviewChart, SegmentationDonutChart, UserActivityChart } from "./chart-loaders"
+import { insightCopy } from "../constants/insights"
 import {
   insightActivityTotals,
-  insightCopy,
   insightOrderOverview,
   insightSegmentTotal,
   insightSegments,
-} from "../data"
+} from "../mocks/insights.mock"
 import type { InsightsSectionProps } from "../utils/section-props"
 
 export function InsightsChartsRow({ locale }: InsightsSectionProps) {

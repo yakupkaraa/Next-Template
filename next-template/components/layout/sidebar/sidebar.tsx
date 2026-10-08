@@ -12,7 +12,8 @@ import {
 } from "@/components/ui/collapsible"
 import { localeFromPath, type Locale } from "@/lib/locales"
 import { cn } from "cn"
-import { getCurrentUser, openTicketCount, seedTickets } from "@/features/ticket/data"
+import { openTicketCount } from "@/features/ticket/constants/ticket"
+import { getCurrentUser, seedTickets } from "@/features/ticket/mocks/ticket.mock"
 import { sidebarCopy } from "@/components/layout/constants/sidebar/copy"
 import { isMenuGroup, menuItems, type MenuGroup, type MenuLink } from "./menu-items"
 

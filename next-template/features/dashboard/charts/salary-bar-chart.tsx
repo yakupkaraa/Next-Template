@@ -2,7 +2,7 @@
 
 import { Bar, BarChart, Cell, XAxis } from "recharts"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
-import { dashboardSalary } from "../data"
+import { dashboardSalary } from "../mocks/dashboard.mock"
 
 const config = {
   value: { label: "Salary", color: "var(--chart-1)" },

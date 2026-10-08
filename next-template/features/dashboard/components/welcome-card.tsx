@@ -5,7 +5,8 @@ import { ArrowRight, CloudSun, Moon, Sun, Sunset } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { WelcomeVisitChart } from "./chart-loaders"
-import { dashboardCopy, dashboardVisit, type DashboardLocale } from "../data"
+import { dashboardCopy, type DashboardLocale } from "../constants/dashboard"
+import { dashboardVisit } from "../mocks/dashboard.mock"
 
 function greetingKey(hour: number) {
   if (hour >= 5 && hour < 12) return "greetingMorning" as const

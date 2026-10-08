@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/table"
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
 import { cn } from "cn"
-import { userBillingFigures } from "../data"
+import { userBillingFigures } from "../../mocks/users.mock"
 import { AddCardSheet, type SavedCard } from "./add-card-sheet"
 
 const billingStatusTone: Record<"pending" | "paid" | "cancelled", StatusBadgeTone> = {

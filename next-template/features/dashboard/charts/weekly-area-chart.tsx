@@ -2,7 +2,7 @@
 
 import { Area, AreaChart } from "recharts"
 import { ChartContainer } from "@/components/ui/chart"
-import { dashboardWeekly } from "../data"
+import { dashboardWeekly } from "../mocks/dashboard.mock"
 
 const config = {
   value: { label: "Weekly", color: "var(--chart-1)" },

@@ -48,7 +48,8 @@ import { Switch } from "@/components/ui/switch"
 import { Textarea } from "@/components/ui/textarea"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { cn } from "cn"
-import { blogCategories, blogPosts, type BlogLocale } from "../../data"
+import { blogCategories, type BlogLocale } from "../../constants/blog"
+import { blogPosts } from "../../mocks/blog.mock"
 import {
   blogAuthors,
   blogEditorCopy,

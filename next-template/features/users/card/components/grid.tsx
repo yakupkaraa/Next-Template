@@ -49,11 +49,11 @@ import { cn } from "cn"
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
 import {
   userDepartmentOptions,
-  userList,
   userRoleOptions,
   userStatusOptions,
   type UserRow,
-} from "@/features/users/data"
+} from "@/features/users/constants/users"
+import { userList } from "@/features/users/mocks/users.mock"
 import { deleteUser } from "@/features/users/actions"
 import { AddUserForm, addUserFormId } from "@/features/users/list/components/add-user-form"
 

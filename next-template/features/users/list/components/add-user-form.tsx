@@ -2,10 +2,7 @@
 
 import { useState } from "react"
 import { UserTableFields } from "@/features/users/components/user-table-fields"
-import {
-  emptyUserFormValues,
-  type UserRow,
-} from "@/features/users/data"
+import { emptyUserFormValues, type UserRow } from "@/features/users/constants/users"
 import { normalizeEmail } from "@/features/users/utils/form-field-meta"
 import type { ContentLocale } from "@/lib/i18n"
 

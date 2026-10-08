@@ -1,60 +1,21 @@
-export const userColumnKeys = [
-  "id",
-  "firstName",
-  "lastName",
-  "email",
-  "phone",
-  "username",
-  "role",
-  "status",
-  "department",
-  "city",
-  "country",
-  "company",
-  "title",
-  "joined",
-  "lastSeen",
-  "language",
-  "timezone",
-  "plan",
-  "score",
-  "orders",
-  "balance",
-  "verified",
-  "manager",
-  "team",
-  "note",
-] as const
-
-export type UserColumnKey = (typeof userColumnKeys)[number]
-export type UserRow = Record<UserColumnKey, string>
-
-/** Liste tablosu ile aynı alanlar; `id` ve `lastSeen` kayıtta otomatik doldurulur. */
-export const userFormFieldKeys = userColumnKeys.filter(
-  (key): key is UserColumnKey => key !== "id" && key !== "lastSeen"
-)
-
-export function emptyUserFormValues(): Record<UserColumnKey, string> {
-  return Object.fromEntries(userFormFieldKeys.map((key) => [key, ""])) as Record<
-    UserColumnKey,
-    string
-  >
-}
+import {
+  userCityOptions,
+  userCompanyOptions,
+  userCountryOptions,
+  userDepartmentOptions,
+  userLanguageOptions,
+  userPlanOptions,
+  userRoleOptions,
+  userStatusOptions,
+  userTeamOptions,
+  userTimezoneOptions,
+  userTitleOptions,
+  type UserRow,
+} from "../constants/users"
+import type { NotificationChannel, NotificationRowId } from "../create/constants/notifications"
 
 const firstNames = ["Ayşe", "Mehmet", "Elif", "Can", "Zeynep", "Emre", "Deniz", "Selin"]
 const lastNames = ["Yılmaz", "Kaya", "Demir", "Şahin", "Çelik", "Aydın", "Koç", "Arslan"]
-export const userRoleOptions = ["Yönetici", "Editör", "Üye", "Analist"] as const
-export const userStatusOptions = ["Aktif", "Pasif", "Beklemede"] as const
-export const userDepartmentOptions = ["Ürün", "Satış", "Destek", "Finans", "Tasarım"] as const
-export const userCityOptions = ["İstanbul", "Ankara", "İzmir", "Bursa", "Antalya"] as const
-export const userCountryOptions = ["Türkiye", "Almanya", "Hollanda", "İngiltere"] as const
-export const userCompanyOptions = ["Nova", "Kuzey", "Mavi", "Lumen", "Atlas"] as const
-export const userTitleOptions = ["Uzman", "Kıdemli", "Stajyer", "Müdür"] as const
-export const userLanguageOptions = ["Türkçe", "İngilizce"] as const
-export const userTimezoneOptions = ["Europe/Istanbul", "Europe/Berlin", "Europe/London"] as const
-export const userPlanOptions = ["Ücretsiz", "Pro", "Takım"] as const
-export const userTeamOptions = ["Alpha", "Beta", "Gamma", "Delta"] as const
-
 const roles = userRoleOptions
 const statuses = userStatusOptions
 const departments = userDepartmentOptions
@@ -105,3 +66,42 @@ export const userList: UserRow[] = Array.from({ length: 50 }, (_, index) => {
     note: `Örnek kayıt ${n}`,
   }
 })
+
+/** Demo alan değerleri — i18n dışında, örnek veri. */
+export const userCreateDemo = {
+  nameValue: "John Doe",
+  emailValue: "lorem@ipsum.com",
+  companyValue: "Nova",
+  countryValue: "Türkiye",
+  phoneValue: "+90 532 214 08 16",
+  birthdayValue: "14.06.1992",
+  noteValue:
+    "Kurumsal yönetim paneli ve B2B SaaS arayüzleri üzerinde çalışan kıdemli geliştirici.",
+}
+
+export const userBillingFigures = {
+  summaries: ["640 TL", "86 GB", "Takım"],
+  methods: [
+    { brand: "Troy", detail: "9792 06•• •••• 4412", isDefault: true },
+    { brand: "Visa", detail: "4532 18•• •••• 9081", isDefault: false },
+    { brand: "Mastercard", detail: "5412 75•• •••• 2260", isDefault: false },
+  ],
+  rows: [
+    { id: "FT-20418", date: "12.03.2026 14:20", price: "128 TL", status: "pending" as const },
+    { id: "FT-19802", date: "02.02.2026 09:05", price: "96 TL", status: "paid" as const },
+    { id: "FT-18755", date: "18.12.2025 16:40", price: "210 TL", status: "paid" as const },
+    { id: "FT-17610", date: "03.11.2025 11:15", price: "54 TL", status: "cancelled" as const },
+  ],
+}
+
+export const notificationMatrixDefault: Record<
+  NotificationRowId,
+  Record<NotificationChannel, boolean>
+> = {
+  ticketReplies: { email: true, inApp: true, push: true },
+  ticketStatus: { email: true, inApp: true, push: false },
+  blogComments: { email: false, inApp: true, push: false },
+  system: { email: true, inApp: true, push: false },
+  weekly: { email: true, inApp: false, push: false },
+  security: { email: true, inApp: true, push: true },
+}

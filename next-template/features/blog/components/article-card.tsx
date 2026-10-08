@@ -11,7 +11,8 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { cn } from "cn"
-import { blogCopy, blogPosts, type BlogLocale } from "../data"
+import { blogCopy, type BlogLocale } from "../constants/blog"
+import { blogPosts } from "../mocks/blog.mock"
 
 type Post = (typeof blogPosts)[number]
 

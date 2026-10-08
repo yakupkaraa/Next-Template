@@ -36,7 +36,7 @@ import {
   type TicketEnvironment,
   type TicketModule,
   type TicketPriority,
-} from "@/features/ticket/data"
+} from "@/features/ticket/constants/ticket"
 import type { ContentLocale } from "@/lib/i18n"
 import { cn } from "cn"
 
