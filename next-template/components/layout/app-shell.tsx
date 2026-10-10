@@ -7,7 +7,15 @@ import { Sidebar } from "@/components/layout/sidebar/sidebar"
 import { useThemeSettings } from "@/components/theme/theme-provider"
 import { cn } from "cn"
 
-export function AppShell({ children }: { children: ReactNode }) {
+export function AppShell({
+  children,
+  badgeCounts,
+  isAdmin,
+}: {
+  children: ReactNode
+  badgeCounts?: Partial<Record<string, number>>
+  isAdmin?: boolean
+}) {
   const { layout, footer } = useThemeSettings()
   const [open, setOpen] = useState(true)
   const top = layout === "top"
@@ -35,7 +43,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         </>
       ) : (
         <>
-          {right ? null : <Sidebar open={open} placement="start" />}
+          {right ? null : <Sidebar open={open} placement="start" badgeCounts={badgeCounts} isAdmin={isAdmin} />}
           <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
             <Header open={open} onToggle={() => setOpen((value) => !value)} />
             <main
@@ -46,7 +54,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             </main>
             {footer ? <Footer /> : null}
           </div>
-          {right ? <Sidebar open={open} placement="end" /> : null}
+          {right ? <Sidebar open={open} placement="end" badgeCounts={badgeCounts} isAdmin={isAdmin} /> : null}
         </>
       )}
     </div>

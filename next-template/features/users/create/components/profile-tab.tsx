@@ -487,7 +487,7 @@ export function ProfileTab({
   const saveDisabled = !dirty || Boolean(currentErrors.firstName || currentErrors.lastName || currentErrors.email) || saving
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6" data-user-form="">
       <div className="flex items-start gap-3">
         <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
           <User className="size-5" />

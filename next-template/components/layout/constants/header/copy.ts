@@ -1,6 +1,6 @@
 import type { Locale } from "@/lib/locales"
 
-export const headerBrand = "Proje Adı"
+export const headerBrand = "Next Template"
 
 export const headerCopy: Record<
   Locale,

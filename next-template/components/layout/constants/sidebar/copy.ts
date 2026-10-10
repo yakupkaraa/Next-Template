@@ -12,7 +12,7 @@ export const sidebarCopy: Record<
   }
 > = {
   tr: {
-    brand: "Proje Adı",
+    brand: "Next Template",
     panel: "Yönetim paneli",
     menu: "Genel menü",
     userName: "Yakup K.",
@@ -20,7 +20,7 @@ export const sidebarCopy: Record<
     userSettings: "Kullanıcı ayarları",
   },
   en: {
-    brand: "Project Name",
+    brand: "Next Template",
     panel: "Admin panel",
     menu: "Main menu",
     userName: "Yakup K.",
@@ -28,7 +28,7 @@ export const sidebarCopy: Record<
     userSettings: "User settings",
   },
   de: {
-    brand: "Projektname",
+    brand: "Next Template",
     panel: "Admin-Panel",
     menu: "Hauptmenü",
     userName: "Yakup K.",
@@ -36,7 +36,7 @@ export const sidebarCopy: Record<
     userSettings: "Benutzereinstellungen",
   },
   fr: {
-    brand: "Nom du projet",
+    brand: "Next Template",
     panel: "Panneau d’admin",
     menu: "Menu principal",
     userName: "Yakup K.",
@@ -44,7 +44,7 @@ export const sidebarCopy: Record<
     userSettings: "Paramètres utilisateur",
   },
   it: {
-    brand: "Nome progetto",
+    brand: "Next Template",
     panel: "Pannello admin",
     menu: "Menu principale",
     userName: "Yakup K.",

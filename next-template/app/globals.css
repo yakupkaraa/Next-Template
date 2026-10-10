@@ -316,7 +316,7 @@ html[data-font-size="18"] {
     --tw-ring-shadow: 0 0 #0000 !important;
   }
 
-  html[data-density="compact"] [data-density-board] .grid {
+  html[data-density="compact"] [data-density-board] .grid:not([data-user-form] .grid) {
     gap: 0 !important;
   }
 
@@ -577,7 +577,7 @@ html[data-font-size="18"] {
     margin: 0 !important;
   }
 
-  html[data-density="compact"] [data-density-board] .grid {
+  html[data-density="compact"] [data-density-board] .grid:not([data-user-form] .grid) {
     gap: 0 !important;
   }
 

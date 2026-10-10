@@ -130,6 +130,10 @@ export const en = {
       departmentAll: "Department: All",
       copy: "Copy",
       copied: "Copied",
+      deleteConfirmTitle: "Delete user",
+      deleteConfirmHint: "Are you sure you want to permanently delete {name}?",
+      yes: "Yes",
+      no: "No",
     },
     create: {
       account: "Account",

@@ -125,6 +125,10 @@ export type Messages = {
       departmentAll: string
       copy: string
       copied: string
+      deleteConfirmTitle: string
+      deleteConfirmHint: string
+      yes: string
+      no: string
     }
     create: {
       account: string

@@ -130,6 +130,10 @@ export const tr = {
       departmentAll: "Departman: Tümü",
       copy: "Kopyala",
       copied: "Kopyalandı",
+      deleteConfirmTitle: "Kullanıcıyı sil",
+      deleteConfirmHint: "{name} adlı kullanıcıyı kalıcı olarak silmek istediğinden emin misin?",
+      yes: "Evet",
+      no: "Hayır",
     },
     create: {
       account: "Hesap",

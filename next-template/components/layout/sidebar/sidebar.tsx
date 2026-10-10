@@ -12,8 +12,6 @@ import {
 } from "@/components/ui/collapsible"
 import { localeFromPath, type Locale } from "@/lib/locales"
 import { cn } from "cn"
-import { openTicketCount } from "@/features/ticket/constants/ticket"
-import { getCurrentUser, seedTickets } from "@/features/ticket/mocks/ticket.mock"
 import { sidebarCopy } from "@/components/layout/constants/sidebar/copy"
 import { isMenuGroup, menuItems, type MenuGroup, type MenuLink } from "./menu-items"
 
@@ -33,6 +31,8 @@ function MenuLinkItem({
   pathname,
   nested = false,
   horizontal = false,
+  badgeCounts,
+  isAdmin,
 }: {
   item: MenuLink
   open: boolean
@@ -40,6 +40,8 @@ function MenuLinkItem({
   pathname: string
   nested?: boolean
   horizontal?: boolean
+  badgeCounts?: Partial<Record<string, number>>
+  isAdmin?: boolean
 }) {
   const href = itemHref(locale, item.href)
   const label = item.label[locale]
@@ -65,9 +67,9 @@ function MenuLinkItem({
         <Icon className="size-4 shrink-0 opacity-90" />
       )}
       <span className={open ? "min-w-0 flex-1 truncate" : "sr-only"}>{label}</span>
-      {item.badge === "open-tickets" && getCurrentUser().role === "admin" && open ? (
+      {item.badge && isAdmin && open ? (
         <span className="rounded-full bg-primary/15 px-1.5 py-0.5 text-[10px] font-semibold text-primary">
-          {openTicketCount(seedTickets)}
+          {badgeCounts?.[item.badge] ?? 0}
         </span>
       ) : null}
     </Link>
@@ -80,12 +82,16 @@ function MenuGroupItem({
   locale,
   pathname,
   horizontal = false,
+  badgeCounts,
+  isAdmin,
 }: {
   item: MenuGroup
   open: boolean
   locale: Locale
   pathname: string
   horizontal?: boolean
+  badgeCounts?: Partial<Record<string, number>>
+  isAdmin?: boolean
 }) {
   const label = item.label[locale]
   const Icon = item.icon
@@ -142,6 +148,8 @@ function MenuGroupItem({
             pathname={pathname}
             nested
             horizontal={horizontal}
+            badgeCounts={badgeCounts}
+            isAdmin={isAdmin}
           />
         ))}
       </CollapsibleContent>
@@ -153,10 +161,14 @@ export function Sidebar({
   open,
   orientation = "vertical",
   placement = "start",
+  badgeCounts,
+  isAdmin,
 }: {
   open: boolean
   orientation?: "vertical" | "horizontal"
   placement?: "start" | "end"
+  badgeCounts?: Partial<Record<string, number>>
+  isAdmin?: boolean
 }) {
   const pathname = usePathname()
   const locale = localeFromPath(pathname)
@@ -220,6 +232,8 @@ export function Sidebar({
               locale={locale}
               pathname={pathname}
               horizontal={horizontal}
+              badgeCounts={badgeCounts}
+              isAdmin={isAdmin}
             />
           ) : (
             <MenuLinkItem
@@ -229,6 +243,8 @@ export function Sidebar({
               locale={locale}
               pathname={pathname}
               horizontal={horizontal}
+              badgeCounts={badgeCounts}
+              isAdmin={isAdmin}
             />
           )
         )}

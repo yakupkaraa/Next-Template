@@ -18,7 +18,7 @@ import {
   settingsSizes,
   settingsText,
   type SettingsLayout,
-} from "../constants/data"
+} from "@/lib/theme/settings-options"
 
 function pickOne(next: string[], current: string) {
   return next.at(-1) ?? current

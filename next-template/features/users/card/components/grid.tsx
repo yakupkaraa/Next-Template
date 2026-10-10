@@ -19,7 +19,7 @@ import {
 import { DensityBoard } from "@/components/layout/density-board"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardTitle } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
   Dialog,
@@ -35,6 +35,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { ConfirmModal } from "@/components/shared/confirm-modal"
 import { SearchBar } from "@/components/shared/search-bar"
 import {
   Select,
@@ -248,41 +249,6 @@ const UserCard = memo(function UserCard({
           </p>
         </div>
       </CardContent>
-      <CardFooter className="mt-auto justify-between border-t border-primary/10 bg-transparent px-4 py-2">
-        <span className="text-[11px] text-muted-foreground">{user.lastSeen}</span>
-        <div className="flex items-center gap-0.5">
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon-xs"
-            className="text-muted-foreground"
-            aria-label={editLabel}
-            onClick={() => onEdit(user)}
-          >
-            <Pencil />
-          </Button>
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon-xs"
-            className="text-muted-foreground"
-            aria-label={copyLabel}
-            onClick={() => onCopy(user)}
-          >
-            <Copy />
-          </Button>
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon-xs"
-            className="text-muted-foreground hover:text-destructive"
-            aria-label={deleteLabel}
-            onClick={() => onDelete(user)}
-          >
-            <Trash2 />
-          </Button>
-        </div>
-      </CardFooter>
     </Card>
   )
 })
@@ -312,14 +278,6 @@ function UserCardSkeleton() {
           <Skeleton className="h-3.5 w-2/3" />
         </div>
       </CardContent>
-      <CardFooter className="mt-auto justify-between border-t border-primary/10 bg-transparent px-4 py-2">
-        <Skeleton className="h-3 w-16" />
-        <div className="flex items-center gap-0.5">
-          <Skeleton className="size-6 rounded-md" />
-          <Skeleton className="size-6 rounded-md" />
-          <Skeleton className="size-6 rounded-md" />
-        </div>
-      </CardFooter>
     </Card>
   )
 }
@@ -419,6 +377,7 @@ export function UserCardGrid({ locale }: { locale: ContentLocale }) {
   const [loading, setLoading] = useState(true)
   const [rows, setRows] = useState<UserRow[]>(userList)
   const [selected, setSelected] = useState<Set<string>>(new Set())
+  const [deleteTarget, setDeleteTarget] = useState<UserRow | null>(null)
 
   useEffect(() => {
     const timer = window.setTimeout(() => setLoading(false), 1000)
@@ -484,6 +443,10 @@ export function UserCardGrid({ locale }: { locale: ContentLocale }) {
     },
     [locale]
   )
+
+  const requestDelete = useCallback((row: UserRow) => {
+    setDeleteTarget(row)
+  }, [])
 
   return (
     <DensityBoard>
@@ -566,7 +529,7 @@ export function UserCardGrid({ locale }: { locale: ContentLocale }) {
                 menuLabel={list.actionsMenu}
                 onToggle={toggleSelected}
                 onEdit={goEdit}
-                onDelete={handleDelete}
+                onDelete={requestDelete}
                 onCopy={copyUser}
               />
             )}
@@ -605,6 +568,19 @@ export function UserCardGrid({ locale }: { locale: ContentLocale }) {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <ConfirmModal
+        open={deleteTarget !== null}
+        onOpenChange={(open) => { if (!open) setDeleteTarget(null) }}
+        title={card.deleteConfirmTitle}
+        description={card.deleteConfirmHint.replace(
+          "{name}",
+          deleteTarget ? `${deleteTarget.firstName} ${deleteTarget.lastName}` : ""
+        )}
+        confirmLabel={card.yes}
+        cancelLabel={card.no}
+        onConfirm={() => { if (deleteTarget) handleDelete(deleteTarget) }}
+      />
     </DensityBoard>
   )
 }

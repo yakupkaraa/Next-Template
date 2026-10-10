@@ -1,13 +1,10 @@
+import { MOCK_SESSION_ROLE } from "@/lib/mock-session"
 import {
   TICKET_NOW_MS,
   type HelpArticle,
   type Ticket,
   type TicketPerson,
-  type TicketRole,
 } from "../constants/ticket"
-
-/** Rol denemesi: "admin" | "user" */
-export const MOCK_SESSION_ROLE: TicketRole = "admin"
 
 export const ticketPeople: TicketPerson[] = [
   {
