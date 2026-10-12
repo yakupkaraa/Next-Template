@@ -8,6 +8,7 @@ import { localeFromPath } from "@/lib/locales"
 const ACCESS_TOKEN_KEY = "access_token"
 const REFRESH_TOKEN_KEY = "refresh_token"
 const REFRESH_PATH = "/auth/refresh"
+const AUTH_BYPASS_PATHS = [REFRESH_PATH, "/auth/login", "/auth/logout"]
 
 type RetryConfig = InternalAxiosRequestConfig & { _retry?: boolean }
 
@@ -52,17 +53,26 @@ const api = axios.create({
 })
 
 let isRefreshing = false
+let isSigningOut = false
 let queue: QueueEntry[] = []
 
-function isRefreshRequest(url: string | undefined) {
-  return (url ?? "").includes(REFRESH_PATH)
+function isAuthBypassRequest(url: string | undefined) {
+  return AUTH_BYPASS_PATHS.some((path) => (url ?? "").includes(path))
 }
 
-function redirectToLogin() {
+async function redirectToLogin() {
   if (typeof window === "undefined") return
   const locale = localeFromPath(window.location.pathname)
   const loginPath = `/${locale}/auth/login`
   if (window.location.pathname === loginPath) return
+  // Birden fazla eş zamanlı 401'de sign-out tek sefer çağrılır.
+  if (isSigningOut) return
+  isSigningOut = true
+  try {
+    await fetch("/api/auth/sign-out", { method: "POST" })
+  } catch {
+    // fetch başarısız olsa da yönlendirmeye devam et.
+  }
   // Axios interceptor React ağacının dışında; useRouter burada yok.
   // eslint-disable-next-line @next/next/no-location-assign-relative-destination
   window.location.assign(loginPath)
@@ -94,8 +104,8 @@ api.interceptors.response.use(
     const original = error.config as RetryConfig | undefined
     const status = error.response?.status
 
-    if (status !== 401 || !original || original._retry || isRefreshRequest(original.url)) {
-      if (status === 401 && original && isRefreshRequest(original.url)) {
+    if (status !== 401 || !original || original._retry || isAuthBypassRequest(original.url)) {
+      if (status === 401 && original && isAuthBypassRequest(original.url)) {
         clearTokens()
         redirectToLogin()
       }
@@ -155,6 +165,9 @@ export const http = {
   },
   put<T>(url: string, data?: unknown, requestConfig?: AxiosRequestConfig) {
     return api.put<T>(url, data, requestConfig).then((r) => r.data)
+  },
+  patch<T>(url: string, data?: unknown, requestConfig?: AxiosRequestConfig) {
+    return api.patch<T>(url, data, requestConfig).then((r) => r.data)
   },
   delete<T>(url: string, requestConfig?: AxiosRequestConfig) {
     return api.delete<T>(url, requestConfig).then((r) => r.data)

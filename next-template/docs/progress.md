@@ -1,32 +1,57 @@
-# Yapı Düzenleme İlerlemesi
+# API Hazırlığı İlerlemesi
 
 > Güncelleme: 2026-10-10
 
-## Ortak Adım
+## Faz 1 — Tip Altyapısı + Auth Düzeltmeleri
 
 | # | Görev | Durum |
 |---|---|---|
-| CA-1 | `features/blog/blog.ts` sil | ✅ |
-| CA-2 | `SettingsPanel` → `components/theme/`, `data.ts` → `lib/theme/settings-options.ts` | ✅ |
-| CA-3 | `sidebar.tsx` ticket import ihlalini gider — props chain + `lib/mock-session.ts` | ✅ |
+| 1a | `lib/api-types.ts` — `ApiError`, `PaginatedResponse<T>`, `ListParams`, `adaptPaginatedResponse`, `normalizeApiError` | ✅ |
+| 1b | `lib/api.ts` — `http.patch<T>()` eklendi | ✅ |
+| 1c | `next.config.ts` — `images.remotePatterns: []` örneği | ✅ |
+| 1d | `lib/api.ts` — `isAuthBypassRequest` (K-3: login/logout/refresh bypass) | ✅ |
+| 1e | `lib/api.ts` — `redirectToLogin` async + `isSigningOut` guard + `/api/auth/sign-out` fetch | ✅ |
+| 1f | `app/api/auth/sign-out/route.ts` — POST Route Handler, session cookie siler | ✅ |
+| 1g | TanStack Query kurulumu (`@tanstack/react-query` + devtools) | ✅ |
+| 1h | `components/shared/query-provider.tsx` — `QueryProvider` (useState ile QueryClient) | ✅ |
+| 1i | `app/[locale]/layout.tsx` — `QueryProvider` sarmalayıcı eklendi | ✅ |
+| 1j | AGENTS.md "Data / API Kuralları" güncellemesi (Onay Maddesi C) | ✅ |
+| 1k | `.next` cache temizlendi (silinen settings route referansı) | ✅ |
+| - | tsc `--noEmit` | ✅ temiz |
+| - | lint | ✅ yeni hata yok (1 pre-existing error, 6 pre-existing warning) |
 
-## Feature Adımları
+## Faz 2 — Users Hook'ları (bekliyor)
 
-| Feature | Görev | Durum |
+| # | Görev | Durum |
 |---|---|---|
-| settings | CA-2 sonrası `features/settings/` silindi (KG-1: A) | ✅ |
-| dashboard | `charts/` → `components/` (KG-3: A) | ✅ |
-| insights | `charts/` → `components/` (KG-3: A) | ✅ |
-| users | `actions.ts` yerinde kalsın (KG-4: C) | ✅ |
-| ai-chat | Uyumlu, işlem yok | ✅ |
-| auth | Uyumlu, işlem yok | ✅ |
-| blog | CA-1 sonrası temiz | ✅ |
-| list | Uyumlu (stub, kasıtlı), işlem yok | ✅ |
-| profile | Uyumlu, işlem yok | ✅ |
-| ticket | CA-3 sonrası temiz (import ihlali giderildi) | ✅ |
+| 2a | **Onay Maddesi A**: `users/[id]/edit` route değişikliği (7 etkilenen nokta) | ⏳ ayrı onay |
+| 2b | `features/users/hooks/use-user-list.ts` — `useUserList(params)` | ⏳ |
+| 2c | `features/users/hooks/use-delete-user.ts` | ⏳ |
+| 2d | `grid.tsx`, `table.tsx` — `useMemo` filtre + `setTimeout` loading → hook + debounce | ⏳ |
+| 2e | `lib/messages/en.ts`, `lib/messages/tr.ts` — `errors` anahtarı | ⏳ |
+| 2f | `features/users/actions.ts` kararı | ⏳ Faz 2'de |
+
+## Faz 3 — Ticket Hook'ları (bekliyor)
+
+| # | Görev | Durum |
+|---|---|---|
+| 3a | `useTicketList`, `useTicket`, `useUpdateTicket`, `useCreateTicket`, `useSendMessage` | ⏳ |
+| 3b | `screen.tsx` local `setTickets` → hook çağrısına | ⏳ |
+
+## Faz 4 — Blog, AI Chat, Profile, Dashboard, Insights (bekliyor)
+
+⏳ Faz 3 sonrası
+
+## Faz 5 — Sidebar badge + isAdmin + Notifications (bekliyor)
+
+⏳ `useCurrentUser`, `useNavBadges`, `NavDataProvider`, `useNotifications`
+
+## Faz 6 — Auth Seam (bekliyor)
+
+⏳ Login akışı, signOut eş zamanlı, MOCK_SESSION_ROLE kaldırma
 
 ## Efsane
 - ⏳ bekliyor
 - 🔄 uygulandı — onay bekliyor
-- ✅ onaylandı / işlem yok
+- ✅ onaylandı / tamamlandı
 - ❌ reddedildi
