@@ -53,6 +53,7 @@ import {
   NOTE_MAX,
 } from "./profile-tab.utils"
 import { formatPhoneInput, normalizeEmail } from "@/features/users/utils/form-field-meta"
+import { useSaveUser } from "@/features/users/hooks/use-save-user"
 
 export type ProfileFormMode = "self" | "admin"
 
@@ -178,7 +179,7 @@ export function ProfileTab({
   const [values, setValues] = useState(snapshot)
   const [errors, setErrors] = useState<FieldErrors>({})
   const [saved, setSaved] = useState(false)
-  const [saving, setSaving] = useState(false)
+  const { saveUser, saving } = useSaveUser()
   const [baseline, setBaseline] = useState(snapshot)
 
   const dirty = preview !== null || JSON.stringify(values) !== JSON.stringify(baseline)
@@ -231,7 +232,7 @@ export function ProfileTab({
     return next
   }
 
-  function save() {
+  async function save() {
     const nextErrors = validate()
     setErrors(nextErrors)
     const firstKey = (["firstName", "lastName", "email"] as const).find((key) => nextErrors[key])
@@ -240,12 +241,9 @@ export function ProfileTab({
       document.getElementById(`profile-${firstKey}`)?.scrollIntoView({ behavior: "smooth", block: "center" })
       return
     }
-    setSaving(true)
-    window.setTimeout(() => {
-      setBaseline(values)
-      setSaving(false)
-      setSaved(true)
-    }, 600)
+    const result = await saveUser(values)
+    setBaseline(result)
+    setSaved(true)
   }
 
   function describedBy(id: string, hint?: string, error?: string) {

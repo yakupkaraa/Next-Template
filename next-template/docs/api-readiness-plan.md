@@ -548,30 +548,49 @@ queryFn: async () => {
 - `components/shared/query-provider.tsx` — `QueryProvider` component'i
 - `app/[locale]/layout.tsx` — `QueryProvider` sarmalayıcı eklenmesi
 
-### Faz 2 — Users hook'ları
+### Faz 2 — Users clean code + code splitting
 
-**Bağımsız onay maddesi:**
-- **Onay Maddesi A**: `users/[id]/edit` route değişikliği (etkilenen 7 nokta, bkz. Swap Noktaları > users)
+> ⏳ Kısmen tamamlandı (2026-10-13):
+> - `features/users/hooks/use-users.ts` — `useState` tabanlı `useUsers(locale)` hook'u oluşturuldu
+> - `features/users/components/add-user-dialog.tsx` — paylaşılan dialog bileşeni, `next/dynamic` lazy
+> - `features/users/card/components/user-card.tsx` — `UserCard` + `UserCardSkeleton` çıkarıldı
+> - `features/users/card/components/user-cards-virtualized.tsx` — virtualizer çıkarıldı
+> - `grid.tsx`, `table.tsx` — mock + actions importları kaldırıldı, hook + lazy dialog
+> - `features/users/actions.ts` — silindi
+>
+> ⏳ Bekliyor (Parça 2, kullanıcı onayı sonrası):
+> - `features/users/hooks/use-save-user.ts` — `useSaveUser()` hook'u
+> - `profile-tab.tsx` + `profile-tab.fields.tsx` — clean code + `useSaveUser`
+> - `form.tsx` — tab panelleri `next/dynamic` lazy
+> - `billing-panel.tsx` — `AddCardSheet` lazy
+>
+> ⏳ Ertelendi — Onay Maddesi A (ayrı onay):
+> - `users/[id]/edit` route değişikliği (7 etkilenen nokta)
 
-**Kod değişiklikleri:**
-- `features/users/hooks/use-user-list.ts` — `useUserList(params)`
+**Gerçek API'ye bağlanırken yapılacaklar (ertelendi):**
+- `features/users/hooks/use-user-list.ts` — `useUserList(params)` TanStack Query
 - `features/users/hooks/use-delete-user.ts`
-- `grid.tsx`, `table.tsx` — `useMemo` filtre + `setTimeout` loading kaldırılır, debounce + hook çağrısına geçilir
-- `features/users/actions.ts` — hook'a delegate veya silinir
-- `lib/messages/en.ts`, `lib/messages/tr.ts` — `errors` anahtarı eklenir
-- **`normalizeApiError.message` conflict (açık eksik — Faz 2'de çözülecek):** Şu an `message` alanı hem backend human-readable mesajını (`code="SERVER_MESSAGE"`) hem de axios teknik mesajını (`"Request failed with status code 401"`) taşıyor. UI ikisini ayırt edemiyor; 4 adımlı öncelik sırası tam uygulanamıyor. Çözüm seçenekleri: (a) backend mesajı yoksa `message` boş bırakılır, (b) `serverMessage?: string` ayrı alan eklenir. Seçim Faz 2 başında yapılır, ardından `lib/api-types.ts` güncellenir.
+- `useMemo` filtre + debounce → hook'a taşıma
+- `lib/messages/en.ts`, `lib/messages/tr.ts` — `errors` anahtarı
+- `normalizeApiError.message` conflict çözümü (bkz. açık eksik)
 
 ### Faz 3 — Ticket hook'ları
+
+> ⏳ Ertelendi — API'ye bağlanırken yapılacak
 
 - `useTicketList`, `useTicket`, `useUpdateTicket`, `useCreateTicket`, `useSendMessage`
 - `screen.tsx` local `setTickets` → hook çağrısına dönüştürülür
 
 ### Faz 4 — Blog, AI Chat, Profile, Dashboard, Insights hook'ları
 
+> ⏳ Ertelendi — API'ye bağlanırken yapılacak
+
 - Her feature için read/mutation hook'ları
 - Dashboard/Insights: dataset başına hook, chart component'leri mock import'u yerine hook çağrısı yapar
 
 ### Faz 5 — Sidebar badge + isAdmin + Notifications
+
+> ⏳ Ertelendi — API'ye bağlanırken yapılacak
 
 - `hooks/use-current-user.ts`, `hooks/use-nav-badges.ts`
 - `NavDataProvider` client wrapper → `app/[locale]/(dashboard)/layout.tsx`
@@ -579,6 +598,8 @@ queryFn: async () => {
 - `useNotifications()` hook
 
 ### Faz 6 — Auth seam (ayrı karar)
+
+> ⏳ Ertelendi — API'ye bağlanırken yapılacak
 
 - Login akışı: client `http.post("/auth/login")` + `signIn()` server action cookie set (redirect kaldırılır)
 - `signOut` + `clearTokens` + `/api/auth/sign-out` eş zamanlı

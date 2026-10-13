@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useState } from "react"
 import { CreditCard, Lock } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -80,15 +80,12 @@ export function AddCardSheet({
   const previewName = name.trim() || "—"
   const previewExpiry = expiry.trim() || "•• / ••"
 
-  const required = useMemo(
-    () => ({
-      number: digits.length === 16,
-      name: name.trim().length > 1,
-      expiry: /^\d{2} \/ \d{2}$/.test(expiry),
-      cvv: cvv.length >= 3,
-    }),
-    [cvv.length, digits.length, expiry, name]
-  )
+  const required = {
+    number: digits.length === 16,
+    name: name.trim().length > 1,
+    expiry: /^\d{2} \/ \d{2}$/.test(expiry),
+    cvv: cvv.length >= 3,
+  }
 
   function reset() {
     setNumber("")

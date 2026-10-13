@@ -1,13 +1,25 @@
 "use client"
 
+import dynamic from "next/dynamic"
 import { Card, CardHeader, CardTitle } from "@/components/ui/card"
+import { Skeleton } from "@/components/ui/skeleton"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { cn } from "cn"
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
-import { BillingPanel } from "./billing-panel"
-import { NotificationsPanel } from "./notifications-panel"
 import { ProfileTab, type ProfileFormMode } from "./profile-tab"
-import { SecurityPanel } from "./security-panel"
+
+const BillingPanel = dynamic(
+  () => import("./billing-panel").then((m) => ({ default: m.BillingPanel })),
+  { loading: () => <Skeleton className="h-[32rem] w-full rounded-xl" /> }
+)
+const SecurityPanel = dynamic(
+  () => import("./security-panel").then((m) => ({ default: m.SecurityPanel })),
+  { loading: () => <Skeleton className="h-[26rem] w-full rounded-xl" /> }
+)
+const NotificationsPanel = dynamic(
+  () => import("./notifications-panel").then((m) => ({ default: m.NotificationsPanel })),
+  { loading: () => <Skeleton className="h-[26rem] w-full rounded-xl" /> }
+)
 
 export function UserCreateForm({
   locale,

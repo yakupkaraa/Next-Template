@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import dynamic from "next/dynamic"
 import { ArrowRight, CreditCard, HardDrive, Package, Wallet } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -16,7 +17,14 @@ import {
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
 import { cn } from "cn"
 import { userBillingFigures } from "../../mocks/users.mock"
-import { AddCardSheet, type SavedCard } from "./add-card-sheet"
+import { preloadOnHover } from "@/features/users/utils/preload-on-hover"
+import type { SavedCard } from "./add-card-sheet"
+
+const AddCardSheet = dynamic(() =>
+  import("./add-card-sheet").then((m) => ({ default: m.AddCardSheet }))
+)
+
+const preloadAddCardSheet = preloadOnHover(() => import("./add-card-sheet"))
 
 const billingStatusTone: Record<"pending" | "paid" | "cancelled", StatusBadgeTone> = {
   pending: "warning",
@@ -35,7 +43,13 @@ const summaryToneClass = [
 export function BillingPanel({ locale }: { locale: ContentLocale }) {
   const billing = getDictionary(locale).users.create.billing
   const [open, setOpen] = useState(false)
+  const [sheetMounted, setSheetMounted] = useState(false)
   const [methods, setMethods] = useState(userBillingFigures.methods)
+
+  function openAddCardSheet() {
+    setSheetMounted(true)
+    setOpen(true)
+  }
 
   function handleSaved(card: SavedCard) {
     setMethods((current) => {
@@ -90,7 +104,13 @@ export function BillingPanel({ locale }: { locale: ContentLocale }) {
         <CardHeader className="items-center border-b py-3">
           <CardTitle>{billing.methodsTitle}</CardTitle>
           <CardAction>
-            <Button type="button" size="sm" onClick={() => setOpen(true)}>
+            <Button
+              type="button"
+              size="sm"
+              onClick={openAddCardSheet}
+              onPointerEnter={preloadAddCardSheet}
+              onFocus={preloadAddCardSheet}
+            >
               {billing.addMethod}
             </Button>
           </CardAction>
@@ -159,7 +179,9 @@ export function BillingPanel({ locale }: { locale: ContentLocale }) {
         </CardContent>
       </Card>
 
-      <AddCardSheet locale={locale} open={open} onOpenChange={setOpen} onSaved={handleSaved} />
+      {sheetMounted && (
+        <AddCardSheet locale={locale} open={open} onOpenChange={setOpen} onSaved={handleSaved} />
+      )}
     </div>
   )
 }
