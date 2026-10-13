@@ -24,7 +24,7 @@ import {
   type UserRow,
 } from "@/features/users/constants/users"
 import { useUsers } from "@/features/users/hooks/use-users"
-import { preloadOnHover } from "@/features/users/utils/preload-on-hover"
+import { preloadOnHover } from "@/lib/preload-on-hover"
 import { UserCard, UserCardSkeleton } from "./user-card"
 import { UserCardsVirtualized, GRID_CLASS, CARD_CELL_CLASS } from "./user-cards-virtualized"
 

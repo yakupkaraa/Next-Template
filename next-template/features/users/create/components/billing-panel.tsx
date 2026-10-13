@@ -17,7 +17,7 @@ import {
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
 import { cn } from "cn"
 import { userBillingFigures } from "../../mocks/users.mock"
-import { preloadOnHover } from "@/features/users/utils/preload-on-hover"
+import { preloadOnHover } from "@/lib/preload-on-hover"
 import type { SavedCard } from "./add-card-sheet"
 
 const AddCardSheet = dynamic(() =>

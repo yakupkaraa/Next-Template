@@ -2,6 +2,8 @@
 
 import { Bell, Check, ChevronDown, LogOut, Menu, Settings, User } from "lucide-react"
 import Link from "next/link"
+import dynamic from "next/dynamic"
+import { useState } from "react"
 import { usePathname } from "next/navigation"
 import { cn } from "cn"
 import { Badge } from "@/components/ui/badge"
@@ -26,8 +28,14 @@ import { signOut } from "@/lib/session"
 import { isMenuGroup, menuItems, type MenuGroup, type MenuLink } from "../sidebar/menu-items"
 import { LocaleFlag } from "@/components/shared/locale-flag"
 import { notifications } from "@/components/layout/mocks/notifications"
-import { SettingsPanel } from "@/components/theme/settings-panel"
 import { useThemeSettings } from "@/components/theme/theme-provider"
+import { preloadOnHover } from "@/lib/preload-on-hover"
+
+const SettingsPanel = dynamic(() =>
+  import("@/components/theme/settings-panel").then((m) => ({ default: m.SettingsPanel }))
+)
+
+const preloadSettingsPanel = preloadOnHover(() => import("@/components/theme/settings-panel"))
 
 function itemHref(locale: ReturnType<typeof localeFromPath>, href: string) {
   return href === "/" ? `/${locale}` : `/${locale}${href}`
@@ -129,6 +137,13 @@ export function Header({
   const { layout } = useThemeSettings()
   const settingsSide = layout === "right" ? "left" : "right"
   const reverseChrome = layout === "right"
+  const [settingsOpen, setSettingsOpen] = useState(false)
+  const [settingsMounted, setSettingsMounted] = useState(false)
+
+  function openSettings() {
+    setSettingsMounted(true)
+    setSettingsOpen(true)
+  }
 
   const sidebarToggle = showSidebarToggle ? (
       <Button
@@ -197,11 +212,19 @@ export function Header({
           ))}
         </DropdownMenuContent>
       </DropdownMenu>
-      <Sheet>
+      <Sheet open={settingsOpen} onOpenChange={setSettingsOpen}>
         <SheetTrigger
           nativeButton
           render={
-            <Button type="button" variant="ghost" size="icon" aria-label={text.settings} />
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              aria-label={text.settings}
+              onClick={openSettings}
+              onPointerEnter={preloadSettingsPanel}
+              onFocus={preloadSettingsPanel}
+            />
           }
         >
           <Settings className="size-[1.2rem]" />
@@ -210,7 +233,7 @@ export function Header({
           <SheetHeader>
             <SheetTitle>{text.settings}</SheetTitle>
           </SheetHeader>
-          <SettingsPanel locale={locale} />
+          {settingsMounted && <SettingsPanel locale={locale} />}
         </SheetContent>
       </Sheet>
       <DropdownMenu>

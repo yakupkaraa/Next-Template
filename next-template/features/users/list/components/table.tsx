@@ -12,7 +12,7 @@ import { SearchBar } from "@/components/shared/search-bar"
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
 import { userColumnKeys, type UserRow } from "@/features/users/constants/users"
 import { useUsers } from "@/features/users/hooks/use-users"
-import { preloadOnHover } from "@/features/users/utils/preload-on-hover"
+import { preloadOnHover } from "@/lib/preload-on-hover"
 import { getUserListColumns } from "@/features/users/list/components/columns"
 
 const AddUserDialog = dynamic(() =>

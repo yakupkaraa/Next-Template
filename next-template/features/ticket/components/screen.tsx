@@ -2,6 +2,7 @@
 
 import { FileSpreadsheet, LineChart, X } from "lucide-react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import dynamic from "next/dynamic"
 import { useCallback, useMemo, useState } from "react"
 import { DensityBoard } from "@/components/layout/density-board"
 import { Button } from "@/components/ui/button"
@@ -13,7 +14,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { Sheet, SheetContent } from "@/components/ui/sheet"
-import { TicketAssignDialog } from "@/features/ticket/components/ticket-assign-dialog"
+import { preloadOnHover } from "@/lib/preload-on-hover"
 import { TicketDetail } from "@/features/ticket/components/ticket-detail"
 import { TicketFiltersToolbar, type TicketFilters } from "@/features/ticket/components/ticket-filters-toolbar"
 import { TicketList } from "@/features/ticket/components/ticket-list"
@@ -35,6 +36,16 @@ import {
 } from "@/features/ticket/mocks/ticket.mock"
 import type { ContentLocale } from "@/lib/i18n"
 
+const TicketAssignDialog = dynamic(() =>
+  import("@/features/ticket/components/ticket-assign-dialog").then((m) => ({
+    default: m.TicketAssignDialog,
+  }))
+)
+
+const preloadTicketAssignDialog = preloadOnHover(() =>
+  import("@/features/ticket/components/ticket-assign-dialog")
+)
+
 const PRIORITY_RANK: Record<TicketPriority, number> = {
   urgent: 0,
   high: 1,
@@ -54,8 +65,15 @@ export function TicketScreen({ locale }: { locale: ContentLocale }) {
   const [notice, setNotice] = useState("")
   const [checked, setChecked] = useState<Set<number>>(new Set())
   const [assignOpen, setAssignOpen] = useState(false)
+  const [assignMounted, setAssignMounted] = useState(false)
   const [assignIds, setAssignIds] = useState<number[]>([])
   const [closeOpen, setCloseOpen] = useState(false)
+
+  function openAssignDialog(ids: number[]) {
+    setAssignIds(ids)
+    setAssignMounted(true)
+    setAssignOpen(true)
+  }
 
   const queryString = searchParams.toString()
   const filters: TicketFilters = useMemo(() => {
@@ -168,10 +186,9 @@ export function TicketScreen({ locale }: { locale: ContentLocale }) {
           size="sm"
           variant="outline"
           className="min-h-11 sm:min-h-7"
-          onClick={() => {
-            setAssignIds([...checked])
-            setAssignOpen(true)
-          }}
+          onClick={() => openAssignDialog([...checked])}
+          onPointerEnter={preloadTicketAssignDialog}
+          onFocus={preloadTicketAssignDialog}
         >
           {text.assign}
         </Button>
@@ -324,10 +341,7 @@ export function TicketScreen({ locale }: { locale: ContentLocale }) {
             onToggleAll={(value) => {
               setChecked(value ? new Set(filtered.map((item) => item.id)) : new Set())
             }}
-            onAssign={(id) => {
-              setAssignIds([id])
-              setAssignOpen(true)
-            }}
+            onAssign={(id) => openAssignDialog([id])}
             onStatus={(id) => addSystem([id], `${user.name} durumu 'İnceleniyor' yaptı`, { status: "in_review" })}
             onCopy={copyLink}
             onClear={() => patch({ q: "", priority: "", category: "", assignee: "", date: "", sort: "", status: "" })}
@@ -351,20 +365,22 @@ export function TicketScreen({ locale }: { locale: ContentLocale }) {
         </Sheet>
       ) : null}
 
-      <TicketAssignDialog
-        locale={locale}
-        open={assignOpen}
-        tickets={tickets}
-        onOpenChange={setAssignOpen}
-        onAssign={(userId) => {
-          const agent = personById(userId)
-          addSystem(assignIds, `${user.name} bileti ${agent?.name ?? ""} kişisine atadı`, {
-            assigneeId: userId,
-          })
-          setChecked(new Set())
-          setNotice(text.updated)
-        }}
-      />
+      {assignMounted && (
+        <TicketAssignDialog
+          locale={locale}
+          open={assignOpen}
+          tickets={tickets}
+          onOpenChange={setAssignOpen}
+          onAssign={(userId) => {
+            const agent = personById(userId)
+            addSystem(assignIds, `${user.name} bileti ${agent?.name ?? ""} kişisine atadı`, {
+              assigneeId: userId,
+            })
+            setChecked(new Set())
+            setNotice(text.updated)
+          }}
+        />
+      )}
 
       <Dialog open={closeOpen} onOpenChange={setCloseOpen}>
         <DialogContent showCloseButton={false} className="sm:max-w-md">
