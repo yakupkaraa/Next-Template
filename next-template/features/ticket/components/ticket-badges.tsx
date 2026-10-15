@@ -1,7 +1,6 @@
-import type { ReactNode } from "react"
 import type { LucideIcon } from "lucide-react"
 import { Flag, Receipt, Tag, User, Wrench } from "lucide-react"
-import { StatusBadge, statusBadgeTones, type StatusBadgeTone } from "@/components/shared/status-badge"
+import { StatusBadge, type StatusBadgeTone } from "@/components/shared/status-badge"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "cn"
 import type { ContentLocale } from "@/lib/i18n"
@@ -10,7 +9,8 @@ import type {
   TicketCategory,
   TicketPriority,
   TicketStatus,
-} from "@/features/ticket/constants/ticket"
+} from "@/features/ticket/types/ticket"
+import { IconBadge } from "./icon-badge"
 
 const infoClass = "border border-info bg-info-bg font-medium text-info"
 
@@ -94,28 +94,6 @@ export function priorityDotClass(priority: TicketPriority) {
   if (priority === "normal") return "bg-info"
   if (priority === "high") return "bg-warning"
   return "bg-error"
-}
-
-function IconBadge({
-  tone,
-  icon: Icon,
-  className,
-  children,
-}: {
-  tone: StatusBadgeTone | "info"
-  icon: LucideIcon
-  className?: string
-  children: ReactNode
-}) {
-  return (
-    <Badge
-      variant="secondary"
-      className={cn(tone === "info" ? infoClass : statusBadgeTones[tone], className)}
-    >
-      <Icon data-icon="inline-start" />
-      {children}
-    </Badge>
-  )
 }
 
 export function TicketPriorityIconBadge({

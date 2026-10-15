@@ -2,7 +2,7 @@
 
 import { cn } from "cn"
 import { inboxCopy } from "@/features/ticket/constants/copy"
-import type { Ticket, TicketStatus } from "@/features/ticket/constants/ticket"
+import type { Ticket, TicketStatus } from "@/features/ticket/types/ticket"
 import type { ContentLocale } from "@/lib/i18n"
 
 const chips: { id: "all" | TicketStatus; labelKey: "all" | "open" | "inReview" | "resolved" | "closed"; className: string }[] = [

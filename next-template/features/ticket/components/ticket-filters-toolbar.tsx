@@ -18,7 +18,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet"
 import { inboxCopy } from "@/features/ticket/constants/copy"
-import { ticketCategories } from "@/features/ticket/constants/ticket"
+import { ticketCategories } from "@/features/ticket/constants/ticket-options"
 import { ticketPeople } from "@/features/ticket/mocks/ticket.mock"
 import type { ContentLocale } from "@/lib/i18n"
 

@@ -3,11 +3,8 @@
 import { useEffect, useRef } from "react"
 import { Lock } from "lucide-react"
 import { inboxCopy } from "@/features/ticket/constants/copy"
-import {
-  formatRelative,
-  type Ticket,
-  type TicketRole,
-} from "@/features/ticket/constants/ticket"
+import type { Ticket, TicketRole } from "@/features/ticket/types/ticket"
+import { formatRelative } from "@/features/ticket/utils/ticket"
 import { personById } from "@/features/ticket/mocks/ticket.mock"
 import type { ContentLocale } from "@/lib/i18n"
 import { cn } from "cn"

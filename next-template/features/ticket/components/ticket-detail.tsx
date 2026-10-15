@@ -24,19 +24,15 @@ import {
 import { TicketComposer } from "@/features/ticket/components/ticket-composer"
 import { TicketThread } from "@/features/ticket/components/ticket-thread"
 import { inboxCopy } from "@/features/ticket/constants/copy"
-import {
-  formatDateTime,
-  formatSla,
-  initialsOf,
-  labelOf,
-  ticketCategories,
-  ticketModules,
-  type Ticket,
-  type TicketMessageType,
-  type TicketPriority,
-  type TicketRole,
-  type TicketStatus,
-} from "@/features/ticket/constants/ticket"
+import { ticketCategories, ticketModules } from "@/features/ticket/constants/ticket-options"
+import type {
+  Ticket,
+  TicketMessageType,
+  TicketPriority,
+  TicketRole,
+  TicketStatus,
+} from "@/features/ticket/types/ticket"
+import { formatDateTime, formatSla, initialsOf, labelOf } from "@/features/ticket/utils/ticket"
 import { personById, ticketPeople } from "@/features/ticket/mocks/ticket.mock"
 import type { ContentLocale } from "@/lib/i18n"
 

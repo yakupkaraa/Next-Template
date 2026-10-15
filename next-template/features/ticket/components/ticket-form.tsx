@@ -32,11 +32,13 @@ import {
   ticketCategories,
   ticketEnvironments,
   ticketModules,
-  type TicketCategory,
-  type TicketEnvironment,
-  type TicketModule,
-  type TicketPriority,
-} from "@/features/ticket/constants/ticket"
+} from "@/features/ticket/constants/ticket-options"
+import type {
+  TicketCategory,
+  TicketEnvironment,
+  TicketModule,
+  TicketPriority,
+} from "@/features/ticket/types/ticket"
 import type { ContentLocale } from "@/lib/i18n"
 import { cn } from "cn"
 

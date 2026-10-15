@@ -16,13 +16,9 @@ import {
   TicketStatusBadge,
 } from "@/features/ticket/components/ticket-badges"
 import { inboxCopy } from "@/features/ticket/constants/copy"
-import {
-  formatRelative,
-  initialsOf,
-  labelOf,
-  ticketCategories,
-  type Ticket,
-} from "@/features/ticket/constants/ticket"
+import { ticketCategories } from "@/features/ticket/constants/ticket-options"
+import type { Ticket } from "@/features/ticket/types/ticket"
+import { formatRelative, initialsOf, labelOf } from "@/features/ticket/utils/ticket"
 import { personById } from "@/features/ticket/mocks/ticket.mock"
 import type { ContentLocale } from "@/lib/i18n"
 import { cn } from "cn"

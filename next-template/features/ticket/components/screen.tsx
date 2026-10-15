@@ -22,13 +22,9 @@ import { TicketNotice } from "@/features/ticket/components/ticket-notice"
 import { TicketStatChips } from "@/features/ticket/components/ticket-stat-chips"
 import { useMediaQuery } from "@/hooks/use-media-query"
 import { inboxCopy } from "@/features/ticket/constants/copy"
-import {
-  slaBreached,
-  TICKET_NOW_MS,
-  type Ticket,
-  type TicketMessageType,
-  type TicketPriority,
-} from "@/features/ticket/constants/ticket"
+import { TICKET_NOW_MS } from "@/features/ticket/constants/ticket-options"
+import type { Ticket, TicketMessageType, TicketPriority } from "@/features/ticket/types/ticket"
+import { slaBreached } from "@/features/ticket/utils/ticket"
 import {
   getCurrentUser,
   personById,

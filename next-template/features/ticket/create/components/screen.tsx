@@ -16,11 +16,9 @@ import { TicketForm, type TicketFormErrors, type TicketFormValue } from "@/featu
 import { TicketNotice } from "@/features/ticket/components/ticket-notice"
 import { TicketSideCards } from "@/features/ticket/components/ticket-side-cards"
 import { createCopy } from "@/features/ticket/create/constants/copy"
-import {
-  nextTicketId,
-  TICKET_NOW_MS,
-  type Ticket,
-} from "@/features/ticket/constants/ticket"
+import { TICKET_NOW_MS } from "@/features/ticket/constants/ticket-options"
+import type { Ticket } from "@/features/ticket/types/ticket"
+import { nextTicketId } from "@/features/ticket/utils/ticket"
 import { getCurrentUser, seedTickets } from "@/features/ticket/mocks/ticket.mock"
 import type { ContentLocale } from "@/lib/i18n"
 
