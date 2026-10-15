@@ -8,7 +8,6 @@ import {
   MessageCircle,
   MonitorPlay,
   Share2,
-  TrendingUp,
   Users,
 } from "lucide-react"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -75,14 +74,6 @@ const priorityTone: Record<ProjectPriority, string> = {
   medium: "bg-primary/10 text-primary",
   high: "bg-secondary text-secondary-foreground",
   veryHigh: "bg-destructive/10 text-destructive",
-}
-
-function Delta({ value }: { value: number }) {
-  return (
-    <span className="inline-flex items-center gap-0.5 text-xs font-semibold text-primary">
-      <TrendingUp className="size-3" />+{value}%
-    </span>
-  )
 }
 
 export function DashboardScreen({ locale }: { locale: DashboardLocale }) {
@@ -167,10 +158,6 @@ export function DashboardScreen({ locale }: { locale: DashboardLocale }) {
             <CardContent className="flex items-center justify-between gap-3 pt-0">
               <div className="space-y-2">
                 <p className="text-2xl font-bold tracking-tight">{dashboardYearly.amount}</p>
-                <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                  <Delta value={dashboardYearly.delta} />
-                  {text.lastYear}
-                </p>
                 <div className="space-y-1 pt-2 text-xs">
                   <p className="flex items-center gap-2">
                     <span className="size-2.5 rounded-full bg-chart-1" />
@@ -195,12 +182,8 @@ export function DashboardScreen({ locale }: { locale: DashboardLocale }) {
                 </span>
               </div>
             </CardHeader>
-            <CardContent className="pt-0">
+            <CardContent className="pt-0 space-y-2">
               <p className="text-2xl font-bold tracking-tight">{dashboardMonthly.amount}</p>
-              <p className="mb-2 flex items-center gap-1.5 text-xs text-muted-foreground">
-                <Delta value={dashboardMonthly.delta} />
-                {text.lastYear}
-              </p>
               <SparklineChart data={[...dashboardMonthly.points]} />
             </CardContent>
           </Card>
@@ -238,7 +221,6 @@ export function DashboardScreen({ locale }: { locale: DashboardLocale }) {
           <CardContent className="space-y-2 py-5">
             <p className="text-sm text-muted-foreground">{text.customers}</p>
             <p className="text-2xl font-bold tracking-tight">{dashboardMiniStats.customers.value}</p>
-            <Delta value={dashboardMiniStats.customers.delta} />
             <SparklineChart data={[...dashboardCustomersSpark]} heightClass="h-14" />
           </CardContent>
         </Card>
@@ -247,7 +229,6 @@ export function DashboardScreen({ locale }: { locale: DashboardLocale }) {
           <CardContent className="space-y-2 py-5">
             <p className="text-sm text-muted-foreground">{text.projects}</p>
             <p className="text-2xl font-bold tracking-tight">{dashboardMiniStats.projects.value}</p>
-            <Delta value={dashboardMiniStats.projects.delta} />
             <MiniStatBars data={[...dashboardProjectsBars]} />
           </CardContent>
         </Card>

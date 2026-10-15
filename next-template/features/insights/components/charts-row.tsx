@@ -93,15 +93,6 @@ export function InsightsChartsRow({ locale }: InsightsSectionProps) {
                       (%{Math.round((seg.value / insightSegmentTotal) * 100)})
                     </span>
                   </span>
-                  <span
-                    className={cn(
-                      "text-xs font-semibold",
-                      seg.delta >= 0 ? "text-(--trend-up)" : "text-destructive"
-                    )}
-                  >
-                    {seg.delta >= 0 ? "+" : ""}
-                    {seg.delta}%
-                  </span>
                 </span>
               </li>
             ))}

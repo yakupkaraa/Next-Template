@@ -6,7 +6,6 @@ export const insightWelcome = {
 
 export const insightTotalSales = {
   amount: "₺98.452,76",
-  delta: 32.8,
   tooltipMonth: { tr: "Aralık", en: "December" },
   points: [
     { label: "Oca", value: 42 },
@@ -26,7 +25,6 @@ export const insightTotalSales = {
 
 export const insightMonthly = {
   value: "36.890",
-  delta: 3.6,
   weekValue: "5.420",
   bars: [42, 58, 48, 72, 65, 80, 96],
 }
@@ -35,8 +33,6 @@ export const insightKpis = [
   {
     id: "orders",
     value: "1.920",
-    delta: 6.1,
-    direction: "up" as const,
     bar: "bg-primary",
     iconBox: "bg-muted text-primary",
     spark: "M 2 18 L 12 14 L 22 17 L 32 9 L 42 12 L 54 3",
@@ -45,8 +41,6 @@ export const insightKpis = [
   {
     id: "shipped",
     value: "1.785",
-    delta: 4.3,
-    direction: "down" as const,
     bar: "bg-chart-2",
     iconBox: "bg-chart-2/15 text-chart-2",
     spark: "M 2 5 L 12 8 L 22 6 L 32 14 L 42 12 L 54 20",
@@ -55,8 +49,6 @@ export const insightKpis = [
   {
     id: "revenue",
     value: "₺88.900",
-    delta: 7.9,
-    direction: "up" as const,
     bar: "bg-chart-4",
     iconBox: "bg-chart-4/15 text-chart-4",
     spark: "M 2 16 L 14 15 L 24 10 L 34 12 L 44 6 L 54 4",
@@ -66,8 +58,6 @@ export const insightKpis = [
     id: "rating",
     value: "4,9",
     suffix: "/ 5,0",
-    delta: 2.5,
-    direction: "up" as const,
     bar: "bg-chart-3",
     iconBox: "bg-chart-3/15 text-chart-3",
     spark: "M 2 15 L 14 12 L 24 14 L 34 8 L 44 9 L 54 3",
@@ -76,9 +66,9 @@ export const insightKpis = [
 ]
 
 export const insightSegments = [
-  { key: "a", label: "Kurumsal", value: 1984, delta: 4.2, color: "var(--chart-1)" },
-  { key: "b", label: "KOBİ", value: 923, delta: 1.8, color: "var(--chart-2)" },
-  { key: "c", label: "Bireysel", value: 513, delta: -0.5, color: "var(--chart-3)" },
+  { key: "a", label: "Kurumsal", value: 1984, color: "var(--chart-1)" },
+  { key: "b", label: "KOBİ", value: 923, color: "var(--chart-2)" },
+  { key: "c", label: "Bireysel", value: 513, color: "var(--chart-3)" },
 ]
 
 export const insightSegmentTotal = 3420

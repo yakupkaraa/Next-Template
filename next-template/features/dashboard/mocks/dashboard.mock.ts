@@ -37,14 +37,12 @@ export const dashboardRevenue = {
 
 export const dashboardYearly = {
   amount: "$36,358",
-  delta: 9,
   thisYear: 38,
   prevYear: 62,
 }
 
 export const dashboardMonthly = {
   amount: "$6,820",
-  delta: 9,
   points: [
     { label: "1", value: 12 },
     { label: "2", value: 18 },
@@ -92,8 +90,8 @@ export const dashboardProjectsBars = [
 ]
 
 export const dashboardMiniStats = {
-  customers: { value: "36,358", delta: 9 },
-  projects: { value: "78,298", delta: 9 },
+  customers: { value: "36,358" },
+  projects: { value: "78,298" },
 }
 
 export const dashboardPromoPeople = ["LD", "SI", "AM", "PJ"]

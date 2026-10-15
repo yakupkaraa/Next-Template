@@ -1,8 +1,7 @@
 import { CreditCard, Package, ShoppingBag, Star } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
-import { insightCopy, insightKpiLabels } from "../constants/insights"
+import { insightKpiLabels } from "../constants/insights"
 import { insightKpis } from "../mocks/insights.mock"
-import { Delta } from "./delta"
 import type { InsightsSectionProps } from "../utils/section-props"
 
 const kpiIcons = {
@@ -13,8 +12,6 @@ const kpiIcons = {
 } as const
 
 export function InsightsKpis({ locale }: InsightsSectionProps) {
-  const vs = insightCopy[locale].vsLastWeek
-
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {insightKpis.map((kpi) => {
@@ -40,11 +37,7 @@ export function InsightsKpis({ locale }: InsightsSectionProps) {
                   <Icon className="size-5" />
                 </span>
               </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1.5">
-                  <Delta value={kpi.delta} direction={kpi.direction} pill />
-                  <span className="text-xs text-muted-foreground">{vs}</span>
-                </div>
+              <div className="flex items-center justify-end">
                 <svg className="h-6 w-14 shrink-0" fill="none" viewBox="0 0 56 24" aria-hidden>
                   <path
                     d={kpi.spark}

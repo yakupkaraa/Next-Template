@@ -4,7 +4,6 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { MiniSalesBars, TotalSalesLineChart } from "./charts/chart-loaders"
 import { insightCopy } from "../constants/insights"
 import { insightMonthly, insightTotalSales } from "../mocks/insights.mock"
-import { Delta } from "./delta"
 import type { InsightsSectionProps } from "../utils/section-props"
 
 export function InsightsHero({ locale }: InsightsSectionProps) {
@@ -26,8 +25,6 @@ export function InsightsHero({ locale }: InsightsSectionProps) {
                 <p className="text-[28px] leading-8 font-bold tracking-tight tabular-nums">
                   {insightTotalSales.amount}
                 </p>
-                <Delta value={insightTotalSales.delta} direction="up" pill />
-                <span className="text-xs text-muted-foreground">{text.vsLastMonth}</span>
               </div>
             </div>
             <ToggleGroup
@@ -52,7 +49,6 @@ export function InsightsHero({ locale }: InsightsSectionProps) {
             <span className="size-2 rounded-full bg-primary" />
             <span className="text-xs font-semibold">{insightTotalSales.tooltipMonth[locale]}:</span>
             <span className="text-xs tabular-nums">{insightTotalSales.amount}</span>
-            <span className="text-xs font-bold text-primary">(+{insightTotalSales.delta}%)</span>
           </div>
           <TotalSalesLineChart data={insightTotalSales.points} />
           <div className="flex justify-between px-1 pt-1 text-xs tabular-nums text-muted-foreground">
@@ -77,10 +73,6 @@ export function InsightsHero({ locale }: InsightsSectionProps) {
               </CardTitle>
               <p className="text-[28px] leading-8 font-bold tracking-tight tabular-nums">
                 {insightMonthly.value}
-              </p>
-              <p className="mt-1 flex items-center gap-2 text-xs text-primary-foreground/80">
-                <Delta value={insightMonthly.delta} direction="up" onSurface="primary" pill />
-                {text.sinceMonth}
               </p>
             </div>
             <span className="flex size-10 items-center justify-center rounded-xl bg-primary-foreground/20 text-primary-foreground shadow-sm backdrop-blur-md">
