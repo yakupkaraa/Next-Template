@@ -3,12 +3,12 @@
 import { useCallback, useLayoutEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react"
 import { useVirtualizer } from "@tanstack/react-virtual"
 import { useThemeSettings } from "@/components/theme/theme-provider"
+import { CARD_ROW_PX, getCardGridGap } from "@/lib/theme/density-metrics"
 import type { UserRow } from "@/features/users/constants/users"
 
 export const GRID_CLASS = "grid grid-cols-12 items-stretch gap-4"
 export const CARD_CELL_CLASS = "col-span-6 sm:col-span-3 xl:col-span-2"
 
-const CARD_ROW_PX = 336
 const INITIAL_SCROLL_RECT = { width: 1280, height: 720 }
 
 function subscribeCardColumns(onStoreChange: () => void) {
@@ -42,7 +42,7 @@ export function UserCardsVirtualized({
   const listRef = useRef<HTMLDivElement>(null)
   const columns = useCardColumns()
   const { density } = useThemeSettings()
-  const gap = density === "compact" ? 0 : 16
+  const gap = getCardGridGap(density)
   const [scrollMargin, setScrollMargin] = useState(0)
   const rowCount = Math.ceil(users.length / columns)
 

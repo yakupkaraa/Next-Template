@@ -308,14 +308,6 @@ html[data-font-size="18"] {
     padding: 0 !important;
   }
 
-  html[data-density="compact"] [data-density-board] [data-skeleton-grid] [data-slot="card"] {
-    border-radius: 0.75rem !important;
-    border-width: 1px !important;
-    margin: 0 !important;
-    box-shadow: none !important;
-    --tw-ring-shadow: 0 0 #0000 !important;
-  }
-
   html[data-density="compact"] [data-density-board] .grid:not([data-user-form] .grid) {
     gap: 0 !important;
   }
@@ -338,20 +330,6 @@ html[data-font-size="18"] {
     width: 100% !important;
     padding: 0 !important;
     gap: 0 !important;
-  }
-
-  /* Skeleton: yoğunluk yerleşimini yemez, her zaman konforlu görünür */
-  html[data-density="compact"] [data-density-board][data-skeleton-layout] {
-    --density-pad-y: 1.5rem;
-    --density-gap: 1rem;
-    --sticky-bleed-x: calc(100% / 18 + 1.5rem);
-    gap: 1rem !important;
-    padding-top: 1.5rem !important;
-    padding-bottom: 1.5rem !important;
-  }
-
-  html[data-density="compact"] [data-density-board][data-skeleton-layout] .grid {
-    gap: revert-layer !important;
   }
 
   html[data-density="compact"]:has([data-skeleton-layout]) [data-app-main] {
@@ -587,16 +565,6 @@ html[data-font-size="18"] {
     gap: 0 !important;
   }
 
-  html[data-density="compact"] [data-density-board]:has([data-skeleton-grid]) {
-    gap: 1rem !important;
-    padding: 1rem !important;
-  }
-
-  html[data-density="compact"] [data-density-board] [data-skeleton-grid] {
-    gap: 1rem !important;
-    padding: 0 !important;
-  }
-
   html[data-density="compact"] [data-density-board] [data-skeleton-grid] [data-slot="card"] {
     border-radius: 0.75rem !important;
     border-width: 1px !important;
@@ -605,6 +573,7 @@ html[data-font-size="18"] {
     --tw-ring-shadow: 0 0 #0000 !important;
   }
 
+  /* Route-loading skeleton (data-skeleton-layout): yoğunluk yerleşimini yemez, her zaman konforlu görünür */
   html[data-density="compact"] [data-density-board][data-skeleton-layout] {
     --density-pad-y: 1.5rem;
     --density-gap: 1rem;
