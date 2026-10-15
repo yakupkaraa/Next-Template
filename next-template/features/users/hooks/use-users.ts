@@ -5,7 +5,7 @@ import { runAction } from "@/components/toast/run-action"
 import { mockRequest } from "@/lib/mock-request"
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
 import { userList } from "@/features/users/mocks/users.mock"
-import type { UserRow } from "@/features/users/constants/users"
+import type { UserRow } from "@/features/users/types/user"
 
 // TODO: gerçek API'de burası TanStack Query + features/users/endpoint.ts olacak
 export function useUsers(locale: ContentLocale) {

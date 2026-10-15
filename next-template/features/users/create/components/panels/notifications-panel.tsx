@@ -21,10 +21,9 @@ import {
   notificationMuteDurations,
   notificationQuietHours,
   notificationRequiredRow,
-  type NotificationChannel,
-  type NotificationRowId,
-} from "../constants/notifications"
-import { notificationMatrixDefault } from "../../mocks/users.mock"
+} from "../../constants/notifications"
+import type { NotificationChannel, NotificationRowId } from "../../types/notifications"
+import { notificationMatrixDefault } from "../../../mocks/users.mock"
 
 type DigestId = "instant" | "daily" | "weekly"
 type MuteDuration = (typeof notificationMuteDurations)[number]

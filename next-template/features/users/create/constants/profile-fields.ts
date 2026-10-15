@@ -1,4 +1,4 @@
-import type { UserColumnKey } from "@/features/users/constants/users"
+import type { UserColumnKey } from "@/features/users/types/user"
 import {
   userCountryOptions,
   userDepartmentOptions,
@@ -10,27 +10,9 @@ import {
   userTimezoneOptions,
   userTitleOptions,
 } from "@/features/users/constants/users"
+import type { ProfileFieldConfig } from "../types/profile-fields"
 
 export const profileSectionKeys = ["personal", "contact", "org", "prefs"] as const
-export type ProfileSectionKey = (typeof profileSectionKeys)[number]
-
-export type ProfileFieldKind =
-  | "text"
-  | "select"
-  | "combobox"
-  | "textarea"
-  | "tel"
-  | "email"
-  | "readonly"
-export type ProfileEditScope = "self" | "admin" | "both"
-
-export type ProfileFieldConfig = {
-  key: UserColumnKey
-  section: ProfileSectionKey | "account"
-  kind: ProfileFieldKind
-  editableIn: ProfileEditScope
-  required: boolean
-}
 
 export const profileFields: readonly ProfileFieldConfig[] = [
   { key: "firstName", section: "personal", kind: "text", editableIn: "both", required: true },

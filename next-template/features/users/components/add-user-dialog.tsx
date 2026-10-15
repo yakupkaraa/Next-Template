@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog"
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
 import { AddUserForm, addUserFormId } from "@/features/users/list/components/add-user-form"
-import type { UserRow } from "@/features/users/constants/users"
+import type { UserRow } from "@/features/users/types/user"
 
 export function AddUserDialog({
   open,

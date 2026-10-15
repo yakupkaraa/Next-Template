@@ -4,7 +4,7 @@ import { useCallback, useLayoutEffect, useRef, useState, useSyncExternalStore, t
 import { useVirtualizer } from "@tanstack/react-virtual"
 import { useThemeSettings } from "@/components/theme/theme-provider"
 import { CARD_ROW_PX, getCardGridGap } from "@/lib/theme/density-metrics"
-import type { UserRow } from "@/features/users/constants/users"
+import type { UserRow } from "@/features/users/types/user"
 
 export const GRID_CLASS = "grid grid-cols-12 items-stretch gap-4"
 export const CARD_CELL_CLASS = "col-span-6 sm:col-span-3 xl:col-span-2"

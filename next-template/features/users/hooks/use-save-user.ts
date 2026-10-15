@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { mockRequest } from "@/lib/mock-request"
-import type { UserRow } from "@/features/users/constants/users"
+import type { UserRow } from "@/features/users/types/user"
 
 // TODO: gerçek API'de burası TanStack Query mutation + features/users/endpoint.ts olacak
 export function useSaveUser() {

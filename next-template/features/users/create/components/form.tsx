@@ -9,15 +9,15 @@ import { getDictionary, type ContentLocale } from "@/lib/i18n"
 import { ProfileTab, type ProfileFormMode } from "./profile-tab"
 
 const BillingPanel = dynamic(
-  () => import("./billing-panel").then((m) => ({ default: m.BillingPanel })),
+  () => import("./panels/billing-panel").then((m) => ({ default: m.BillingPanel })),
   { loading: () => <Skeleton className="h-[32rem] w-full rounded-xl" /> }
 )
 const SecurityPanel = dynamic(
-  () => import("./security-panel").then((m) => ({ default: m.SecurityPanel })),
+  () => import("./panels/security-panel").then((m) => ({ default: m.SecurityPanel })),
   { loading: () => <Skeleton className="h-[26rem] w-full rounded-xl" /> }
 )
 const NotificationsPanel = dynamic(
-  () => import("./notifications-panel").then((m) => ({ default: m.NotificationsPanel })),
+  () => import("./panels/notifications-panel").then((m) => ({ default: m.NotificationsPanel })),
   { loading: () => <Skeleton className="h-[26rem] w-full rounded-xl" /> }
 )
 

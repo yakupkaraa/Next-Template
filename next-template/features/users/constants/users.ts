@@ -26,20 +26,10 @@ export const userColumnKeys = [
   "note",
 ] as const
 
-export type UserColumnKey = (typeof userColumnKeys)[number]
-export type UserRow = Record<UserColumnKey, string>
-
 /** Liste tablosu ile aynı alanlar; `id` ve `lastSeen` kayıtta otomatik doldurulur. */
 export const userFormFieldKeys = userColumnKeys.filter(
-  (key): key is UserColumnKey => key !== "id" && key !== "lastSeen"
+  (key): key is (typeof userColumnKeys)[number] => key !== "id" && key !== "lastSeen"
 )
-
-export function emptyUserFormValues(): Record<UserColumnKey, string> {
-  return Object.fromEntries(userFormFieldKeys.map((key) => [key, ""])) as Record<
-    UserColumnKey,
-    string
-  >
-}
 
 export const userRoleOptions = ["Yönetici", "Editör", "Üye", "Analist"] as const
 export const userStatusOptions = ["Aktif", "Pasif", "Beklemede"] as const

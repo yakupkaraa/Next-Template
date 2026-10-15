@@ -10,11 +10,8 @@ import type { DataTableFeatures } from "@/components/shared/data-table-features"
 import { UserRowActions } from "@/features/users/list/components/row-actions"
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
 import { cn } from "cn"
-import {
-  userColumnKeys,
-  type UserColumnKey,
-  type UserRow,
-} from "@/features/users/constants/users"
+import { userColumnKeys } from "@/features/users/constants/users"
+import type { UserColumnKey, UserRow } from "@/features/users/types/user"
 
 const tableCheckboxClass =
   "size-[18px] border-2 border-muted-foreground bg-background data-checked:border-primary dark:border-foreground/70"

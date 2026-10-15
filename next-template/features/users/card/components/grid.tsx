@@ -21,11 +21,12 @@ import {
   userDepartmentOptions,
   userRoleOptions,
   userStatusOptions,
-  type UserRow,
 } from "@/features/users/constants/users"
 import { useUsers } from "@/features/users/hooks/use-users"
 import { preloadOnHover } from "@/lib/preload-on-hover"
-import { UserCard, UserCardSkeleton } from "./user-card"
+import type { UserRow } from "@/features/users/types/user"
+import { UserCard } from "./user-card"
+import { UserCardSkeleton } from "./user-card-skeleton"
 import { UserCardsVirtualized, GRID_CLASS, CARD_CELL_CLASS } from "./user-cards-virtualized"
 
 const AddUserDialog = dynamic(() =>

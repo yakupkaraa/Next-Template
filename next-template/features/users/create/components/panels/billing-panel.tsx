@@ -16,15 +16,15 @@ import {
 } from "@/components/ui/table"
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
 import { cn } from "cn"
-import { userBillingFigures } from "../../mocks/users.mock"
+import { userBillingFigures } from "../../../mocks/users.mock"
 import { preloadOnHover } from "@/lib/preload-on-hover"
-import type { SavedCard } from "./add-card-sheet"
+import type { SavedCard } from "../add-card-sheet"
 
 const AddCardSheet = dynamic(() =>
-  import("./add-card-sheet").then((m) => ({ default: m.AddCardSheet }))
+  import("../add-card-sheet").then((m) => ({ default: m.AddCardSheet }))
 )
 
-const preloadAddCardSheet = preloadOnHover(() => import("./add-card-sheet"))
+const preloadAddCardSheet = preloadOnHover(() => import("../add-card-sheet"))
 
 const billingStatusTone: Record<"pending" | "paid" | "cancelled", StatusBadgeTone> = {
   pending: "warning",

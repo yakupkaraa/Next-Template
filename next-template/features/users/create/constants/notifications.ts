@@ -1,5 +1,4 @@
 export const notificationChannels = ["email", "inApp", "push"] as const
-export type NotificationChannel = (typeof notificationChannels)[number]
 
 export const notificationRowIds = [
   "ticketReplies",
@@ -9,7 +8,6 @@ export const notificationRowIds = [
   "weekly",
   "security",
 ] as const
-export type NotificationRowId = (typeof notificationRowIds)[number]
 
 export const notificationRequiredRow = "security" as const
 

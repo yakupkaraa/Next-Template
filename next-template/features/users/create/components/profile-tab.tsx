@@ -13,7 +13,6 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { CountryFlag } from "@/components/shared/locale-flag"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import {
   Select,
   SelectContent,
@@ -25,15 +24,11 @@ import { Separator } from "@/components/ui/separator"
 import { StatusBadge, type StatusBadgeTone } from "@/components/shared/status-badge"
 import { Textarea } from "@/components/ui/textarea"
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
-import {
-  emptyUserFormValues,
-  userColumnKeys,
-  type UserColumnKey,
-  type UserRow,
-} from "@/features/users/constants/users"
+import type { UserColumnKey } from "@/features/users/types/user"
 import { cn } from "cn"
-import { userCreateDemo } from "../../mocks/users.mock"
 import { getProfileFormCopy } from "../constants/profile-copy"
+import { AccountSummaryList } from "./account-summary-list"
+import { FieldShell } from "./field-shell"
 import { ProfileCombobox } from "./profile-combobox"
 import {
   citiesByCountry,
@@ -42,16 +37,16 @@ import {
   fieldSelectOptions,
   profileFields,
   profileSectionKeys,
-  type ProfileFieldConfig,
-  type ProfileSectionKey,
 } from "../constants/profile-fields"
+import type { ProfileFieldConfig, ProfileSectionKey } from "../types/profile-fields"
 import {
   EMAIL_PATTERN,
   formatProfileBalance,
   formatProfileDate,
+  initialValues,
   isFieldEditable,
   NOTE_MAX,
-} from "./profile-tab.utils"
+} from "../utils/profile-tab"
 import { formatPhoneInput, normalizeEmail } from "@/features/users/utils/form-field-meta"
 import { useSaveUser } from "@/features/users/hooks/use-save-user"
 
@@ -63,102 +58,6 @@ function statusTone(value: string): StatusBadgeTone {
   if (value === "Aktif") return "success"
   if (value === "Beklemede") return "warning"
   return "danger"
-}
-
-function emptyProfileValues(): UserRow {
-  return {
-    ...emptyUserFormValues(),
-    ...Object.fromEntries(userColumnKeys.map((key) => [key, ""])),
-  } as UserRow
-}
-
-function initialValues(intent: "create" | "edit"): UserRow {
-  if (intent === "create") return emptyProfileValues()
-  return {
-    ...emptyProfileValues(),
-    id: "24",
-    firstName: userCreateDemo.nameValue.split(" ")[0] ?? "",
-    lastName: userCreateDemo.nameValue.split(" ").slice(1).join(" "),
-    username: "jdoe",
-    email: userCreateDemo.emailValue,
-    phone: userCreateDemo.phoneValue,
-    company: userCreateDemo.companyValue,
-    country: userCreateDemo.countryValue,
-    city: "İstanbul",
-    department: "Ürün",
-    title: "Kıdemli",
-    team: "Alpha",
-    manager: "Ayşe Yılmaz",
-    language: "Türkçe",
-    timezone: "Europe/Istanbul",
-    note: userCreateDemo.noteValue,
-    role: "Editör",
-    status: "Aktif",
-    plan: "Pro",
-    joined: "12.03.2024",
-    lastSeen: "03.10.2026",
-    score: "86",
-    orders: "14",
-    balance: "1280 TL",
-    verified: "Evet",
-  }
-}
-
-function FieldShell({
-  id,
-  label,
-  required,
-  hint,
-  error,
-  className,
-  children,
-}: {
-  id: string
-  label: string
-  required?: boolean
-  hint?: string
-  error?: string
-  className?: string
-  children: ReactNode
-}) {
-  const hintId = `${id}-hint`
-  const errorId = `${id}-error`
-  return (
-    <div className={cn("flex min-w-0 flex-col gap-1.5", className)}>
-      <Label htmlFor={id} className="text-sm font-medium">
-        {label}
-        {required ? <span className="text-destructive"> *</span> : null}
-      </Label>
-      {children}
-      {hint ? (
-        <p id={hintId} className="text-xs text-muted-foreground">
-          {hint}
-        </p>
-      ) : null}
-      {error ? (
-        <p id={errorId} className="text-sm text-destructive" role="alert">
-          {error}
-        </p>
-      ) : null}
-    </div>
-  )
-}
-
-function AccountSummaryList({
-  items,
-}: {
-  items: { key: string; label: string; value: ReactNode }[]
-}) {
-  return (
-    <dl className="grid grid-cols-1 gap-3">
-      {items.map((item) => (
-        <div key={item.key} className="min-w-0">
-          <dt className="text-xs text-muted-foreground">{item.label}</dt>
-          <dd className="truncate text-sm font-medium">{item.value}</dd>
-        </div>
-      ))}
-    </dl>
-  )
 }
 
 export function ProfileTab({

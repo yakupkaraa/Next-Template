@@ -10,9 +10,9 @@ import {
   userTeamOptions,
   userTimezoneOptions,
   userTitleOptions,
-  type UserRow,
 } from "../constants/users"
-import type { NotificationChannel, NotificationRowId } from "../create/constants/notifications"
+import type { UserRow } from "../types/user"
+import type { NotificationChannel, NotificationRowId } from "../create/types/notifications"
 
 const firstNames = ["Ayşe", "Mehmet", "Elif", "Can", "Zeynep", "Emre", "Deniz", "Selin"]
 const lastNames = ["Yılmaz", "Kaya", "Demir", "Şahin", "Çelik", "Aydın", "Koç", "Arslan"]

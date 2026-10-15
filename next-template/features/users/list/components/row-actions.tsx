@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import type { UserRow } from "@/features/users/constants/users"
+import type { UserRow } from "@/features/users/types/user"
 
 export function UserRowActions({
   row,
