@@ -1,5 +1,6 @@
 import { AnalyticsPageHeader } from "@/components/shared/analytics-page-header"
-import { dashboardCopy, type DashboardLocale } from "../constants/dashboard"
+import { dashboardCopy } from "../constants/dashboard"
+import type { DashboardLocale } from "../types/dashboard"
 
 export function DashboardPageHeader({ locale }: { locale: DashboardLocale }) {
   const text = dashboardCopy[locale]

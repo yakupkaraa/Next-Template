@@ -1,4 +1,4 @@
-import type { BlogCategoryId } from "../constants/blog"
+import type { BlogCategoryId } from "../types/blog"
 
 export const blogPosts = [
   {

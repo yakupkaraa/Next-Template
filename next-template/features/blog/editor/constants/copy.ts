@@ -1,7 +1,5 @@
 import type { ContentLocale } from "@/lib/i18n"
 
-export type BlogEditorMode = "create" | "edit"
-
 export const blogEditorCopy = {
   tr: {
     createTitle: "Yeni blog yazısı",

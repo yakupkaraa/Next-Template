@@ -1,4 +1,4 @@
-import type { OrderStatus } from "../constants/insights"
+import type { OrderStatus } from "../types/insights"
 
 export const insightWelcome = {
   progress: 82,

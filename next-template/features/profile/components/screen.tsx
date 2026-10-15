@@ -13,7 +13,6 @@ import {
   Users,
   Video,
 } from "lucide-react"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -25,25 +24,10 @@ import {
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
-import { profileCopy, type ProfileLocale } from "../constants/profile"
+import { profileCopy } from "../constants/profile"
 import { profileContent, profileMedia } from "../mocks/profile.mock"
-
-function Person({
-  name,
-  src,
-  className,
-}: {
-  name: string
-  src: string
-  className?: string
-}) {
-  return (
-    <Avatar className={className}>
-      <AvatarImage alt={name} src={src} />
-      <AvatarFallback>{name.slice(0, 1)}</AvatarFallback>
-    </Avatar>
-  )
-}
+import type { ProfileLocale } from "../types/profile"
+import { Person } from "./person"
 
 export function ProfileScreen({ locale }: { locale: ProfileLocale }) {
   const text = profileCopy[locale]

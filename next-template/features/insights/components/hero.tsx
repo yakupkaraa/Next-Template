@@ -1,7 +1,7 @@
 import { UserPlus } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
-import { MiniSalesBars, TotalSalesLineChart } from "./chart-loaders"
+import { MiniSalesBars, TotalSalesLineChart } from "./charts/chart-loaders"
 import { insightCopy } from "../constants/insights"
 import { insightMonthly, insightTotalSales } from "../mocks/insights.mock"
 import { Delta } from "./delta"

@@ -48,15 +48,16 @@ import { Switch } from "@/components/ui/switch"
 import { Textarea } from "@/components/ui/textarea"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { cn } from "cn"
-import { blogCategories, type BlogLocale } from "../../constants/blog"
+import { blogCategories } from "../../constants/blog"
 import { blogPosts } from "../../mocks/blog.mock"
+import type { BlogLocale } from "../../types/blog"
 import {
   blogAuthors,
   blogEditorCopy,
   blogSeries,
   blogSuggestedTags,
-  type BlogEditorMode,
 } from "../constants/copy"
+import type { BlogEditorMode } from "../types/blog-editor"
 
 function slugify(value: string) {
   return value

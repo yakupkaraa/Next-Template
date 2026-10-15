@@ -39,15 +39,11 @@ import {
   SparklineChart,
   WeeklyAreaChart,
   YearlyDonutChart,
-} from "./chart-loaders"
+} from "./charts/chart-loaders"
 import { WelcomeSection } from "./welcome-card"
 import { DashboardPageHeader } from "./page-header"
-import {
-  dashboardCopy,
-  dashboardPriorityLabels,
-  type DashboardLocale,
-  type ProjectPriority,
-} from "../constants/dashboard"
+import { dashboardCopy, dashboardPriorityLabels } from "../constants/dashboard"
+import type { DashboardLocale, ProjectPriority } from "../types/dashboard"
 import {
   dashboardBestSellers,
   dashboardCustomersSpark,

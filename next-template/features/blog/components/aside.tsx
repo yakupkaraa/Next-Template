@@ -5,12 +5,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { cn } from "cn"
-import {
-  blogCopy,
-  blogTags,
-  type BlogLocale,
-} from "../constants/blog"
+import { blogCopy, blogTags } from "../constants/blog"
 import { blogRecent } from "../mocks/blog.mock"
+import type { BlogLocale } from "../types/blog"
 
 export function BlogAside({ locale, className }: { locale: BlogLocale; className?: string }) {
   const text = blogCopy[locale]

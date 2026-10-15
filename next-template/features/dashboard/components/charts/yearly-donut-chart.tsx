@@ -2,7 +2,7 @@
 
 import { Cell, Pie, PieChart } from "recharts"
 import { ChartContainer } from "@/components/ui/chart"
-import { dashboardYearly } from "../mocks/dashboard.mock"
+import { dashboardYearly } from "../../mocks/dashboard.mock"
 
 const slices = [
   { key: "thisYear", value: dashboardYearly.thisYear, color: "var(--chart-1)" },

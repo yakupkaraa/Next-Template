@@ -1,6 +1,4 @@
-import type { ContentLocale } from "@/lib/i18n"
-
-export type InsightLocale = ContentLocale
+import type { OrderStatus } from "../types/insights"
 
 export const insightCopy = {
   tr: {
@@ -93,8 +91,6 @@ export const insightKpiLabels = {
   revenue: { tr: "Ortalama sepet", en: "Avg. basket" },
   rating: { tr: "Memnuniyet", en: "Satisfaction" },
 }
-
-export type OrderStatus = "pending" | "shipped" | "delivered"
 
 export const insightStatusLabels: Record<OrderStatus, { tr: string; en: string }> = {
   pending: { tr: "Lorem", en: "Lorem" },

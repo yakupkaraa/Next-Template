@@ -15,7 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { OrderOverviewChart, SegmentationDonutChart, UserActivityChart } from "./chart-loaders"
+import { OrderOverviewChart, SegmentationDonutChart, UserActivityChart } from "./charts/chart-loaders"
 import { insightCopy } from "../constants/insights"
 import {
   insightActivityTotals,

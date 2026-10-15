@@ -1,4 +1,4 @@
-import type { ProjectPriority } from "../constants/dashboard"
+import type { ProjectPriority } from "../types/dashboard"
 
 export const dashboardVisit = {
   total: "2,458",
