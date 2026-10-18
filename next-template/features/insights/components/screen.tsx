@@ -1,5 +1,3 @@
-"use client"
-
 import { DensityBoard } from "@/components/layout/density-board"
 import { InsightsAside } from "./aside"
 import { InsightsChartsRow } from "./charts-row"

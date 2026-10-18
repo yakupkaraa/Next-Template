@@ -1,1 +1,1 @@
-export { DashboardPageClient } from "./components/page-client"
+export { DashboardScreen } from "./components/screen"

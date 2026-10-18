@@ -1,5 +1,3 @@
-"use client"
-
 import { Card, CardContent } from "@/components/ui/card"
 import { WelcomeVisitChart } from "./charts/chart-loaders"
 import { WelcomeGreeting } from "./welcome-greeting"

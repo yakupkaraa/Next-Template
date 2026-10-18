@@ -1,1 +1,1 @@
-export { InsightsPageClient } from "./components/page-client"
+export { InsightsScreen } from "./components/screen"

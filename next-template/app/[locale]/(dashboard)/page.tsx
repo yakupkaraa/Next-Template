@@ -1,4 +1,4 @@
-import { DashboardPageClient } from "@/features/dashboard"
+import { DashboardScreen } from "@/features/dashboard"
 import { resolveContentLocale } from "@/lib/i18n"
 
 export default async function Page({
@@ -9,5 +9,5 @@ export default async function Page({
   const { locale: routeLocale } = await params
   const locale = resolveContentLocale(routeLocale)
 
-  return <DashboardPageClient locale={locale} />
+  return <DashboardScreen locale={locale} />
 }

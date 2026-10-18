@@ -1,4 +1,4 @@
-import { InsightsPageClient } from "@/features/insights"
+import { InsightsScreen } from "@/features/insights"
 import { resolveContentLocale } from "@/lib/i18n"
 
 export default async function Page({
@@ -9,5 +9,5 @@ export default async function Page({
   const { locale: routeLocale } = await params
   const locale = resolveContentLocale(routeLocale)
 
-  return <InsightsPageClient locale={locale} />
+  return <InsightsScreen locale={locale} />
 }
