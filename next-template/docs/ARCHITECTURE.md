@@ -150,7 +150,7 @@ Mevcut feature'lar: `ai-chat`, `auth` (login + forgot-password), `blog`, `dashbo
 ## Renk Kuralları
 
 - Semantic renkler (`success`, `error`, `warning`, `info`) `app/globals.css` içinde tanımlanır ve accent temasından bağımsızdır.
-- `theme-accents.css` ve `lib/theme/accents.ts` sadece `--primary` ve türevlerini değiştirir.
+- `theme-accents.css` ve `lib/theme/accents.ts`, accent temasına (`blue`/`green`/`violet`) bağlı tüm görsel token'ları barındırır (`--primary` türevleri, sidebar/brand/surface tonları dahil); semantic renkler hariç.
 - Dark mode'da hue sabit kalır, sadece lightness/chroma ayarlanır.
 - `info` rengi accent'ten bağımsız bir ton olmalıdır (sky/cyan), `primary` ile karışmamalıdır.
 - Toast ve status component'leri hardcoded Tailwind rengi (`green-500` vb.) kullanmaz, sadece semantic token kullanır.
