@@ -21,7 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
-import { StatusBadge, type StatusBadgeTone } from "@/components/shared/status-badge"
+import { StatusBadge } from "@/components/shared/status-badge"
 import { Textarea } from "@/components/ui/textarea"
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
 import type { UserColumnKey } from "@/features/users/types/user"
@@ -49,16 +49,11 @@ import {
 } from "../utils/profile-tab"
 import { formatPhoneInput, normalizeEmail } from "@/features/users/utils/form-field-meta"
 import { useSaveUser } from "@/features/users/hooks/use-save-user"
+import { userStatusTone } from "@/features/users/utils/users"
 
 export type ProfileFormMode = "self" | "admin"
 
 type FieldErrors = Partial<Record<"firstName" | "lastName" | "email", string>>
-
-function statusTone(value: string): StatusBadgeTone {
-  if (value === "Aktif") return "success"
-  if (value === "Beklemede") return "warning"
-  return "danger"
-}
 
 export function ProfileTab({
   locale,
@@ -371,7 +366,7 @@ export function ProfileTab({
       const raw = values[field.key]
       let value: ReactNode = raw || "—"
       if (field.key === "status") {
-        value = raw ? <StatusBadge tone={statusTone(raw)}>{raw}</StatusBadge> : "—"
+        value = raw ? <StatusBadge tone={userStatusTone(raw)}>{raw}</StatusBadge> : "—"
       }
       if ((field.key === "joined" || field.key === "lastSeen") && raw) {
         value = formatProfileDate(raw, dateLocale)
@@ -416,7 +411,7 @@ export function ProfileTab({
                       <span className="rounded-md bg-muted px-2 py-0.5 text-xs font-medium">{values.role}</span>
                     ) : null}
                     {values.status ? (
-                      <StatusBadge tone={statusTone(values.status)}>{values.status}</StatusBadge>
+                      <StatusBadge tone={userStatusTone(values.status)}>{values.status}</StatusBadge>
                     ) : null}
                   </div>
                   <Input

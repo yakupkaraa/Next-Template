@@ -5,13 +5,14 @@ import { CountryFlag } from "@/components/shared/locale-flag"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Checkbox } from "@/components/ui/checkbox"
-import { StatusBadge, type StatusBadgeTone } from "@/components/shared/status-badge"
+import { StatusBadge } from "@/components/shared/status-badge"
 import type { DataTableFeatures } from "@/components/shared/data-table-features"
 import { UserRowActions } from "@/features/users/list/components/row-actions"
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
 import { cn } from "@/lib/utils"
 import { userColumnKeys } from "@/features/users/constants/users"
 import type { UserColumnKey, UserRow } from "@/features/users/types/user"
+import { userStatusTone } from "@/features/users/utils/users"
 
 const tableCheckboxClass =
   "size-[18px] border-2 border-muted-foreground bg-background data-checked:border-primary dark:border-foreground/70"
@@ -27,12 +28,6 @@ function userInitials(user: UserRow) {
   return `${user.firstName.charAt(0)}${user.lastName.charAt(0)}`.toLocaleUpperCase("tr")
 }
 
-function statusTone(value: string): StatusBadgeTone {
-  if (value === "Aktif") return "success"
-  if (value === "Beklemede") return "warning"
-  return "danger"
-}
-
 function roleBadgeClass(role: string) {
   if (role === "Yönetici") return "border-primary/30 bg-primary/10 text-primary"
   if (role === "Editör") return "border-info/30 bg-info/10 text-info"
@@ -41,7 +36,7 @@ function roleBadgeClass(role: string) {
 }
 
 function renderCell(key: UserColumnKey, value: string, confirmedLabel: string) {
-  if (key === "status") return <StatusBadge tone={statusTone(value)}>{value}</StatusBadge>
+  if (key === "status") return <StatusBadge tone={userStatusTone(value)}>{value}</StatusBadge>
   if (key === "role") {
     return (
       <Badge variant="outline" className={cn("font-medium", roleBadgeClass(value))}>

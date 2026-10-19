@@ -20,9 +20,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { StatusBadge, type StatusBadgeTone } from "@/components/shared/status-badge"
+import { StatusBadge } from "@/components/shared/status-badge"
 import { cn } from "@/lib/utils"
 import type { UserRow } from "@/features/users/types/user"
+import { userStatusTone } from "@/features/users/utils/users"
 
 export const CARD_FRAME_CLASS = "h-full min-h-[21rem]"
 
@@ -46,12 +47,6 @@ export function initials(user: UserRow) {
 
 export function toneIndex(user: UserRow) {
   return Number.parseInt(user.id, 10) % cardSurfaces.length
-}
-
-export function statusTone(value: string): StatusBadgeTone {
-  if (value === "Aktif") return "success"
-  if (value === "Beklemede") return "warning"
-  return "danger"
 }
 
 export const UserCard = memo(function UserCard({
@@ -137,7 +132,7 @@ export const UserCard = memo(function UserCard({
             {user.firstName} {user.lastName}
           </CardTitle>
           <p className="mt-0.5 max-w-full truncate text-xs text-muted-foreground">{user.title}</p>
-          <StatusBadge className="mt-2" tone={statusTone(user.status)}>
+          <StatusBadge className="mt-2" tone={userStatusTone(user.status)}>
             {user.status}
           </StatusBadge>
         </div>
