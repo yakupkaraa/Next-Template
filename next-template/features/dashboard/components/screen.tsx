@@ -20,6 +20,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { cn } from "@/lib/utils"
+import { toneSurfaceClass } from "@/lib/theme/tone-surface"
 import {
   MiniStatBars,
   RevenueBarsChart,
@@ -46,15 +47,6 @@ import {
 
 const kpiIcons = [Users, Briefcase, FolderKanban, Bookmark, MessageCircle, Share2] as const
 
-const kpiToneClass: Record<(typeof dashboardKpis)[number]["tone"], string> = {
-  "chart-1": "bg-[color-mix(in_oklch,var(--chart-1)_16%,var(--card))] text-primary",
-  "chart-2": "bg-[color-mix(in_oklch,var(--chart-2)_18%,var(--card))] text-primary",
-  "chart-3": "bg-[color-mix(in_oklch,var(--chart-3)_18%,var(--card))] text-primary",
-  "chart-4": "bg-[color-mix(in_oklch,var(--chart-4)_16%,var(--card))] text-primary",
-  "chart-5": "bg-[color-mix(in_oklch,var(--chart-5)_16%,var(--card))] text-primary",
-  primary: "bg-primary/10 text-primary",
-}
-
 export function DashboardScreen({ locale }: { locale: DashboardLocale }) {
   const text = dashboardCopy[locale]
 
@@ -68,7 +60,7 @@ export function DashboardScreen({ locale }: { locale: DashboardLocale }) {
           return (
             <Card
               key={text.kpis[index]}
-              className={cn("border-0 shadow-sm ring-0", kpiToneClass[kpi.tone])}
+              className={cn("border-0 shadow-sm ring-0", toneSurfaceClass[kpi.tone])}
             >
               <CardContent className="flex flex-col items-center gap-2 py-5 text-center">
                 <span className="flex size-11 items-center justify-center rounded-full bg-background/70 text-primary">

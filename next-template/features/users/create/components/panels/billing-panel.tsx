@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/table"
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
 import { cn } from "@/lib/utils"
+import { toneSurfaceClass } from "@/lib/theme/tone-surface"
 import { userBillingFigures } from "../../../mocks/users.mock"
 import { preloadOnHover } from "@/lib/preload-on-hover"
 import type { SavedCard } from "../add-card-sheet"
@@ -34,11 +35,7 @@ const billingStatusTone: Record<"pending" | "paid" | "cancelled", StatusBadgeTon
 
 const summaryIcons = [Wallet, HardDrive, Package] as const
 
-const summaryToneClass = [
-  "bg-[color-mix(in_oklch,var(--chart-1)_16%,var(--card))] text-primary",
-  "bg-[color-mix(in_oklch,var(--chart-2)_18%,var(--card))] text-primary",
-  "bg-[color-mix(in_oklch,var(--chart-3)_18%,var(--card))] text-primary",
-] as const
+const summaryTones = ["chart-1", "chart-2", "chart-3"] as const
 
 export function BillingPanel({ locale }: { locale: ContentLocale }) {
   const billing = getDictionary(locale).users.create.billing
@@ -80,7 +77,7 @@ export function BillingPanel({ locale }: { locale: ContentLocale }) {
           return (
             <Card
               key={item.label}
-              className={cn("border-0 shadow-sm ring-0", summaryToneClass[index])}
+              className={cn("border-0 shadow-sm ring-0", toneSurfaceClass[summaryTones[index]])}
             >
               <CardContent className="flex flex-col gap-3 py-5">
                 <span className="flex size-11 items-center justify-center rounded-full bg-background/70 text-primary">
