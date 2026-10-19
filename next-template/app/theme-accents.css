@@ -46,11 +46,7 @@
   --surface-strong-foreground: oklch(0.985 0 0);
   --surface-soft: color-mix(in oklch, var(--primary) 68%, oklch(1 0 0));
   --surface-soft-foreground: oklch(0.985 0 0);
-  --insights-accent-soft: var(--surface-soft);
-  --insights-accent-soft-foreground: var(--surface-soft-foreground);
-  --insights-chart-on-surface: oklch(1 0 0 / 0.88);
   --sidebar-muted: color-mix(in oklch, var(--sidebar-foreground) 62%, transparent);
-  --trend-up: #059669;
 }
 
 :root:not(.dark)[data-accent="green"] {
@@ -84,10 +80,7 @@
   --surface-strong-foreground: #ffffff;
   --surface-soft: #00873a;
   --surface-soft-foreground: #ffffff;
-  --insights-accent-soft: #86f2e4;
-  --insights-accent-soft-foreground: #005049;
   --sidebar-muted: #6e7b6c;
-  --trend-up: #006b2c;
   --brand-deep: #14532d;
   --brand-deep-2: #166534;
   --brand-deep-accent: #86efac;
@@ -125,9 +118,6 @@
   --surface-strong-foreground: #ffffff;
   --surface-soft: #4f46e5;
   --surface-soft-foreground: #ffffff;
-  --insights-accent-soft: #c3c0ff;
-  --insights-accent-soft-foreground: #0f0069;
-  --trend-up: #059669;
   --brand-deep: #1e3a8a;
   --brand-deep-2: #1e40af;
   --brand-deep-accent: #93c5fd;
@@ -165,9 +155,6 @@
   --surface-strong-foreground: #ffffff;
   --surface-soft: #a21caf;
   --surface-soft-foreground: #ffffff;
-  --insights-accent-soft: #eaddff;
-  --insights-accent-soft-foreground: #25005a;
-  --trend-up: #047857;
   --brand-deep: #3b1d7a;
   --brand-deep-2: #4c1d95;
   --brand-deep-accent: #c4b5fd;
@@ -178,10 +165,6 @@
   --surface-strong-foreground: oklch(0.985 0 0);
   --surface-soft: color-mix(in oklch, var(--primary) 68%, oklch(1 0 0));
   --surface-soft-foreground: oklch(0.985 0 0);
-  --insights-accent-soft: var(--surface-soft);
-  --insights-accent-soft-foreground: var(--surface-soft-foreground);
-  --insights-chart-on-surface: oklch(1 0 0 / 0.88);
-  --trend-up: #059669;
 }
 
 .dark {
@@ -189,10 +172,6 @@
   --surface-strong-foreground: var(--card-foreground);
   --surface-soft: var(--card);
   --surface-soft-foreground: var(--card-foreground);
-  --insights-accent-soft: var(--card);
-  --insights-accent-soft-foreground: var(--card-foreground);
-  --insights-chart-on-surface: var(--card-foreground);
-  --trend-up: #34d399;
 }
 
 .dark[data-accent="green"] {
