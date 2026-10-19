@@ -42,12 +42,12 @@
   --chart-3: color-mix(in oklch, var(--primary) 52%, oklch(1 0 0));
   --chart-4: color-mix(in oklch, var(--primary) 88%, oklch(0 0 0));
   --chart-5: color-mix(in oklch, var(--primary) 68%, oklch(0 0 0));
-  --insights-card-deep: var(--primary);
-  --insights-card-deep-foreground: oklch(0.985 0 0);
-  --insights-card-bright: color-mix(in oklch, var(--primary) 68%, oklch(1 0 0));
-  --insights-card-bright-foreground: oklch(0.985 0 0);
-  --insights-accent-soft: var(--insights-card-bright);
-  --insights-accent-soft-foreground: var(--insights-card-bright-foreground);
+  --surface-strong: var(--primary);
+  --surface-strong-foreground: oklch(0.985 0 0);
+  --surface-soft: color-mix(in oklch, var(--primary) 68%, oklch(1 0 0));
+  --surface-soft-foreground: oklch(0.985 0 0);
+  --insights-accent-soft: var(--surface-soft);
+  --insights-accent-soft-foreground: var(--surface-soft-foreground);
   --insights-chart-on-surface: oklch(1 0 0 / 0.88);
   --sidebar-muted: color-mix(in oklch, var(--sidebar-foreground) 62%, transparent);
   --trend-up: #059669;
@@ -80,10 +80,10 @@
   --sidebar-primary: #006b2c;
   --sidebar-primary-foreground: #ffffff;
   --sidebar-ring: #006b2c;
-  --insights-card-deep: color-mix(in oklch, #006b2c 78%, white);
-  --insights-card-deep-foreground: #ffffff;
-  --insights-card-bright: #00873a;
-  --insights-card-bright-foreground: #ffffff;
+  --surface-strong: color-mix(in oklch, #006b2c 78%, white);
+  --surface-strong-foreground: #ffffff;
+  --surface-soft: #00873a;
+  --surface-soft-foreground: #ffffff;
   --insights-accent-soft: #86f2e4;
   --insights-accent-soft-foreground: #005049;
   --sidebar-muted: #6e7b6c;
@@ -121,10 +121,10 @@
   --sidebar-primary: #2563eb;
   --sidebar-primary-foreground: #ffffff;
   --sidebar-ring: #2563eb;
-  --insights-card-deep: color-mix(in oklch, #2563eb 78%, white);
-  --insights-card-deep-foreground: #ffffff;
-  --insights-card-bright: #4f46e5;
-  --insights-card-bright-foreground: #ffffff;
+  --surface-strong: color-mix(in oklch, #2563eb 78%, white);
+  --surface-strong-foreground: #ffffff;
+  --surface-soft: #4f46e5;
+  --surface-soft-foreground: #ffffff;
   --insights-accent-soft: #c3c0ff;
   --insights-accent-soft-foreground: #0f0069;
   --trend-up: #059669;
@@ -161,10 +161,10 @@
   --sidebar-primary: #7c3aed;
   --sidebar-primary-foreground: #ffffff;
   --sidebar-ring: #7c3aed;
-  --insights-card-deep: color-mix(in oklch, #7c3aed 78%, white);
-  --insights-card-deep-foreground: #ffffff;
-  --insights-card-bright: #a21caf;
-  --insights-card-bright-foreground: #ffffff;
+  --surface-strong: color-mix(in oklch, #7c3aed 78%, white);
+  --surface-strong-foreground: #ffffff;
+  --surface-soft: #a21caf;
+  --surface-soft-foreground: #ffffff;
   --insights-accent-soft: #eaddff;
   --insights-accent-soft-foreground: #25005a;
   --trend-up: #047857;
@@ -174,21 +174,21 @@
 }
 
 :root:not(.dark) {
-  --insights-card-deep: var(--primary);
-  --insights-card-deep-foreground: oklch(0.985 0 0);
-  --insights-card-bright: color-mix(in oklch, var(--primary) 68%, oklch(1 0 0));
-  --insights-card-bright-foreground: oklch(0.985 0 0);
-  --insights-accent-soft: var(--insights-card-bright);
-  --insights-accent-soft-foreground: var(--insights-card-bright-foreground);
+  --surface-strong: var(--primary);
+  --surface-strong-foreground: oklch(0.985 0 0);
+  --surface-soft: color-mix(in oklch, var(--primary) 68%, oklch(1 0 0));
+  --surface-soft-foreground: oklch(0.985 0 0);
+  --insights-accent-soft: var(--surface-soft);
+  --insights-accent-soft-foreground: var(--surface-soft-foreground);
   --insights-chart-on-surface: oklch(1 0 0 / 0.88);
   --trend-up: #059669;
 }
 
 .dark {
-  --insights-card-deep: var(--card);
-  --insights-card-deep-foreground: var(--card-foreground);
-  --insights-card-bright: var(--card);
-  --insights-card-bright-foreground: var(--card-foreground);
+  --surface-strong: var(--card);
+  --surface-strong-foreground: var(--card-foreground);
+  --surface-soft: var(--card);
+  --surface-soft-foreground: var(--card-foreground);
   --insights-accent-soft: var(--card);
   --insights-accent-soft-foreground: var(--card-foreground);
   --insights-chart-on-surface: var(--card-foreground);

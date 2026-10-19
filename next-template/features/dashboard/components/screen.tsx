@@ -212,7 +212,7 @@ export function DashboardScreen({ locale }: { locale: DashboardLocale }) {
           </CardContent>
         </Card>
 
-        <Card className="insights-surface-card min-w-0 overflow-hidden border-0 py-0 lg:col-span-3 lg:row-span-2">
+        <Card className="surface-strong-card min-w-0 overflow-hidden border-0 py-0 lg:col-span-3 lg:row-span-2">
           <CardHeader className="pb-2">
             <CardTitle className="text-primary-foreground dark:text-card-foreground">
               {text.bestTitle}

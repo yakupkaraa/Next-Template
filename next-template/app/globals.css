@@ -130,10 +130,10 @@ html[data-font-size="18"] {
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.914 0 0);
   --sidebar-ring: oklch(0.708 0 0);
-  --insights-card-deep: var(--primary);
-  --insights-card-deep-foreground: var(--primary-foreground);
-  --insights-card-bright: color-mix(in oklch, var(--primary) 68%, oklch(1 0 0));
-  --insights-card-bright-foreground: oklch(0.985 0 0);
+  --surface-strong: var(--primary);
+  --surface-strong-foreground: var(--primary-foreground);
+  --surface-soft: color-mix(in oklch, var(--primary) 68%, oklch(1 0 0));
+  --surface-soft-foreground: oklch(0.985 0 0);
   --success: oklch(0.45 0.09 168);
   --success-foreground: oklch(0.985 0.005 168);
   --success-bg: oklch(0.96 0.028 168);
@@ -184,10 +184,10 @@ html[data-font-size="18"] {
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 11%);
   --sidebar-ring: oklch(0.556 0 0);
-  --insights-card-deep: var(--card);
-  --insights-card-deep-foreground: var(--card-foreground);
-  --insights-card-bright: var(--card);
-  --insights-card-bright-foreground: var(--card-foreground);
+  --surface-strong: var(--card);
+  --surface-strong-foreground: var(--card-foreground);
+  --surface-soft: var(--card);
+  --surface-soft-foreground: var(--card-foreground);
   --success: oklch(0.84 0.12 168);
   --success-foreground: oklch(0.22 0.03 168);
   --success-bg: oklch(0.27 0.045 168);
@@ -413,7 +413,7 @@ html[data-font-size="18"] {
 
   [data-slot="card"].welcome-accent-card {
     border-color: transparent;
-    background-color: var(--insights-card-deep) !important;
+    background-color: var(--surface-strong) !important;
     color: #fff;
     --tw-ring-shadow: 0 0 #0000;
     box-shadow: var(--tw-shadow-sm);
@@ -425,73 +425,73 @@ html[data-font-size="18"] {
     border-color: var(--border);
   }
 
-  .dark [data-slot="card"].insights-surface-card,
-  .dark [data-slot="card"].insights-soft-card {
+  .dark [data-slot="card"].surface-strong-card,
+  .dark [data-slot="card"].surface-soft-card {
     background-color: var(--card) !important;
     color: var(--card-foreground) !important;
     border-color: var(--border) !important;
     box-shadow: var(--tw-shadow-sm);
   }
 
-  .dark [data-slot="card"].insights-surface-card [data-slot="card-header"],
-  .dark [data-slot="card"].insights-surface-card [data-slot="card-title"],
-  .dark [data-slot="card"].insights-soft-card [data-slot="card-header"],
-  .dark [data-slot="card"].insights-soft-card [data-slot="card-title"] {
+  .dark [data-slot="card"].surface-strong-card [data-slot="card-header"],
+  .dark [data-slot="card"].surface-strong-card [data-slot="card-title"],
+  .dark [data-slot="card"].surface-soft-card [data-slot="card-header"],
+  .dark [data-slot="card"].surface-soft-card [data-slot="card-title"] {
     color: var(--card-foreground) !important;
   }
 
-  .dark [data-slot="card"].insights-surface-card .insights-muted,
-  .dark [data-slot="card"].insights-soft-card .insights-muted {
+  .dark [data-slot="card"].surface-strong-card .surface-muted,
+  .dark [data-slot="card"].surface-soft-card .surface-muted {
     color: var(--muted-foreground) !important;
   }
 
-  [data-slot="card"].insights-surface-card {
+  [data-slot="card"].surface-strong-card {
     border-color: transparent !important;
-    background-color: var(--insights-card-deep) !important;
-    color: var(--insights-card-deep-foreground) !important;
+    background-color: var(--surface-strong) !important;
+    color: var(--surface-strong-foreground) !important;
     --tw-ring-shadow: 0 0 #0000;
     box-shadow: var(--tw-shadow-md);
   }
 
-  [data-slot="card"].insights-surface-card [data-slot="card-header"],
-  [data-slot="card"].insights-surface-card [data-slot="card-content"],
-  [data-slot="card"].insights-surface-card [data-slot="chart"] {
+  [data-slot="card"].surface-strong-card [data-slot="card-header"],
+  [data-slot="card"].surface-strong-card [data-slot="card-content"],
+  [data-slot="card"].surface-strong-card [data-slot="chart"] {
     background-color: transparent !important;
   }
 
-  [data-slot="card"].insights-surface-card [data-slot="chart"] .recharts-surface,
-  [data-slot="card"].insights-surface-card [data-slot="chart"] svg {
+  [data-slot="card"].surface-strong-card [data-slot="chart"] .recharts-surface,
+  [data-slot="card"].surface-strong-card [data-slot="chart"] svg {
     background: transparent !important;
   }
 
-  [data-slot="card"].insights-surface-card .insights-muted {
+  [data-slot="card"].surface-strong-card .surface-muted {
     color: color-mix(
       in oklch,
-      var(--insights-card-deep-foreground, var(--primary-foreground)) 72%,
+      var(--surface-strong-foreground, var(--primary-foreground)) 72%,
       transparent
     );
   }
 
-  [data-slot="card"].insights-soft-card {
+  [data-slot="card"].surface-soft-card {
     border-color: transparent !important;
-    background-color: var(--insights-card-bright) !important;
-    color: var(--insights-card-bright-foreground) !important;
+    background-color: var(--surface-soft) !important;
+    color: var(--surface-soft-foreground) !important;
     --tw-ring-shadow: 0 0 #0000;
     box-shadow: var(--tw-shadow-md);
   }
 
-  [data-slot="card"].insights-soft-card [data-slot="card-header"],
-  [data-slot="card"].insights-soft-card [data-slot="card-content"],
-  [data-slot="card"].insights-soft-card [data-slot="card-title"] {
+  [data-slot="card"].surface-soft-card [data-slot="card-header"],
+  [data-slot="card"].surface-soft-card [data-slot="card-content"],
+  [data-slot="card"].surface-soft-card [data-slot="card-title"] {
     background-color: transparent !important;
     color: inherit !important;
     border-radius: 0;
   }
 
-  [data-slot="card"].insights-soft-card .insights-muted {
+  [data-slot="card"].surface-soft-card .surface-muted {
     color: color-mix(
       in oklch,
-      var(--insights-card-bright-foreground) 78%,
+      var(--surface-soft-foreground) 78%,
       transparent
     ) !important;
   }
