@@ -21,7 +21,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { StatusBadge, type StatusBadgeTone } from "@/components/shared/status-badge"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 import type { UserRow } from "@/features/users/types/user"
 
 export const CARD_FRAME_CLASS = "h-full min-h-[21rem]"

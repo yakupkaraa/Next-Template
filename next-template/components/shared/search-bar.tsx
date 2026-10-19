@@ -3,7 +3,7 @@
 import { Search, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 
 export function SearchBar({
   value,

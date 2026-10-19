@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 import { blogCopy } from "../constants/blog"
 import { blogPosts } from "../mocks/blog.mock"
 import type { BlogLocale } from "../types/blog"

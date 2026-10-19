@@ -4,7 +4,7 @@ import { getLoginCopy } from "@/features/auth/constants/copy"
 import { headerBrand } from "@/components/layout/constants/header/copy"
 import type { ContentLocale } from "@/lib/i18n"
 import type { Locale } from "@/lib/locales"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 
 const featureIcons = [BarChart3, ShieldCheck, Languages] as const
 

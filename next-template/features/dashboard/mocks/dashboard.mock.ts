@@ -1,5 +1,3 @@
-import type { ProjectPriority } from "../types/dashboard"
-
 export const dashboardVisit = {
   total: "2,458",
   segments: [
@@ -101,55 +99,3 @@ export const dashboardBestSellers = [
   { name: "Sit amet elit", price: "$23,568", share: 20 },
 ]
 
-export const dashboardWeekly = {
-  points: [
-    { label: "1", value: 18 },
-    { label: "2", value: 28 },
-    { label: "3", value: 22 },
-    { label: "4", value: 40 },
-    { label: "5", value: 32 },
-    { label: "6", value: 48 },
-    { label: "7", value: 36 },
-    { label: "8", value: 44 },
-  ],
-  items: [
-    { title: "Lorem ipsum", name: "Dolor sit amet", delta: 68, tone: "chart-1" },
-    { title: "Consectetur", name: "Adipiscing elit", delta: 45, tone: "chart-2" },
-    { title: "Sed do eiusmod", name: "Tempor incididunt", delta: 14, tone: "chart-3" },
-  ],
-}
-
-export const dashboardProjectsTable = [
-  {
-    name: "Lorem Ipsum",
-    role: "Dolor sit amet",
-    project: "Consectetur elit",
-    priority: "low" as ProjectPriority,
-    budget: "$3.9k",
-    initials: "LI",
-  },
-  {
-    name: "Adipiscing Elit",
-    role: "Sed do eiusmod",
-    project: "Tempor incididunt",
-    priority: "medium" as ProjectPriority,
-    budget: "$24.5k",
-    initials: "AE",
-  },
-  {
-    name: "Labore Magna",
-    role: "Aliqua enim",
-    project: "Minim veniam",
-    priority: "high" as ProjectPriority,
-    budget: "$12.8k",
-    initials: "LM",
-  },
-  {
-    name: "Quis Nostrud",
-    role: "Exercitation ullam",
-    project: "Laboris nisi",
-    priority: "veryHigh" as ProjectPriority,
-    budget: "$2.4k",
-    initials: "QN",
-  },
-]

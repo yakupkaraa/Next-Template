@@ -2,7 +2,7 @@ import type { ReactNode } from "react"
 import type { LucideIcon } from "lucide-react"
 import { statusBadgeTones, type StatusBadgeTone } from "@/components/shared/status-badge"
 import { Badge } from "@/components/ui/badge"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 
 const infoClass = "border border-info bg-info-bg font-medium text-info"
 

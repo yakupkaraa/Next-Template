@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { SearchBar } from "@/components/shared/search-bar"
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 import { aiChats } from "../mocks/ai-chat.mock"
 
 const suggestionIcons = {

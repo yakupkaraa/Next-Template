@@ -67,6 +67,7 @@ export function UserCardsVirtualized({
     return () => window.removeEventListener("resize", update)
   }, [columns, gap, users.length])
 
+  // eslint-disable-next-line react-hooks/incompatible-library -- TanStack Virtual React Compiler ile memoize edilemez (bilinen kütüphane sınırı)
   const rowVirtualizer = useVirtualizer({
     count: rowCount,
     getScrollElement,

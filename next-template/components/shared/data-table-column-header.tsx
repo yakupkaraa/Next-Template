@@ -8,7 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Separator } from "@/components/ui/separator"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 import type { DataTableColumnMenuCopy, DataTableFeatures } from "@/components/shared/data-table-features"
 
 export function DataTableColumnHeader<TData extends RowData>({

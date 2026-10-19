@@ -184,6 +184,7 @@ export function ProfileScreen({ locale }: { locale: ProfileLocale }) {
                 </CardHeader>
                 <CardContent className="flex flex-col gap-4">
                   <p className="leading-relaxed">{profileContent.postBody}</p>
+                  {/* eslint-disable-next-line @next/next/no-img-element -- remote mock URL, next/image yeni remotePatterns config'i gerektirir */}
                   <img
                     alt=""
                     className="h-64 w-full rounded-xl object-cover"

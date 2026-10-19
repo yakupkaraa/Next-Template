@@ -11,7 +11,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
 import { localeFromPath, type Locale } from "@/lib/locales"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 import { sidebarCopy } from "@/components/layout/constants/sidebar/copy"
 import { isMenuGroup, menuItems, type MenuGroup, type MenuLink } from "./menu-items"
 
@@ -263,7 +263,7 @@ export function Sidebar({
                 <div className="flex size-9 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
                   {initials}
                 </div>
-                <span className="absolute right-0 bottom-0 size-2.5 rounded-full bg-emerald-500 ring-2 ring-card" />
+                <span className="absolute right-0 bottom-0 size-2.5 rounded-full bg-success ring-2 ring-card" />
               </div>
               {open ? (
                 <div className="min-w-0 flex flex-col">

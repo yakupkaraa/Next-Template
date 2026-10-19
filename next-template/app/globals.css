@@ -413,7 +413,7 @@ html[data-font-size="18"] {
 
   [data-slot="card"].welcome-accent-card {
     border-color: transparent;
-    background-color: var(--primary);
+    background-color: var(--insights-card-deep) !important;
     color: #fff;
     --tw-ring-shadow: 0 0 #0000;
     box-shadow: var(--tw-shadow-sm);

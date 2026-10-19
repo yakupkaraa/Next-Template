@@ -1,25 +1,18 @@
 "use client"
 
 import { useMemo } from "react"
-import { ArrowRight, CloudSun, Moon, Sun, Sunset } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { dashboardCopy } from "../constants/dashboard"
 import type { DashboardLocale } from "../types/dashboard"
+import { GreetingIcon } from "./greeting-icon"
 
 function greetingKey(hour: number) {
   if (hour >= 5 && hour < 12) return "greetingMorning" as const
   if (hour >= 12 && hour < 17) return "greetingAfternoon" as const
   if (hour >= 17 && hour < 22) return "greetingEvening" as const
   return "greetingNight" as const
-}
-
-function GreetingIcon({ hour }: { hour: number }) {
-  const className = "size-5 text-white/90 dark:text-card-foreground"
-  if (hour >= 5 && hour < 12) return <Sun className={className} aria-hidden />
-  if (hour >= 12 && hour < 17) return <CloudSun className={className} aria-hidden />
-  if (hour >= 17 && hour < 22) return <Sunset className={className} aria-hidden />
-  return <Moon className={className} aria-hidden />
 }
 
 export function WelcomeGreeting({ locale }: { locale: DashboardLocale }) {

@@ -4,7 +4,7 @@ import { Check, FileText, Upload, X } from "lucide-react"
 import { useRef, useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 import { createCopy } from "@/features/ticket/create/constants/copy"
 import type { ContentLocale } from "@/lib/i18n"
 

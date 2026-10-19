@@ -12,7 +12,7 @@ import {
   CommandList,
 } from "@/components/ui/command"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 import { controlClass } from "../constants/profile-fields"
 
 export function ProfileCombobox({

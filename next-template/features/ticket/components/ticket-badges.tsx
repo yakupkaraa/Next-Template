@@ -2,7 +2,7 @@ import type { LucideIcon } from "lucide-react"
 import { Flag, Receipt, Tag, User, Wrench } from "lucide-react"
 import { StatusBadge, type StatusBadgeTone } from "@/components/shared/status-badge"
 import { Badge } from "@/components/ui/badge"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 import type { ContentLocale } from "@/lib/i18n"
 import { inboxCopy } from "@/features/ticket/constants/copy"
 import type {
@@ -14,6 +14,13 @@ import { IconBadge } from "./icon-badge"
 
 const infoClass = "border border-info bg-info-bg font-medium text-info"
 
+const statusToneByStatus: Record<TicketStatus, StatusBadgeTone> = {
+  open: "neutral",
+  in_review: "warning",
+  resolved: "success",
+  closed: "neutral",
+}
+
 export function TicketStatusBadge({
   status,
   locale,
@@ -24,14 +31,13 @@ export function TicketStatusBadge({
   className?: string
 }) {
   const text = inboxCopy(locale)
-  const label =
-    status === "open"
-      ? text.open
-      : status === "in_review"
-        ? text.inReview
-        : status === "resolved"
-          ? text.resolved
-          : text.closed
+  const labelByStatus: Record<TicketStatus, string> = {
+    open: text.open,
+    in_review: text.inReview,
+    resolved: text.resolved,
+    closed: text.closed,
+  }
+  const label = labelByStatus[status]
 
   if (status === "open") {
     return (
@@ -42,14 +48,18 @@ export function TicketStatusBadge({
     )
   }
 
-  const tone =
-    status === "in_review" ? "warning" : status === "resolved" ? "success" : "neutral"
-
   return (
-    <StatusBadge tone={tone} className={className}>
+    <StatusBadge tone={statusToneByStatus[status]} className={className}>
       {label}
     </StatusBadge>
   )
+}
+
+const priorityToneByPriority: Record<TicketPriority, StatusBadgeTone> = {
+  low: "neutral",
+  normal: "neutral",
+  high: "warning",
+  urgent: "danger",
 }
 
 export function TicketPriorityBadge({
@@ -62,14 +72,13 @@ export function TicketPriorityBadge({
   className?: string
 }) {
   const text = inboxCopy(locale)
-  const label =
-    priority === "low"
-      ? text.low
-      : priority === "normal"
-        ? text.normal
-        : priority === "high"
-          ? text.high
-          : text.urgent
+  const labelByPriority: Record<TicketPriority, string> = {
+    low: text.low,
+    normal: text.normal,
+    high: text.high,
+    urgent: text.urgent,
+  }
+  const label = labelByPriority[priority]
 
   if (priority === "normal") {
     return (
@@ -80,10 +89,8 @@ export function TicketPriorityBadge({
     )
   }
 
-  const tone = priority === "low" ? "neutral" : priority === "high" ? "warning" : "danger"
-
   return (
-    <StatusBadge tone={tone} className={className}>
+    <StatusBadge tone={priorityToneByPriority[priority]} className={className}>
       {label}
     </StatusBadge>
   )
@@ -96,6 +103,13 @@ export function priorityDotClass(priority: TicketPriority) {
   return "bg-error"
 }
 
+const priorityIconToneByPriority: Record<TicketPriority, StatusBadgeTone | "info"> = {
+  low: "neutral",
+  normal: "info",
+  high: "warning",
+  urgent: "danger",
+}
+
 export function TicketPriorityIconBadge({
   priority,
   locale,
@@ -106,25 +120,16 @@ export function TicketPriorityIconBadge({
   className?: string
 }) {
   const text = inboxCopy(locale)
-  const label =
-    priority === "low"
-      ? text.low
-      : priority === "normal"
-        ? text.normal
-        : priority === "high"
-          ? text.high
-          : text.urgent
-  const tone: StatusBadgeTone | "info" =
-    priority === "low"
-      ? "neutral"
-      : priority === "normal"
-        ? "info"
-        : priority === "high"
-          ? "warning"
-          : "danger"
+  const labelByPriority: Record<TicketPriority, string> = {
+    low: text.low,
+    normal: text.normal,
+    high: text.high,
+    urgent: text.urgent,
+  }
+  const label = labelByPriority[priority]
 
   return (
-    <IconBadge tone={tone} icon={Flag} className={className}>
+    <IconBadge tone={priorityIconToneByPriority[priority]} icon={Flag} className={className}>
       {label}
     </IconBadge>
   )

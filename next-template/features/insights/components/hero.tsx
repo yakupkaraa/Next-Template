@@ -64,7 +64,7 @@ export function InsightsHero({ locale }: InsightsSectionProps) {
         </CardContent>
       </Card>
 
-      <Card className="relative flex min-h-[12rem] flex-col justify-between overflow-hidden rounded-xl bg-primary py-0 text-primary-foreground shadow-sm ring-0 lg:col-span-4">
+      <Card className="insights-surface-card relative flex min-h-[12rem] flex-col justify-between overflow-hidden rounded-xl py-0 lg:col-span-4">
         <CardHeader className="relative z-10 gap-1 px-5 pt-5 pb-2">
           <div className="flex items-start justify-between">
             <div className="flex flex-col gap-1">

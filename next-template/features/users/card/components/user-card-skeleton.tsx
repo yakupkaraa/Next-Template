@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 import { CARD_FRAME_CLASS } from "./user-card"
 
 export function UserCardSkeleton() {

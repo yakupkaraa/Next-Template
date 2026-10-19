@@ -5,7 +5,7 @@ import { Footer } from "@/components/layout/footer/footer"
 import { Header } from "@/components/layout/header/header"
 import { Sidebar } from "@/components/layout/sidebar/sidebar"
 import { useThemeSettings } from "@/components/theme/theme-provider"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 
 export function AppShell({
   children,

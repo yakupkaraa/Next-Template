@@ -9,13 +9,6 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { ConfirmModal } from "@/components/shared/confirm-modal"
 import { SearchBar } from "@/components/shared/search-bar"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
 import {
   userDepartmentOptions,
@@ -28,6 +21,7 @@ import type { UserRow } from "@/features/users/types/user"
 import { UserCard } from "./user-card"
 import { UserCardSkeleton } from "./user-card-skeleton"
 import { UserCardsVirtualized, GRID_CLASS, CARD_CELL_CLASS } from "./user-cards-virtualized"
+import { FilterSelect } from "./filter-select"
 
 const AddUserDialog = dynamic(() =>
   import("@/features/users/components/add-user-dialog").then((m) => ({ default: m.AddUserDialog }))
@@ -38,36 +32,6 @@ const preloadAddUserDialog = preloadOnHover(() =>
 )
 
 const ALL = "all"
-
-function FilterSelect({
-  id,
-  value,
-  allLabel,
-  options,
-  onValueChange,
-}: {
-  id: string
-  value: string
-  allLabel: string
-  options: readonly string[]
-  onValueChange: (value: string) => void
-}) {
-  return (
-    <Select value={value} onValueChange={(next) => onValueChange(next ?? ALL)}>
-      <SelectTrigger id={id} className="h-9 min-w-38 rounded-full border-border bg-card">
-        <SelectValue />
-      </SelectTrigger>
-      <SelectContent align="start">
-        <SelectItem value={ALL}>{allLabel}</SelectItem>
-        {options.map((option) => (
-          <SelectItem key={option} value={option}>
-            {option}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
-  )
-}
 
 export function UserCardGrid({ locale }: { locale: ContentLocale }) {
   const router = useRouter()

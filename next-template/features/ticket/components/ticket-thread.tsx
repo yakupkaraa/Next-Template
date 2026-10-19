@@ -7,7 +7,7 @@ import type { Ticket, TicketRole } from "@/features/ticket/types/ticket"
 import { formatRelative } from "@/features/ticket/utils/ticket"
 import { personById } from "@/features/ticket/mocks/ticket.mock"
 import type { ContentLocale } from "@/lib/i18n"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 
 export function TicketThread({
   locale,

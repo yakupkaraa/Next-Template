@@ -1,4 +1,4 @@
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 import type { Locale } from "@/lib/locales"
 
 function TurkishFlag() {

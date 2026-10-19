@@ -4,7 +4,7 @@ import dynamic from "next/dynamic"
 import { Card, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
 import { ProfileTab, type ProfileFormMode } from "./profile-tab"
 

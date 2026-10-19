@@ -17,7 +17,7 @@ import { Switch } from "@/components/ui/switch"
 import { runAction } from "@/components/toast/run-action"
 import { mockRequest } from "@/lib/mock-request"
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 
 export type SavedCard = {
   brand: string

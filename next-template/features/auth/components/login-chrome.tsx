@@ -16,7 +16,7 @@ import { getLoginCopy } from "@/features/auth/constants/copy"
 import { resolveContentLocale } from "@/lib/i18n"
 import { languages, swapLocale, type Locale } from "@/lib/locales"
 import { settingsColors, type ThemeAppearance } from "@/lib/theme/accents"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 
 export function LoginChrome({
   locale,

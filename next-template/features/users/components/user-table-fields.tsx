@@ -15,7 +15,7 @@ import {
   userFormFieldKind,
 } from "@/features/users/utils/form-field-meta"
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 
 const NOTE_MAX = 160
 const REQUIRED_KEYS: UserColumnKey[] = ["firstName", "lastName", "email"]

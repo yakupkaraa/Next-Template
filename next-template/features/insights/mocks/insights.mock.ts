@@ -1,9 +1,5 @@
 import type { OrderStatus } from "../types/insights"
 
-export const insightWelcome = {
-  progress: 82,
-}
-
 export const insightTotalSales = {
   amount: "₺98.452,76",
   tooltipMonth: { tr: "Aralık", en: "December" },
@@ -33,37 +29,25 @@ export const insightKpis = [
   {
     id: "orders",
     value: "1.920",
-    bar: "bg-primary",
-    iconBox: "bg-muted text-primary",
-    spark: "M 2 18 L 12 14 L 22 17 L 32 9 L 42 12 L 54 3",
-    sparkColor: "var(--chart-1)",
+    tone: "primary",
   },
   {
     id: "shipped",
     value: "1.785",
-    bar: "bg-chart-2",
-    iconBox: "bg-chart-2/15 text-chart-2",
-    spark: "M 2 5 L 12 8 L 22 6 L 32 14 L 42 12 L 54 20",
-    sparkColor: "var(--chart-2)",
+    tone: "chart-2",
   },
   {
     id: "revenue",
     value: "₺88.900",
-    bar: "bg-chart-4",
-    iconBox: "bg-chart-4/15 text-chart-4",
-    spark: "M 2 16 L 14 15 L 24 10 L 34 12 L 44 6 L 54 4",
-    sparkColor: "var(--chart-4)",
+    tone: "chart-4",
   },
   {
     id: "rating",
     value: "4,9",
     suffix: "/ 5,0",
-    bar: "bg-chart-3",
-    iconBox: "bg-chart-3/15 text-chart-3",
-    spark: "M 2 15 L 14 12 L 24 14 L 34 8 L 44 9 L 54 3",
-    sparkColor: "var(--chart-3)",
+    tone: "chart-3",
   },
-]
+] as const
 
 export const insightSegments = [
   { key: "a", label: "Kurumsal", value: 1984, color: "var(--chart-1)" },
@@ -140,34 +124,3 @@ export const insightRecentOrders = [
     price: "$420.00",
   },
 ]
-
-export const insightLatestProducts = [
-  {
-    id: "p1",
-    name: "Lorem ipsum dolor",
-    price: "$128.00",
-  },
-  {
-    id: "p2",
-    name: "Sit amet consectetur",
-    price: "$96.00",
-  },
-  {
-    id: "p3",
-    name: "Adipiscing elit sed",
-    price: "$214.00",
-  },
-]
-
-export const insightAssets = {
-  total: "$842,120",
-  segments: [
-    { label: "Lorem ipsum", amount: "$412,000", share: 49, color: "var(--chart-1)" },
-    { label: "Dolor sit", amount: "$268,400", share: 32, color: "var(--chart-2)" },
-    { label: "Amet elit", amount: "$161,720", share: 19, color: "var(--chart-4)" },
-  ],
-}
-
-export const insightPromo = {
-  body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
-}

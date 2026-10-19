@@ -28,11 +28,6 @@ export const MiniStatBars = dynamic(
   { ssr: false, loading: () => <ChartBlockSkeleton className="h-14" /> }
 )
 
-export const WeeklyAreaChart = dynamic(
-  () => import("./weekly-area-chart").then((mod) => mod.WeeklyAreaChart),
-  { ssr: false, loading: () => <ChartBlockSkeleton className="h-36 min-h-36" /> }
-)
-
 export const WelcomeVisitChart = dynamic(
   () => import("./welcome-visit-chart").then((mod) => mod.WelcomeVisitChart),
   { ssr: false, loading: () => <ChartBlockSkeleton className="mx-auto aspect-square h-28 max-w-32" /> }

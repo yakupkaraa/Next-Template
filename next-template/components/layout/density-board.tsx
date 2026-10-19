@@ -1,5 +1,5 @@
 import type { ComponentProps } from "react"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 
 /** DensityBoard `py-6` — sticky chrome `--density-pad-y` ile aynı */
 export const densityStickyBleedX =

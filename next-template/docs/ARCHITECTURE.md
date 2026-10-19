@@ -15,7 +15,7 @@ features/<name>/
 ├── hooks/                # Feature'a özel hook'lar (state'li mantık)
 ├── mocks/                # <name>.mock.ts -> mock data
 ├── types/                # Sadece interface/type, amaca göre dosya (örn. types/ticket.ts)
-├── constants/            # Sadece değerler: seçenek listeleri, limitler; copy.ts dosyaları metin + locale seçici fonksiyon istisnasıyla kalır
+├── constants/            # Sadece değerler: seçenek listeleri, limitler; *copy.ts (örn. copy.ts, profile-copy.ts) dosyaları metin + locale seçici fonksiyon istisnasıyla kalır
 ├── utils/                # Varsayılan tek dosya utils/<feature>.ts; 250 satırı aşarsa konuya göre böl (format.ts, filters.ts vb.); bileşen grubu başına ayrı dosya AÇILMAZ
 ├── endpoint.ts           # Sadece http.* çağrıları (gerçek API'ye bağlanırken oluşturulur)
 └── index.ts              # Feature'ın public API'si
@@ -30,7 +30,7 @@ components/
 ├── layout/               # app-shell, header, sidebar, footer (sadece component'ler)
 ├── theme/                # theme-provider ve tema component'leri
 └── toast/                # notify, toaster, run-action
-lib/                      # api.ts, api-types.ts, config.ts, utils.ts, session.ts, mock-request.ts, mock-session.ts, records.ts, paths.ts, site.ts, locales.ts, preload-on-hover.ts, i18n/, messages/, theme/
+lib/                      # api.ts, api-types.ts, config.ts, utils.ts, session.ts, mock-request.ts, mock-session.ts, locales.ts, preload-on-hover.ts, i18n/, messages/, theme/
 hooks/                    # Generic hook'lar (use-media-query.ts vb.)
 docs/                     # plan.md, progress.md, structure-plan.md, api-readiness-plan.md, TEMPLATE-ANALYSIS.md
 .env.example              # Gerekli env değişkenleri
@@ -163,7 +163,7 @@ Mevcut feature'lar: `ai-chat`, `auth` (login + forgot-password), `blog`, `dashbo
 
 1. `features/<name>/` altında `components/`, `hooks/`, `mocks/`, `types/`, `constants/`, `index.ts` oluştur (`utils/` ihtiyaç olunca).
 2. `app/[locale]/...` altına sadece ince bir `page.tsx` ekle; feature'ın screen component'ini render etsin.
-3. Sidebar menüsüne (`components/layout/sidebar/menu-items.ts`) ve gerekiyorsa `lib/paths.ts`'e ekle.
-4. Mock veri için `mocks/<name>.mock.ts` yaz; gerçek API gelince `lib/api.ts`'teki `http` ile çağrıyı feature içinde yaz.
+3. Sidebar menüsüne (`components/layout/sidebar/menu-items.ts`) ekle.
+4. Mock veri için `mocks/<name>.mock.ts` yaz; gerçek API gelince `lib/api.ts`'teki `http` ile çağrıyı feature'ın `endpoint.ts`'i içinde yaz.
 5. Toast/durum göstergesi eklerken renkleri semantic token'lardan al, yeni renk uydurma.
 6. Feature'ın dışarıya açtığı şeyleri `index.ts`'ten export et; başka feature'lar sadece buradan import eder.

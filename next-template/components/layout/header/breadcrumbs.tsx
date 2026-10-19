@@ -16,7 +16,7 @@ import {
   type MenuLink,
 } from "@/components/layout/sidebar/menu-items"
 import type { Locale } from "@/lib/locales"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 
 function itemHref(locale: Locale, href: string) {
   return href === "/" ? `/${locale}` : `/${locale}${href}`

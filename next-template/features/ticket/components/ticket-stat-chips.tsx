@@ -1,6 +1,6 @@
 "use client"
 
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 import { inboxCopy } from "@/features/ticket/constants/copy"
 import type { Ticket, TicketStatus } from "@/features/ticket/types/ticket"
 import type { ContentLocale } from "@/lib/i18n"

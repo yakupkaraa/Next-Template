@@ -12,7 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 import { DataTableColumnHeader } from "@/components/shared/data-table-column-header"
 import {
   dataTableFeatures,
@@ -103,6 +103,7 @@ export function DataTable<TData extends RowData>({
   const useVirtualRows =
     virtualize && !loading && rows.length >= VIRTUALIZE_MIN_ROWS
 
+  // eslint-disable-next-line react-hooks/incompatible-library -- TanStack Virtual React Compiler ile memoize edilemez (bilinen kütüphane sınırı)
   const rowVirtualizer = useVirtualizer({
     count: useVirtualRows ? rows.length : 0,
     getScrollElement: () => scrollRef.current,

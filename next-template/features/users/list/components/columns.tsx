@@ -9,7 +9,7 @@ import { StatusBadge, type StatusBadgeTone } from "@/components/shared/status-ba
 import type { DataTableFeatures } from "@/components/shared/data-table-features"
 import { UserRowActions } from "@/features/users/list/components/row-actions"
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 import { userColumnKeys } from "@/features/users/constants/users"
 import type { UserColumnKey, UserRow } from "@/features/users/types/user"
 

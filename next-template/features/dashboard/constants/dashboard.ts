@@ -1,5 +1,3 @@
-import type { DashboardLocale, ProjectPriority } from "../types/dashboard"
-
 export const dashboardCopy = {
   tr: {
     pageTitle: "Ana Sayfa",
@@ -28,14 +26,6 @@ export const dashboardCopy = {
     promoDate: "22 March, 2025",
     bestTitle: "Id est laborum",
     bestHint: "Sed ut perspiciatis",
-    weeklyTitle: "Unde omnis iste",
-    weeklyHint: "Natus error sit",
-    tableTitle: "Voluptatem accusantium",
-    tableHint: "Doloremque laudantium",
-    assigned: "Totam rem",
-    project: "Aperiam eaque",
-    priority: "Ipsa quae",
-    budget: "Ab illo",
     year: "2025",
     welcomeUser: "Lorem Ipsum",
     welcomeHint:
@@ -75,14 +65,6 @@ export const dashboardCopy = {
     promoDate: "22 March, 2025",
     bestTitle: "Id est laborum",
     bestHint: "Sed ut perspiciatis",
-    weeklyTitle: "Unde omnis iste",
-    weeklyHint: "Natus error sit",
-    tableTitle: "Voluptatem accusantium",
-    tableHint: "Doloremque laudantium",
-    assigned: "Totam rem",
-    project: "Aperiam eaque",
-    priority: "Ipsa quae",
-    budget: "Ab illo",
     year: "2025",
     welcomeUser: "Lorem Ipsum",
     welcomeHint:
@@ -96,13 +78,3 @@ export const dashboardCopy = {
     visitTotalLabel: "exercitation ullamco",
   },
 } as const
-
-export const dashboardPriorityLabels: Record<
-  ProjectPriority,
-  Record<DashboardLocale, string>
-> = {
-  low: { tr: "Lorem", en: "Lorem" },
-  medium: { tr: "Ipsum", en: "Ipsum" },
-  high: { tr: "Dolor", en: "Dolor" },
-  veryHigh: { tr: "Sit amet", en: "Sit amet" },
-}

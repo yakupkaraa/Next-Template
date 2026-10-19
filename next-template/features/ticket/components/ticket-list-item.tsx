@@ -21,7 +21,7 @@ import type { Ticket } from "@/features/ticket/types/ticket"
 import { formatRelative, initialsOf, labelOf } from "@/features/ticket/utils/ticket"
 import { personById } from "@/features/ticket/mocks/ticket.mock"
 import type { ContentLocale } from "@/lib/i18n"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 
 export function TicketListItem({
   locale,

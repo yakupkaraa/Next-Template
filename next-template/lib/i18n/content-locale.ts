@@ -1,4 +1,4 @@
-import { isLocale, type Locale } from "@/lib/locales"
+import type { Locale } from "@/lib/locales"
 
 /** Ekran metinleri yalnızca bu dillerde tutulur. */
 export const contentLocales = ["tr", "en"] as const

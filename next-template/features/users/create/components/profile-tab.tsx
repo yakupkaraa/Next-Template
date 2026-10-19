@@ -25,7 +25,7 @@ import { StatusBadge, type StatusBadgeTone } from "@/components/shared/status-ba
 import { Textarea } from "@/components/ui/textarea"
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
 import type { UserColumnKey } from "@/features/users/types/user"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 import { getProfileFormCopy } from "../constants/profile-copy"
 import { AccountSummaryList } from "./account-summary-list"
 import { FieldShell } from "./field-shell"

@@ -15,7 +15,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 import { userBillingFigures } from "../../../mocks/users.mock"
 import { preloadOnHover } from "@/lib/preload-on-hover"
 import type { SavedCard } from "../add-card-sheet"

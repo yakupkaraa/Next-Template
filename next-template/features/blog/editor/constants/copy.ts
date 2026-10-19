@@ -1,5 +1,3 @@
-import type { ContentLocale } from "@/lib/i18n"
-
 export const blogEditorCopy = {
   tr: {
     createTitle: "Yeni blog yazısı",

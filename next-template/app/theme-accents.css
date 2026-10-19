@@ -80,7 +80,7 @@
   --sidebar-primary: #006b2c;
   --sidebar-primary-foreground: #ffffff;
   --sidebar-ring: #006b2c;
-  --insights-card-deep: #006b2c;
+  --insights-card-deep: color-mix(in oklch, #006b2c 78%, white);
   --insights-card-deep-foreground: #ffffff;
   --insights-card-bright: #00873a;
   --insights-card-bright-foreground: #ffffff;
@@ -121,7 +121,7 @@
   --sidebar-primary: #2563eb;
   --sidebar-primary-foreground: #ffffff;
   --sidebar-ring: #2563eb;
-  --insights-card-deep: #2563eb;
+  --insights-card-deep: color-mix(in oklch, #2563eb 78%, white);
   --insights-card-deep-foreground: #ffffff;
   --insights-card-bright: #4f46e5;
   --insights-card-bright-foreground: #ffffff;
@@ -161,7 +161,7 @@
   --sidebar-primary: #7c3aed;
   --sidebar-primary-foreground: #ffffff;
   --sidebar-ring: #7c3aed;
-  --insights-card-deep: #7c3aed;
+  --insights-card-deep: color-mix(in oklch, #7c3aed 78%, white);
   --insights-card-deep-foreground: #ffffff;
   --insights-card-bright: #a21caf;
   --insights-card-bright-foreground: #ffffff;

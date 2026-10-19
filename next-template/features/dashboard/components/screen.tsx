@@ -9,7 +9,6 @@ import {
   Users,
 } from "lucide-react"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { DensityBoard } from "@/components/layout/density-board"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -20,27 +19,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 import {
   MiniStatBars,
   RevenueBarsChart,
   SalaryBarChart,
   SparklineChart,
-  WeeklyAreaChart,
   YearlyDonutChart,
 } from "./charts/chart-loaders"
 import { WelcomeSection } from "./welcome-card"
 import { DashboardPageHeader } from "./page-header"
-import { dashboardCopy, dashboardPriorityLabels } from "../constants/dashboard"
-import type { DashboardLocale, ProjectPriority } from "../types/dashboard"
+import { dashboardCopy } from "../constants/dashboard"
+import type { DashboardLocale } from "../types/dashboard"
 import {
   dashboardBestSellers,
   dashboardCustomersSpark,
@@ -48,11 +38,9 @@ import {
   dashboardMiniStats,
   dashboardMonthly,
   dashboardProjectsBars,
-  dashboardProjectsTable,
   dashboardPromoPeople,
   dashboardRevenue,
   dashboardSalary,
-  dashboardWeekly,
   dashboardYearly,
 } from "../mocks/dashboard.mock"
 
@@ -65,13 +53,6 @@ const kpiToneClass: Record<(typeof dashboardKpis)[number]["tone"], string> = {
   "chart-4": "bg-[color-mix(in_oklch,var(--chart-4)_16%,var(--card))] text-primary",
   "chart-5": "bg-[color-mix(in_oklch,var(--chart-5)_16%,var(--card))] text-primary",
   primary: "bg-primary/10 text-primary",
-}
-
-const priorityTone: Record<ProjectPriority, string> = {
-  low: "bg-muted text-muted-foreground",
-  medium: "bg-primary/10 text-primary",
-  high: "bg-secondary text-secondary-foreground",
-  veryHigh: "bg-destructive/10 text-destructive",
 }
 
 export function DashboardScreen({ locale }: { locale: DashboardLocale }) {
@@ -231,7 +212,7 @@ export function DashboardScreen({ locale }: { locale: DashboardLocale }) {
           </CardContent>
         </Card>
 
-        <Card className="min-w-0 overflow-hidden border-0 bg-primary py-0 text-primary-foreground shadow-md ring-0 lg:col-span-3 lg:row-span-2 dark:bg-card dark:text-card-foreground">
+        <Card className="insights-surface-card min-w-0 overflow-hidden border-0 py-0 lg:col-span-3 lg:row-span-2">
           <CardHeader className="pb-2">
             <CardTitle className="text-primary-foreground dark:text-card-foreground">
               {text.bestTitle}
@@ -286,98 +267,6 @@ export function DashboardScreen({ locale }: { locale: DashboardLocale }) {
                 </Avatar>
               ))}
             </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      <div className="grid items-stretch gap-4 lg:grid-cols-12">
-        <Card className="min-w-0 shadow-sm lg:col-span-4">
-          <CardHeader className="pb-2">
-            <CardTitle>{text.weeklyTitle}</CardTitle>
-            <p className="text-sm text-muted-foreground">{text.weeklyHint}</p>
-          </CardHeader>
-          <CardContent className="space-y-4 pt-0">
-            <WeeklyAreaChart />
-            <ul className="space-y-3">
-              {dashboardWeekly.items.map((item) => (
-                <li key={item.title} className="flex items-center justify-between gap-3">
-                  <span className="flex min-w-0 items-center gap-3">
-                    <span
-                      className="flex size-9 items-center justify-center rounded-lg"
-                      style={{
-                        backgroundColor: `color-mix(in oklch, var(--${item.tone}) 18%, var(--card))`,
-                        color: "var(--primary)",
-                      }}
-                    >
-                      <Share2 className="size-4" />
-                    </span>
-                    <span className="min-w-0">
-                      <p className="truncate text-sm font-medium">{item.title}</p>
-                      <p className="truncate text-xs text-muted-foreground">{item.name}</p>
-                    </span>
-                  </span>
-                  <span className="shrink-0 text-sm font-semibold text-primary">+{item.delta}</span>
-                </li>
-              ))}
-            </ul>
-          </CardContent>
-        </Card>
-
-        <Card className="min-w-0 shadow-sm lg:col-span-8">
-          <CardHeader className="pb-2">
-            <div className="flex items-center justify-between gap-3">
-              <div>
-                <CardTitle>{text.tableTitle}</CardTitle>
-                <p className="text-sm text-muted-foreground">{text.tableHint}</p>
-              </div>
-              <Select defaultValue="2025">
-                <SelectTrigger className="h-8 w-32">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="2025">{text.year}</SelectItem>
-                  <SelectItem value="2024">2024</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </CardHeader>
-          <CardContent className="overflow-x-auto px-0 pt-0">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="pl-6">{text.assigned}</TableHead>
-                  <TableHead>{text.project}</TableHead>
-                  <TableHead>{text.priority}</TableHead>
-                  <TableHead className="pr-6 text-right">{text.budget}</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {dashboardProjectsTable.map((row) => (
-                  <TableRow key={row.name}>
-                    <TableCell className="pl-6">
-                      <div className="flex items-center gap-3">
-                        <Avatar size="sm">
-                          <AvatarFallback className="bg-primary/10 text-xs text-primary">
-                            {row.initials}
-                          </AvatarFallback>
-                        </Avatar>
-                        <div>
-                          <p className="font-medium">{row.name}</p>
-                          <p className="text-xs text-muted-foreground">{row.role}</p>
-                        </div>
-                      </div>
-                    </TableCell>
-                    <TableCell>{row.project}</TableCell>
-                    <TableCell>
-                      <Badge variant="secondary" className={priorityTone[row.priority]}>
-                        {dashboardPriorityLabels[row.priority][locale]}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="pr-6 text-right font-medium">{row.budget}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
           </CardContent>
         </Card>
       </div>

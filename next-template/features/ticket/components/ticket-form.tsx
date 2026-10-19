@@ -40,7 +40,7 @@ import type {
   TicketPriority,
 } from "@/features/ticket/types/ticket"
 import type { ContentLocale } from "@/lib/i18n"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 
 export type TicketFormValue = {
   subject: string

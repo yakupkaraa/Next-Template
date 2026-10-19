@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { Check } from "lucide-react"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 import {
   densityStickyBleedX,
 } from "@/components/layout/density-board"

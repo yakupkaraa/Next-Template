@@ -1,6 +1,7 @@
 {
   "name": "next-template",
   "version": "0.1.0",
+  "description": "Reusable Next.js dashboard starter template — App Router, TypeScript, Tailwind, shadcn/ui, feature-based structure.",
   "private": true,
   "scripts": {
     "dev": "next dev",
