@@ -4,7 +4,6 @@ import { useMemo, useState } from "react"
 import { DensityBoard } from "@/components/layout/density-board"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { BlogArticleCard } from "./article-card"
-import { BlogAside } from "./aside"
 import { blogCategories, blogCopy } from "../constants/blog"
 import { blogPosts } from "../mocks/blog.mock"
 import type { BlogLocale } from "../types/blog"
@@ -26,12 +25,9 @@ export function BlogScreen({ locale }: { locale: BlogLocale }) {
     <DensityBoard data-blog-board="" className="min-h-0 flex-1">
       <div
         data-blog-body=""
-        className="grid min-h-0 flex-1 grid-cols-1 grid-rows-[auto_minmax(0,1fr)] gap-x-6 lg:grid-cols-12"
+        className="grid min-h-0 flex-1 grid-cols-1 grid-rows-[auto_minmax(0,1fr)]"
       >
-        <div
-          data-density-toolbar=""
-          className="min-w-0 pb-4 lg:col-span-9 lg:col-start-1 lg:row-start-1"
-        >
+        <div data-density-toolbar="" className="min-w-0 pb-4">
           <ToggleGroup
             value={[category]}
             onValueChange={(value) =>
@@ -59,23 +55,13 @@ export function BlogScreen({ locale }: { locale: BlogLocale }) {
             ))}
           </ToggleGroup>
         </div>
-        <div
-          data-blog-feed=""
-          className="h-full min-h-0 min-w-0 overflow-y-auto lg:col-span-9 lg:col-start-1 lg:row-start-2"
-        >
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div data-blog-feed="" className="h-full min-h-0 min-w-0 overflow-y-auto">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {posts.map((post) => (
               <BlogArticleCard key={post.id} post={post} locale={locale} />
             ))}
           </div>
-          <div className="mt-8 lg:hidden">
-            <BlogAside locale={locale} />
-          </div>
         </div>
-        <BlogAside
-          locale={locale}
-          className="hidden h-full min-h-0 lg:col-span-3 lg:col-start-10 lg:row-span-2 lg:row-start-1 lg:flex"
-        />
       </div>
     </DensityBoard>
   )

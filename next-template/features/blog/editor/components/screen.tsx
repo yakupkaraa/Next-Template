@@ -1,7 +1,9 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useMemo, useState } from "react"
 import {
+  ArrowLeft,
+  ArrowRight,
   Bold,
   Check,
   Code,
@@ -108,34 +110,19 @@ export function BlogEditorScreen({
     return "upcoming" as const
   }
 
+  const lastStep = text.steps.length - 1
+
   function goStep(index: number) {
     setActive(index)
-    document.getElementById(`blog-step-${index}`)?.scrollIntoView({ behavior: "smooth", block: "start" })
   }
 
-  useEffect(() => {
-    const sections = [0, 1, 2, 3]
-      .map((index) => document.getElementById(`blog-step-${index}`))
-      .filter((node): node is HTMLElement => node !== null)
-    if (!sections.length) return
+  function goBack() {
+    setActive((current) => Math.max(current - 1, 0))
+  }
 
-    const root = sections[0].closest("[data-page-scroll]")
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries.filter((entry) => entry.isIntersecting)
-        if (!visible.length) return
-        const topmost = visible.reduce((current, entry) =>
-          entry.boundingClientRect.top < current.boundingClientRect.top ? entry : current
-        )
-        const index = Number(topmost.target.id.replace("blog-step-", ""))
-        if (Number.isInteger(index)) setActive(index)
-      },
-      { root: root instanceof Element ? root : null, rootMargin: "-150px 0px -55% 0px" }
-    )
-
-    for (const section of sections) observer.observe(section)
-    return () => observer.disconnect()
-  }, [])
+  function goNext() {
+    setActive((current) => Math.min(current + 1, lastStep))
+  }
 
   function addTag(value: string) {
     const next = value.replace(/^#/, "").trim().toLocaleLowerCase("tr")
@@ -173,20 +160,24 @@ export function BlogEditorScreen({
   )
 
   return (
-    <DensityBoard data-blog-editor="" className="px-6">
-      <StickyStepperHeader
-        title={isEdit ? text.editTitle : undefined}
-        steps={text.steps}
-        active={active}
-        onStepClick={goStep}
-        stepTone={stepTone}
-      />
+    <DensityBoard data-blog-editor="" className="min-h-0 flex-1 px-6">
+      <div className="shrink-0">
+        <StickyStepperHeader
+          title={isEdit ? text.editTitle : undefined}
+          steps={text.steps}
+          active={active}
+          onStepClick={goStep}
+          stepTone={stepTone}
+        />
+      </div>
 
+      <div className="flex min-h-0 flex-1 flex-col overflow-y-auto">
       <div
         data-blog-form=""
-        className="mx-auto flex w-[90%] flex-col gap-[var(--density-gap)]"
+        className="mx-auto my-auto flex w-[90%] flex-col gap-[var(--density-gap)] py-6"
       >
-      <Card id="blog-step-0" className="scroll-mt-24 gap-0 py-0 shadow-sm">
+      {active === 0 && (
+      <Card className="gap-0 py-0 shadow-sm">
         <CardContent className="flex flex-col gap-5 py-5">
           <div className="flex items-center justify-between gap-3 border-b pb-4">
             <div className="flex items-center gap-3">
@@ -288,8 +279,10 @@ export function BlogEditorScreen({
           </div>
         </CardContent>
       </Card>
+      )}
 
-      <Card id="blog-step-1" className="scroll-mt-24 gap-0 py-0 shadow-sm">
+      {active === 1 && (
+      <Card className="gap-0 py-0 shadow-sm">
         <CardContent className="flex flex-col gap-5 py-5">
           <div className="flex items-center justify-between gap-3 border-b pb-4">
             <div className="flex items-center gap-3">
@@ -346,7 +339,7 @@ export function BlogEditorScreen({
                 </span>
               </div>
               <Textarea
-                className="min-h-52 rounded-none border-0 focus-visible:ring-0"
+                className="min-h-96 max-h-[32rem] overflow-y-auto rounded-none border-0 focus-visible:ring-0"
                 placeholder={text.bodyPlaceholder}
                 value={body}
                 onChange={(event) => setBody(event.target.value)}
@@ -361,8 +354,10 @@ export function BlogEditorScreen({
           </div>
         </CardContent>
       </Card>
+      )}
 
-      <Card id="blog-step-2" className="scroll-mt-24 gap-0 py-0 shadow-sm">
+      {active === 2 && (
+      <Card className="gap-0 py-0 shadow-sm">
         <CardContent className="flex flex-col gap-5 py-5">
           <div className="flex items-center justify-between gap-3 border-b pb-4">
             <div className="flex items-center gap-3">
@@ -486,9 +481,11 @@ export function BlogEditorScreen({
           </div>
         </CardContent>
       </Card>
+      )}
 
-      <Card id="blog-step-3" className="scroll-mt-24 gap-0 py-0 shadow-sm">
-        <CardContent className="flex flex-col gap-6 py-5">
+      {active === 3 && (
+      <Card className="gap-0 py-0 shadow-sm">
+        <CardContent className="flex flex-col gap-8 py-6">
           <div className="flex items-center justify-between gap-3 border-b pb-4">
             <div className="flex items-center gap-3">
               <span className="flex size-9 items-center justify-center rounded-xl bg-primary/10 text-primary">
@@ -565,13 +562,13 @@ export function BlogEditorScreen({
               <Switch checked={featured} onCheckedChange={setFeatured} />
             </div>
           </div>
-          <div className="flex flex-col gap-5 rounded-xl bg-muted/50 p-5">
+          <div className="flex flex-col gap-6 rounded-xl bg-muted/50 p-6">
             <div className="flex items-center gap-2">
               <Search className="size-5 text-primary" />
               <h3 className="font-semibold">{text.seo}</h3>
             </div>
-            <div className="grid gap-5 lg:grid-cols-12">
-              <div className="flex flex-col gap-4 lg:col-span-7">
+            <div className="grid gap-6 xl:grid-cols-12">
+              <div className="flex flex-col gap-5 xl:col-span-7">
                 <div className="flex flex-col gap-1.5">
                   <div className="flex items-center justify-between">
                     <Label>{text.metaTitle}</Label>
@@ -597,7 +594,7 @@ export function BlogEditorScreen({
                   />
                 </div>
               </div>
-              <div className="flex flex-col gap-3 lg:col-span-5">
+              <div className="flex flex-col gap-4 xl:col-span-5">
                 <span className="text-[11px] font-semibold tracking-wider text-muted-foreground uppercase">
                   {text.googlePreview}
                 </span>
@@ -625,12 +622,14 @@ export function BlogEditorScreen({
           </div>
         </CardContent>
       </Card>
+      )}
+      </div>
       </div>
 
       <div
         data-density-toolbar=""
         className={cn(
-          "sticky bottom-0 z-20 flex flex-col items-center justify-between gap-2 border-t bg-card py-2 sm:flex-row sm:items-center",
+          "shrink-0 flex flex-col items-center justify-between gap-2 border-t bg-card py-2 sm:flex-row sm:items-center",
           "shadow-[0_-10px_20px_-14px_rgb(0_0_0/0.2)]",
           densityStickyBleedX,
           "-mb-[var(--density-pad-y)]"
@@ -645,14 +644,29 @@ export function BlogEditorScreen({
           ) : null}
         </div>
         <div className="flex w-full flex-wrap justify-end gap-2 sm:w-auto">
-          <Button type="button" variant="outline" size="sm">
-            <Bookmark />
-            {text.saveDraft}
-          </Button>
-          <Button type="button" size="sm" disabled={missing > 0}>
-            <Send />
-            {text.publish}
-          </Button>
+          {active > 0 ? (
+            <Button type="button" variant="outline" size="sm" onClick={goBack}>
+              <ArrowLeft />
+              {text.back}
+            </Button>
+          ) : null}
+          {active < lastStep ? (
+            <Button type="button" size="sm" onClick={goNext}>
+              {text.next}
+              <ArrowRight />
+            </Button>
+          ) : (
+            <>
+              <Button type="button" variant="outline" size="sm">
+                <Bookmark />
+                {text.saveDraft}
+              </Button>
+              <Button type="button" size="sm" disabled={missing > 0}>
+                <Send />
+                {text.publish}
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </DensityBoard>

@@ -7,6 +7,7 @@ import { FileSpreadsheet, FilterX, Hourglass, Shield, UserCheck, UserMinus, User
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { DataTable, type DataTableApi } from "@/components/shared/data-table"
+import { KpiStatCard } from "@/components/shared/kpi-stat-card"
 import { DensityBoard } from "@/components/layout/density-board"
 import { SearchBar } from "@/components/shared/search-bar"
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
@@ -133,42 +134,11 @@ export function UserListTable({ locale }: { locale: ContentLocale }) {
   }
 
   const kpis = [
-    {
-      label: list.kpiTotal,
-      value: stats.total,
-      icon: Users,
-      badge: list.kpiBadgeTotal,
-      surface: "bg-[color-mix(in_oklch,var(--primary)_88%,white)] text-primary-foreground",
-    },
-    {
-      label: list.kpiActive,
-      value: stats.active,
-      icon: UserCheck,
-      badge: list.kpiBadgeActive,
-      surface: "bg-[color-mix(in_oklch,var(--chart-2)_88%,white)] text-white",
-    },
-    {
-      label: list.kpiPending,
-      value: stats.pending,
-      icon: Hourglass,
-      badge: list.kpiBadgePending,
-      surface: "bg-[color-mix(in_oklch,var(--chart-3)_88%,white)] text-white",
-    },
-    {
-      label: list.kpiPassive,
-      value: stats.passive,
-      icon: UserMinus,
-      badge: list.kpiBadgePassive,
-      surface: "bg-[color-mix(in_oklch,var(--muted-foreground)_88%,white)] text-white",
-    },
-    {
-      label: list.kpiAdmins,
-      value: stats.admins,
-      icon: Shield,
-      badge: list.kpiBadgeAdmins,
-      surface:
-        "bg-[color-mix(in_oklch,color-mix(in_srgb,var(--primary)_78%,black)_88%,white)] text-primary-foreground",
-    },
+    { label: list.kpiTotal, value: stats.total, icon: Users, tone: "primary" },
+    { label: list.kpiActive, value: stats.active, icon: UserCheck, tone: "chart-2" },
+    { label: list.kpiPending, value: stats.pending, icon: Hourglass, tone: "chart-3" },
+    { label: list.kpiPassive, value: stats.passive, icon: UserMinus, tone: "chart-4" },
+    { label: list.kpiAdmins, value: stats.admins, icon: Shield, tone: "chart-5" },
   ] as const
 
   return (
@@ -177,33 +147,16 @@ export function UserListTable({ locale }: { locale: ContentLocale }) {
         data-kpi-row=""
         className="grid w-full min-w-0 shrink-0 grid-cols-5 gap-3"
       >
-        {kpis.map((kpi) => {
-          const Icon = kpi.icon
-          return (
-            <Card
-              key={kpi.label}
-              size="sm"
-              className={`min-w-0 border-0 py-0 shadow-sm ring-0 ${kpi.surface}`}
-            >
-              <CardContent className="flex flex-col gap-1.5 px-3 py-2">
-                <div className="flex min-w-0 items-center justify-between gap-2">
-                  <span className="flex size-6 shrink-0 items-center justify-center rounded-md bg-white/20">
-                    <Icon className="size-3.5" />
-                  </span>
-                  <span className="min-w-0 truncate rounded-full bg-white/20 px-2 py-0.5 text-[10px] font-medium leading-4">
-                    {kpi.badge}
-                  </span>
-                </div>
-                <div className="flex min-w-0 items-baseline gap-2">
-                  <span className="text-xl font-bold tracking-tight tabular-nums leading-none">
-                    {kpi.value.toLocaleString(locale === "en" ? "en" : "tr")}
-                  </span>
-                  <span className="truncate text-xs font-medium text-white/80">{kpi.label}</span>
-                </div>
-              </CardContent>
-            </Card>
-          )
-        })}
+        {kpis.map((kpi) => (
+          <KpiStatCard
+            key={kpi.label}
+            size="compact"
+            icon={kpi.icon}
+            label={kpi.label}
+            tone={kpi.tone}
+            value={kpi.value.toLocaleString(locale === "en" ? "en" : "tr")}
+          />
+        ))}
       </div>
 
       <Card

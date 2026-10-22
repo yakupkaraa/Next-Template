@@ -36,8 +36,11 @@ export function PageContent({
       >
         <div
           data-page-content
+          // pb-6 density'den bağımsız sabit boşluk: Yoğun modda DensityBoard'un kendi py-6'sı
+          // 0'a düşüyor, bu satır olmadan "fill" ekranlardaki (sohbet, liste, blog) içerik
+          // ekranın en altına yapışır.
           className={cn(
-            "flex min-h-0 flex-1 flex-col",
+            "flex min-h-0 flex-1 flex-col pb-6",
             fill ? "gap-0" : "gap-4",
             widthClasses[width],
             className

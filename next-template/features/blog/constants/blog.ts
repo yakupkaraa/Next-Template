@@ -5,25 +5,11 @@ export const blogCopy = {
     all: "Tümü",
     featured: "Öne çıkan",
     read: "Oku",
-    popular: "Popüler konular",
-    newsletterTitle: "Bülten",
-    newsletterBody:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.",
-    newsletterPlaceholder: "E-posta adresiniz",
-    newsletterCta: "Kayıt ol",
-    recent: "Son okuduklarınız",
   },
   en: {
     all: "All",
     featured: "Featured",
     read: "Read",
-    popular: "Popular topics",
-    newsletterTitle: "Newsletter",
-    newsletterBody:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.",
-    newsletterPlaceholder: "Your email",
-    newsletterCta: "Subscribe",
-    recent: "Recently read",
   },
 } as const
 
@@ -35,10 +21,3 @@ export const blogCategories: { id: BlogCategoryId; tr: string; en: string }[] = 
   { id: "research", tr: "Araştırma", en: "Research" },
 ]
 
-export const blogTags = [
-  "DesignSystems",
-  "ProductOps",
-  "Accessibility",
-  "Roadmap",
-  "RemoteWork",
-]

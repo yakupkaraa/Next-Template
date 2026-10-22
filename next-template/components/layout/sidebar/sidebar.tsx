@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { ChevronRight, LayoutGrid, Settings } from "lucide-react"
+import { ChevronRight, Settings } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -13,6 +13,7 @@ import {
 import { localeFromPath, type Locale } from "@/lib/locales"
 import { cn } from "@/lib/utils"
 import { sidebarCopy } from "@/components/layout/constants/sidebar/copy"
+import { BrandMark } from "./brand-mark"
 import { isMenuGroup, menuItems, type MenuGroup, type MenuLink } from "./menu-items"
 
 function itemHref(locale: Locale, href: string) {
@@ -198,7 +199,7 @@ export function Sidebar({
       {!horizontal ? (
         <div className={cn("flex h-16 shrink-0 items-center gap-3", open ? "px-4" : "justify-center px-2")}>
           <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
-            <LayoutGrid className="size-5" />
+            <BrandMark className="size-5" />
           </div>
           {open ? (
             <div className="min-w-0 flex flex-col">

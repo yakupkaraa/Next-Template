@@ -39,44 +39,6 @@ export const dashboardYearly = {
   prevYear: 62,
 }
 
-export const dashboardMonthly = {
-  amount: "$6,820",
-  points: [
-    { label: "1", value: 12 },
-    { label: "2", value: 18 },
-    { label: "3", value: 14 },
-    { label: "4", value: 22 },
-    { label: "5", value: 19 },
-    { label: "6", value: 28 },
-    { label: "7", value: 24 },
-    { label: "8", value: 32 },
-  ],
-}
-
-export const dashboardSalary = {
-  salary: "$36,358",
-  profit: "$5,296",
-  highlight: 3,
-  bars: [
-    { label: "Apr", value: 42 },
-    { label: "May", value: 58 },
-    { label: "June", value: 36 },
-    { label: "July", value: 88 },
-    { label: "Aug", value: 44 },
-    { label: "Sept", value: 62 },
-  ],
-}
-
-export const dashboardCustomersSpark = [
-  { label: "1", value: 18 },
-  { label: "2", value: 22 },
-  { label: "3", value: 16 },
-  { label: "4", value: 28 },
-  { label: "5", value: 24 },
-  { label: "6", value: 34 },
-  { label: "7", value: 30 },
-]
-
 export const dashboardProjectsBars = [
   { label: "1", value: 12 },
   { label: "2", value: 22 },
@@ -88,14 +50,6 @@ export const dashboardProjectsBars = [
 ]
 
 export const dashboardMiniStats = {
-  customers: { value: "36,358" },
   projects: { value: "78,298" },
 }
-
-export const dashboardPromoPeople = ["LD", "SI", "AM", "PJ"]
-
-export const dashboardBestSellers = [
-  { name: "Lorem ipsum dolor", price: "$23,568", share: 55 },
-  { name: "Sit amet elit", price: "$23,568", share: 20 },
-]
 

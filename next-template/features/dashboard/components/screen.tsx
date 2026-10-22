@@ -1,14 +1,11 @@
 import {
   Bookmark,
   Briefcase,
-  DollarSign,
   FolderKanban,
   MessageCircle,
-  MonitorPlay,
   Share2,
   Users,
 } from "lucide-react"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { DensityBoard } from "@/components/layout/density-board"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -19,13 +16,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { cn } from "@/lib/utils"
-import { toneSurfaceClass } from "@/lib/theme/tone-surface"
+import { KpiStatCard } from "@/components/shared/kpi-stat-card"
 import {
   MiniStatBars,
   RevenueBarsChart,
-  SalaryBarChart,
-  SparklineChart,
   YearlyDonutChart,
 } from "./charts/chart-loaders"
 import { WelcomeSection } from "./welcome-card"
@@ -33,15 +27,10 @@ import { DashboardPageHeader } from "./page-header"
 import { dashboardCopy } from "../constants/dashboard"
 import type { DashboardLocale } from "../types/dashboard"
 import {
-  dashboardBestSellers,
-  dashboardCustomersSpark,
   dashboardKpis,
   dashboardMiniStats,
-  dashboardMonthly,
   dashboardProjectsBars,
-  dashboardPromoPeople,
   dashboardRevenue,
-  dashboardSalary,
   dashboardYearly,
 } from "../mocks/dashboard.mock"
 
@@ -55,23 +44,15 @@ export function DashboardScreen({ locale }: { locale: DashboardLocale }) {
       <DashboardPageHeader locale={locale} />
       <WelcomeSection locale={locale} />
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
-        {dashboardKpis.map((kpi, index) => {
-          const Icon = kpiIcons[index]
-          return (
-            <Card
-              key={text.kpis[index]}
-              className={cn("border-0 shadow-sm ring-0", toneSurfaceClass[kpi.tone])}
-            >
-              <CardContent className="flex flex-col items-center gap-2 py-5 text-center">
-                <span className="flex size-11 items-center justify-center rounded-full bg-background/70 text-primary">
-                  <Icon className="size-5" />
-                </span>
-                <p className="text-xs font-medium text-muted-foreground">{text.kpis[index]}</p>
-                <p className="text-2xl font-bold tracking-tight">{kpi.value}</p>
-              </CardContent>
-            </Card>
-          )
-        })}
+        {dashboardKpis.map((kpi, index) => (
+          <KpiStatCard
+            key={text.kpis[index]}
+            icon={kpiIcons[index]}
+            label={text.kpis[index]}
+            value={kpi.value}
+            tone={kpi.tone}
+          />
+        ))}
       </div>
 
       <div className="grid items-stretch gap-4 lg:grid-cols-12">
@@ -144,123 +125,14 @@ export function DashboardScreen({ locale }: { locale: DashboardLocale }) {
             </CardContent>
           </Card>
 
-          <Card className="shadow-sm">
-            <CardHeader className="pb-2">
-              <div className="flex items-start justify-between gap-2">
-                <CardTitle>{text.monthlyTitle}</CardTitle>
-                <span className="flex size-9 items-center justify-center rounded-full bg-primary/10 text-primary">
-                  <DollarSign className="size-4" />
-                </span>
-              </div>
-            </CardHeader>
-            <CardContent className="pt-0 space-y-2">
-              <p className="text-2xl font-bold tracking-tight">{dashboardMonthly.amount}</p>
-              <SparklineChart data={[...dashboardMonthly.points]} />
+          <Card className="min-w-0 shadow-sm">
+            <CardContent className="space-y-2 py-5">
+              <p className="text-sm text-muted-foreground">{text.projects}</p>
+              <p className="text-2xl font-bold tracking-tight">{dashboardMiniStats.projects.value}</p>
+              <MiniStatBars data={[...dashboardProjectsBars]} />
             </CardContent>
           </Card>
         </div>
-      </div>
-
-      <div className="grid items-stretch gap-4 lg:grid-cols-12">
-        <Card className="min-w-0 shadow-sm lg:col-span-3 lg:row-span-2">
-          <CardHeader className="pb-2">
-            <CardTitle>{text.salaryTitle}</CardTitle>
-            <p className="text-sm text-muted-foreground">{text.salaryHint}</p>
-          </CardHeader>
-          <CardContent className="space-y-4 pt-0">
-            <SalaryBarChart />
-            <div className="flex flex-wrap gap-6 text-sm">
-              <div className="flex items-center gap-2">
-                <span className="size-2.5 rounded-sm bg-muted-foreground/30" />
-                <div>
-                  <p className="text-xs text-muted-foreground">{text.salary}</p>
-                  <p className="font-semibold">{dashboardSalary.salary}</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="size-2.5 rounded-sm bg-chart-1" />
-                <div>
-                  <p className="text-xs text-muted-foreground">{text.profit}</p>
-                  <p className="font-semibold">{dashboardSalary.profit}</p>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="min-w-0 shadow-sm lg:col-span-3">
-          <CardContent className="space-y-2 py-5">
-            <p className="text-sm text-muted-foreground">{text.customers}</p>
-            <p className="text-2xl font-bold tracking-tight">{dashboardMiniStats.customers.value}</p>
-            <SparklineChart data={[...dashboardCustomersSpark]} heightClass="h-14" />
-          </CardContent>
-        </Card>
-
-        <Card className="min-w-0 shadow-sm lg:col-span-3">
-          <CardContent className="space-y-2 py-5">
-            <p className="text-sm text-muted-foreground">{text.projects}</p>
-            <p className="text-2xl font-bold tracking-tight">{dashboardMiniStats.projects.value}</p>
-            <MiniStatBars data={[...dashboardProjectsBars]} />
-          </CardContent>
-        </Card>
-
-        <Card className="surface-strong-card min-w-0 overflow-hidden border-0 py-0 lg:col-span-3 lg:row-span-2">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-primary-foreground dark:text-card-foreground">
-              {text.bestTitle}
-            </CardTitle>
-            <p className="text-sm text-primary-foreground/80 dark:text-muted-foreground">
-              {text.bestHint}
-            </p>
-          </CardHeader>
-          <CardContent className="space-y-4 pt-0">
-            <div className="flex h-28 items-center justify-center rounded-xl bg-primary-foreground/10 dark:bg-muted">
-              <MonitorPlay className="size-12 text-primary-foreground dark:text-primary" />
-            </div>
-            {dashboardBestSellers.map((item) => (
-              <div
-                key={item.name}
-                className="space-y-2 rounded-xl bg-primary-foreground/10 p-3 dark:bg-muted"
-              >
-                <div className="flex items-center justify-between gap-2 text-sm">
-                  <span className="truncate font-medium">{item.name}</span>
-                  <span className="shrink-0 opacity-80">{item.share}%</span>
-                </div>
-                <p className="text-xs opacity-80">{item.price}</p>
-                <div className="h-1.5 overflow-hidden rounded-full bg-primary-foreground/20 dark:bg-background">
-                  <div
-                    className="h-full rounded-full bg-primary-foreground dark:bg-primary"
-                    style={{ width: `${item.share}%` }}
-                  />
-                </div>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
-
-        <Card className="min-w-0 shadow-sm lg:col-span-6">
-          <CardContent className="flex items-center justify-between gap-4 py-5">
-            <div className="flex items-center gap-4">
-              <span className="flex size-14 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-                <Users className="size-7" />
-              </span>
-              <div>
-                <p className="font-semibold">{text.promoTitle}</p>
-                <p className="text-sm text-muted-foreground">{text.promoHint}</p>
-                <p className="pt-1 text-xs text-muted-foreground">{text.promoDate}</p>
-              </div>
-            </div>
-            <div className="flex -space-x-2">
-              {dashboardPromoPeople.map((initials) => (
-                <Avatar key={initials} size="sm" className="ring-2 ring-background">
-                  <AvatarFallback className="bg-primary/15 text-[10px] text-primary">
-                    {initials}
-                  </AvatarFallback>
-                </Avatar>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
       </div>
     </DensityBoard>
   )

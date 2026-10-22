@@ -122,8 +122,3 @@ export const blogPosts = [
     cover: "bg-chart-3/40",
   },
 ]
-
-export const blogRecent = [
-  { id: "r1", title: "Quis autem vel eum iure reprehenderit", time: "2g", cover: "bg-primary/30" },
-  { id: "r2", title: "At vero eos et accusamus et iusto odio", time: "5g", cover: "bg-chart-2/40" },
-]

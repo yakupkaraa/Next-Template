@@ -4,7 +4,7 @@ import type { ReactNode } from "react"
 import { usePathname } from "next/navigation"
 import { PageContent } from "@/components/layout/page-content"
 
-/** AI sohbet ve kullanıcı listesi: kalan yüksekliği doldurur. */
+/** AI sohbet, kullanıcı listesi, blog ve blog editörü: kalan yüksekliği doldurur. */
 export function DashboardPageContent({ children }: { children: ReactNode }) {
   const pathname = usePathname()
   const isAiChat = /\/ai-chat\/?$/.test(pathname)
@@ -16,7 +16,7 @@ export function DashboardPageContent({ children }: { children: ReactNode }) {
   const isInsights = /\/insights\/?$/.test(pathname)
   const isTicketInbox = /\/ticket\/?$/.test(pathname)
   const isTicketCreate = /\/ticket\/create\/?$/.test(pathname)
-  const fill = isAiChat || isUserList || isBlog
+  const fill = isAiChat || isUserList || isBlog || isBlogEditor
   const wide =
     isUserList ||
     isUserCards ||

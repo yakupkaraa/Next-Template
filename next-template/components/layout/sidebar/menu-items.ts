@@ -180,7 +180,6 @@ export const menuItems: MenuEntry[] = [
           it: "Ticket",
         }),
         icon: LifeBuoy,
-        badge: "open-tickets",
       },
     ],
   },

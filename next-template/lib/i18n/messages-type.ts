@@ -92,11 +92,6 @@ export type Messages = {
       kpiPending: string
       kpiPassive: string
       kpiAdmins: string
-      kpiBadgeTotal: string
-      kpiBadgeActive: string
-      kpiBadgePending: string
-      kpiBadgePassive: string
-      kpiBadgeAdmins: string
       edit: string
       delete: string
       actions: string

@@ -13,16 +13,6 @@ export const YearlyDonutChart = dynamic(
   { ssr: false, loading: () => <ChartBlockSkeleton className="mx-auto h-28 w-28" /> }
 )
 
-export const SparklineChart = dynamic(
-  () => import("./sparkline-chart").then((mod) => mod.SparklineChart),
-  { ssr: false, loading: () => <ChartBlockSkeleton className="h-16" /> }
-)
-
-export const SalaryBarChart = dynamic(
-  () => import("./salary-bar-chart").then((mod) => mod.SalaryBarChart),
-  { ssr: false, loading: () => <ChartBlockSkeleton className="h-44 min-h-44" /> }
-)
-
 export const MiniStatBars = dynamic(
   () => import("./mini-stat-bars").then((mod) => mod.MiniStatBars),
   { ssr: false, loading: () => <ChartBlockSkeleton className="h-14" /> }

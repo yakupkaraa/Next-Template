@@ -125,9 +125,6 @@ export function UserCardGrid({ locale }: { locale: ContentLocale }) {
       >
         <div className="flex min-w-0 flex-wrap items-center gap-2">
           <h1 className="text-2xl font-semibold tracking-tight">{card.title}</h1>
-          <span className="rounded-full bg-primary/15 px-2 py-0.5 text-xs font-semibold text-primary">
-            {rows.length}
-          </span>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <Button type="button" variant="outline" className="bg-card">
