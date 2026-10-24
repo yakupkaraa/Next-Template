@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/theme/theme-provider";
 import { Toaster } from "@/components/toast/toaster";
 import { DEFAULT_THEME_ACCENT } from "@/lib/theme/accents";
 import { DEFAULT_FONT_FAMILY, DEFAULT_FONT_SIZE } from "@/lib/theme/fonts";
+import { themeBootstrapScript } from "@/lib/theme/inline-script";
 import "./globals.css";
 
 const nunito = Nunito({
@@ -49,6 +50,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${nunito.variable} ${inter.variable} ${outfit.variable} ${sourceSans.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
+      <head>
+        {/* Pre-paint theme bootstrap: must run as a literal inline script, before hydration. */}
+        <script dangerouslySetInnerHTML={{ __html: themeBootstrapScript() }} />
+      </head>
       <body className="flex h-dvh flex-col overflow-hidden">
         <ThemeProvider>
           {children}

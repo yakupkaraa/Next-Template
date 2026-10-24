@@ -27,40 +27,31 @@ export function AppShell({
     >
       {top ? (
         <>
-          <div className="relative flex min-h-0 flex-1 flex-col">
-            <Header
-              open={open}
-              onToggle={() => setOpen((value) => !value)}
-              showMenu
-              showSidebarToggle={false}
-              className="absolute inset-x-0 top-0 z-20"
-            />
-            <main
-              data-app-main
-              className="flex min-h-0 min-w-0 flex-1 flex-col overflow-y-auto px-6 pt-14 pb-0"
-            >
-              {children}
-            </main>
-          </div>
+          <Header
+            open={open}
+            onToggle={() => setOpen((value) => !value)}
+            showMenu
+            showSidebarToggle={false}
+          />
+          <main
+            data-app-main
+            className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden px-6 py-0"
+          >
+            {children}
+          </main>
           {footer ? <Footer /> : null}
         </>
       ) : (
         <>
           {right ? null : <Sidebar open={open} placement="start" badgeCounts={badgeCounts} isAdmin={isAdmin} />}
           <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
-            <div className="relative flex min-h-0 flex-1 flex-col">
-              <Header
-                open={open}
-                onToggle={() => setOpen((value) => !value)}
-                className="absolute inset-x-0 top-0 z-20"
-              />
-              <main
-                data-app-main
-                className="flex min-h-0 min-w-0 flex-1 flex-col overflow-y-auto px-6 pt-14 pb-0"
-              >
-                {children}
-              </main>
-            </div>
+            <Header open={open} onToggle={() => setOpen((value) => !value)} />
+            <main
+              data-app-main
+              className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden px-6 py-0"
+            >
+              {children}
+            </main>
             {footer ? <Footer /> : null}
           </div>
           {right ? <Sidebar open={open} placement="end" badgeCounts={badgeCounts} isAdmin={isAdmin} /> : null}

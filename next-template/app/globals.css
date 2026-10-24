@@ -4,7 +4,14 @@
 @import "./theme-accents.css";
 
 @custom-variant dark (&:is(.dark *));
-@custom-variant floating (&:is(html[data-layout=top][data-density=comfortable] *));
+@custom-variant floating (&:is(html[data-density=comfortable] *));
+
+:root {
+  /* TEK KAYNAK: header satırının comfortable'daki yüksekliği. Header normal akışta (absolute değil)
+     olduğu için scroll alanı hiçbir offset/padding'e ihtiyaç duymaz — flexbox bunu otomatik çözer.
+     44px'lik hap/buton + üstte/altta 12px boşluk = 68px (4.25rem). */
+  --header-row-h: 4.25rem;
+}
 
 @theme inline {
   --color-background: var(--background);

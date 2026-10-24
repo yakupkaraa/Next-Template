@@ -17,13 +17,11 @@ export function Header({
   onToggle,
   showMenu = false,
   showSidebarToggle = true,
-  className,
 }: {
   open: boolean
   onToggle: () => void
   showMenu?: boolean
   showSidebarToggle?: boolean
-  className?: string
 }) {
   const pathname = usePathname()
   const locale = localeFromPath(pathname)
@@ -40,6 +38,15 @@ export function Header({
         aria-expanded={open}
         aria-controls="panel-sidebar"
         onClick={onToggle}
+        className={cn(
+          "floating:size-11",
+          "floating:rounded-2xl",
+          "floating:border",
+          "floating:border-border",
+          "floating:bg-card",
+          "floating:shadow-sm",
+          "floating:hover:bg-muted"
+        )}
       >
         <Menu className="size-[1.2rem]" />
         <span className="sr-only">{toggleLabel}</span>
@@ -58,25 +65,14 @@ export function Header({
   return (
     <header
       className={cn(
-        "flex h-14 shrink-0 items-center gap-3 border-b px-4 backdrop-blur-sm",
+        "flex h-14 shrink-0 items-center gap-3 border-b px-4",
         showMenu
-          ? "border-sidebar-border bg-sidebar/40 text-sidebar-foreground [&_[data-slot=button]]:text-sidebar-foreground [&_[data-slot=button]:hover]:bg-sidebar-accent [&_[data-slot=button]:hover]:text-sidebar-accent-foreground"
-          : "border-border bg-card/40 text-foreground",
-        showMenu &&
-          cn(
-            "floating:mt-3",
-            "floating:border-b-0",
-            "floating:bg-transparent",
-            "floating:text-foreground",
-            "floating:backdrop-blur-none",
-            "floating:[&_[data-slot=button]]:text-foreground",
-            "floating:[&_[data-slot=button]:hover]:bg-muted",
-            "floating:[&_[data-slot=button]:hover]:text-foreground"
-          ),
-        className
+          ? "border-sidebar-border bg-sidebar text-sidebar-foreground [&_[data-slot=button]]:text-sidebar-foreground [&_[data-slot=button]:hover]:bg-sidebar-accent [&_[data-slot=button]:hover]:text-sidebar-accent-foreground"
+          : "border-border bg-card text-foreground",
+        "floating:h-[var(--header-row-h)]"
       )}
     >
-      <HeaderBrandButton locale={locale} />
+      {showMenu ? <HeaderBrandButton locale={locale} /> : null}
       {reverseChrome ? (
         <>
           {headerActions}
