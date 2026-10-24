@@ -10,7 +10,8 @@ export async function runAction({
 }: {
   pending: string
   success: string
-  error: string
+  /** Sabit metin veya yakalanan hataya göre mesaj üreten fonksiyon (bkz. resolve-error-message.ts). */
+  error: string | ((err: unknown) => string)
   run: () => Promise<void>
 }): Promise<boolean> {
   const id = showLoading(pending)
@@ -19,9 +20,9 @@ export async function runAction({
     dismissToast(id)
     showSuccess(success)
     return true
-  } catch {
+  } catch (err) {
     dismissToast(id)
-    showError(error)
+    showError(typeof error === "function" ? error(err) : error)
     return false
   }
 }

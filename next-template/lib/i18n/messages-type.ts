@@ -96,7 +96,7 @@ export type Messages = {
       delete: string
       actions: string
       actionsMenu: string
-      toast: { deleting: string; deleted: string; deleteFailed: string }
+      toast: { created: string; deleting: string; deleted: string; deleteFailed: string }
       name: string
       selectAll: string
       selectRow: string
@@ -120,6 +120,7 @@ export type Messages = {
       departmentAll: string
       copy: string
       copied: string
+      copyFailed: string
       deleteConfirmTitle: string
       deleteConfirmHint: string
       yes: string
@@ -197,6 +198,10 @@ export type Messages = {
         lastChanged: string
         cancel: string
         save: string
+        saving: string
+        saved: string
+        saveFailed: string
+        mismatch: string
         showPassword: string
         hidePassword: string
         twoFactorTitle: string

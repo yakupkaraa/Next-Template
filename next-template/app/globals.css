@@ -13,6 +13,13 @@
      olduğu için scroll alanı hiçbir offset/padding'e ihtiyaç duymaz — flexbox bunu otomatik çözer.
      44px'lik hap/buton + üstte/altta 12px boşluk = 68px (4.25rem). */
   --header-row-h: 4.25rem;
+  /* Toaster'ın üst offset'i: header yüksekliğinin (side/right'ta sabit h-14, top'ta --header-row-h)
+     altında dursun ki sağ üstteki header hapıyla çakışmasın. */
+  --toast-top-offset: calc(3.5rem + 1rem);
+}
+
+html[data-layout="top"] {
+  --toast-top-offset: calc(var(--header-row-h) + 1rem);
 }
 
 @theme inline {

@@ -13,6 +13,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Switch } from "@/components/ui/switch"
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
 import { cn } from "@/lib/utils"
+import { mockRequest } from "@/lib/mock-request"
+import { runAction } from "@/components/toast/run-action"
+import { resolveErrorMessage } from "@/components/toast/resolve-error-message"
+import { showError } from "@/components/toast/notify"
 import { PasswordField } from "./password-field"
 
 const initialPasswords = {
@@ -43,6 +47,19 @@ export function SecurityPanel({ locale }: { locale: ContentLocale }) {
 
   const checks = passwordChecks(passwords.next)
   const score = strengthScore(passwords.next)
+
+  async function savePassword() {
+    if (passwords.next !== passwords.confirm) {
+      showError(security.mismatch)
+      return
+    }
+    await runAction({
+      pending: security.saving,
+      success: security.saved,
+      error: (err) => resolveErrorMessage(err, security.saveFailed),
+      run: () => mockRequest(() => undefined),
+    })
+  }
   const strengthLabel =
     score >= 3 ? security.strengthStrong : score === 2 ? security.strengthFair : score === 1 ? security.strengthWeak : ""
 
@@ -156,7 +173,9 @@ export function SecurityPanel({ locale }: { locale: ContentLocale }) {
                 >
                   {security.cancel}
                 </Button>
-                <Button type="button">{security.save}</Button>
+                <Button type="button" onClick={savePassword}>
+                  {security.save}
+                </Button>
               </div>
             </div>
           </CardContent>

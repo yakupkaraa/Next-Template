@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { ConfirmModal } from "@/components/shared/confirm-modal"
 import { SearchBar } from "@/components/shared/search-bar"
+import { showError, showSuccess } from "@/components/toast/notify"
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
 import {
   userDepartmentOptions,
@@ -75,8 +76,9 @@ export function UserCardGrid({ locale }: { locale: ContentLocale }) {
     (row: UserRow) => {
       addUser(row)
       setCreateOpen(false)
+      showSuccess(list.toast.created)
     },
-    [addUser]
+    [addUser, list.toast.created]
   )
 
   const goEdit = useCallback(() => {
@@ -92,13 +94,17 @@ export function UserCardGrid({ locale }: { locale: ContentLocale }) {
     })
   }, [])
 
-  const copyUser = useCallback(async (user: UserRow) => {
-    try {
-      await navigator.clipboard.writeText(user.email)
-    } catch {
-      /* ignore */
-    }
-  }, [])
+  const copyUser = useCallback(
+    async (user: UserRow) => {
+      try {
+        await navigator.clipboard.writeText(user.email)
+        showSuccess(card.copied)
+      } catch {
+        showError(card.copyFailed)
+      }
+    },
+    [card.copied, card.copyFailed]
+  )
 
   const handleDelete = useCallback(
     async (row: UserRow) => {

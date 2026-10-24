@@ -16,6 +16,7 @@ import type { UserRow } from "@/features/users/types/user"
 import { useUsers } from "@/features/users/hooks/use-users"
 import { preloadOnHover } from "@/lib/preload-on-hover"
 import { getUserListColumns } from "@/features/users/list/components/columns"
+import { showSuccess } from "@/components/toast/notify"
 
 const AddUserDialog = dynamic(() =>
   import("@/features/users/components/add-user-dialog").then((m) => ({ default: m.AddUserDialog }))
@@ -131,6 +132,7 @@ export function UserListTable({ locale }: { locale: ContentLocale }) {
   function handleCreated(row: UserRow) {
     addUser(row)
     setCreateOpen(false)
+    showSuccess(list.toast.created)
   }
 
   const kpis = [

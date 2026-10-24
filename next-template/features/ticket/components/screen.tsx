@@ -193,7 +193,12 @@ export function TicketScreen({ locale }: { locale: ContentLocale }) {
           size="sm"
           variant="outline"
           className="min-h-11 sm:min-h-7"
-          onClick={() => addSystem([...checked], `${user.name} durumu 'Kapalı' yaptı`, { status: "closed" })}
+          onClick={() => {
+            const count = checked.size
+            addSystem([...checked], `${user.name} durumu 'Kapalı' yaptı`, { status: "closed" })
+            setChecked(new Set())
+            setNotice(text.bulkClosed.replace("{count}", String(count)))
+          }}
         >
           {text.close}
         </Button>

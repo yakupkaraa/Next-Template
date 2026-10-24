@@ -31,6 +31,7 @@ export function Toaster() {
       richColors
       theme={theme}
       position="top-right"
+      offset={{ top: "var(--toast-top-offset)" }}
       style={toastColors}
       toastOptions={{
         classNames: {

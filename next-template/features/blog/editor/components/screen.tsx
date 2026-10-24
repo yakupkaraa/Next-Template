@@ -50,6 +50,9 @@ import { Switch } from "@/components/ui/switch"
 import { Textarea } from "@/components/ui/textarea"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { cn } from "@/lib/utils"
+import { mockRequest } from "@/lib/mock-request"
+import { runAction } from "@/components/toast/run-action"
+import { resolveErrorMessage } from "@/components/toast/resolve-error-message"
 import { blogCategories } from "../../constants/blog"
 import { blogPosts } from "../../mocks/blog.mock"
 import type { BlogLocale } from "../../types/blog"
@@ -111,6 +114,26 @@ export function BlogEditorScreen({
   }
 
   const lastStep = text.steps.length - 1
+
+  async function saveDraft() {
+    setStatus("draft")
+    await runAction({
+      pending: text.saving,
+      success: text.draftSaved,
+      error: (err) => resolveErrorMessage(err, text.draftSaveFailed),
+      run: () => mockRequest(() => undefined),
+    })
+  }
+
+  async function publish() {
+    const ok = await runAction({
+      pending: text.publishing,
+      success: text.postPublished,
+      error: (err) => resolveErrorMessage(err, text.publishFailed),
+      run: () => mockRequest(() => undefined),
+    })
+    if (ok) setStatus("published")
+  }
 
   function goStep(index: number) {
     setActive(index)
@@ -643,11 +666,11 @@ export function BlogEditorScreen({
             </Button>
           ) : (
             <>
-              <Button type="button" variant="outline" size="sm">
+              <Button type="button" variant="outline" size="sm" onClick={saveDraft}>
                 <Bookmark />
                 {text.saveDraft}
               </Button>
-              <Button type="button" size="sm" disabled={missing > 0}>
+              <Button type="button" size="sm" disabled={missing > 0} onClick={publish}>
                 <Send />
                 {text.publish}
               </Button>

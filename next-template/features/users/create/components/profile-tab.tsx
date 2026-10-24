@@ -35,6 +35,8 @@ import type { ProfileFieldConfig, ProfileSectionKey } from "../types/profile-fie
 import { EMAIL_PATTERN, initialValues, isFieldEditable, NOTE_MAX } from "../utils/profile-tab"
 import { formatPhoneInput, normalizeEmail } from "@/features/users/utils/form-field-meta"
 import { useSaveUser } from "@/features/users/hooks/use-save-user"
+import { showError, showWarning } from "@/components/toast/notify"
+import { resolveErrorMessage } from "@/components/toast/resolve-error-message"
 import { userStatusTone } from "@/features/users/utils/users"
 
 export type ProfileFormMode = "self" | "admin"
@@ -118,11 +120,16 @@ export function ProfileTab({
     if (firstKey) {
       document.getElementById(`profile-${firstKey}`)?.focus()
       document.getElementById(`profile-${firstKey}`)?.scrollIntoView({ behavior: "smooth", block: "center" })
+      showWarning(text.formInvalid)
       return
     }
-    const result = await saveUser(values)
-    setBaseline(result)
-    setSaved(true)
+    try {
+      const result = await saveUser(values)
+      setBaseline(result)
+      setSaved(true)
+    } catch (err) {
+      showError(resolveErrorMessage(err, text.saveFailed))
+    }
   }
 
   function describedBy(id: string, error?: string) {

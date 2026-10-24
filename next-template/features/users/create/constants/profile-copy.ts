@@ -39,6 +39,8 @@ export const profileFormCopy = {
     emailError: "Geçerli bir e-posta adresi girin.",
     saved: "Profil bilgilerin güncellendi",
     saving: "Kaydediliyor…",
+    saveFailed: "Profil kaydedilemedi. Lütfen tekrar deneyin.",
+    formInvalid: "Lütfen gerekli alanları doldurun.",
     roleChip: "Rol",
   },
   en: {
@@ -79,6 +81,8 @@ export const profileFormCopy = {
     emailError: "Enter a valid email address.",
     saved: "Your profile was updated",
     saving: "Saving…",
+    saveFailed: "Couldn't save your profile. Please try again.",
+    formInvalid: "Please fill in the required fields.",
     roleChip: "Role",
   },
 } as const
