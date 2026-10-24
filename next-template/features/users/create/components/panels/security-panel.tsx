@@ -60,9 +60,6 @@ export function SecurityPanel({ locale }: { locale: ContentLocale }) {
           <Shield className="size-5" />
         </span>
         <div>
-          <p className="text-[11px] font-semibold tracking-[0.08em] text-primary uppercase">
-            {security.kicker}
-          </p>
           <h3 className="text-lg font-semibold tracking-tight">{security.pageTitle}</h3>
         </div>
       </div>
@@ -150,8 +147,7 @@ export function SecurityPanel({ locale }: { locale: ContentLocale }) {
               </ul>
             </div>
 
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <p className="text-xs text-muted-foreground">{security.lastChanged}</p>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
               <div className="flex flex-wrap gap-2">
                 <Button
                   type="button"
@@ -180,7 +176,6 @@ export function SecurityPanel({ locale }: { locale: ContentLocale }) {
                   aria-label={security.twoFactorTitle}
                 />
               </div>
-              <p className="text-sm text-muted-foreground">{security.twoFactorHint}</p>
               {twoFactor ? (
                 <p className="flex items-center gap-2 rounded-lg bg-success/10 px-3 py-2 text-sm text-success">
                   <Check className="size-4 shrink-0" />
@@ -198,7 +193,6 @@ export function SecurityPanel({ locale }: { locale: ContentLocale }) {
               <div className="flex items-start justify-between gap-4 border-b px-4 py-4">
                 <div>
                   <p className="font-medium">{security.pauseTitle}</p>
-                  <p className="text-sm text-muted-foreground">{security.pauseHint}</p>
                 </div>
                 <Button type="button" variant="outline" className="shrink-0">
                   {security.pause}
@@ -207,7 +201,6 @@ export function SecurityPanel({ locale }: { locale: ContentLocale }) {
               <div className="flex items-start justify-between gap-4 px-4 py-4">
                 <div>
                   <p className="font-medium">{security.deleteTitle}</p>
-                  <p className="text-sm text-muted-foreground">{security.deleteHint}</p>
                 </div>
                 <Button type="button" variant="destructive" className="shrink-0">
                   {security.delete}

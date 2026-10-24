@@ -137,9 +137,9 @@ export function BlogEditorScreen({
   }))
 
   const visOptions = [
-    { id: "public" as const, title: text.visPublic, hint: text.visPublicHint, icon: Globe },
-    { id: "hidden" as const, title: text.visHidden, hint: text.visHiddenHint, icon: EyeOff },
-    { id: "locked" as const, title: text.visLocked, hint: text.visLockedHint, icon: Lock },
+    { id: "public" as const, title: text.visPublic, icon: Globe },
+    { id: "hidden" as const, title: text.visHidden, icon: EyeOff },
+    { id: "locked" as const, title: text.visLocked, icon: Lock },
   ]
 
   const sectionBadge = (index: number) => {
@@ -186,7 +186,6 @@ export function BlogEditorScreen({
               </span>
               <div>
                 <h2 className="font-semibold">{text.steps[0].title}</h2>
-                <p className="text-sm text-muted-foreground">{text.steps[0].hint}</p>
               </div>
             </div>
             {sectionBadge(0)}
@@ -207,7 +206,6 @@ export function BlogEditorScreen({
                 setMetaTitle(event.target.value)
               }}
             />
-            <p className="text-xs text-muted-foreground">{text.titleHint}</p>
           </div>
           <div className="flex flex-col gap-1.5">
             <Label>
@@ -223,7 +221,6 @@ export function BlogEditorScreen({
                 onChange={(event) => setSlug(slugify(event.target.value))}
               />
             </div>
-            <p className="text-xs text-muted-foreground">{text.slugHint}</p>
           </div>
           <div className="flex flex-col gap-1.5">
             <div className="flex items-center justify-between">
@@ -239,7 +236,6 @@ export function BlogEditorScreen({
               value={excerpt}
               onChange={(event) => setExcerpt(event.target.value)}
             />
-            <p className="text-xs text-muted-foreground">{text.excerptHint}</p>
           </div>
           <div className="grid gap-4 md:grid-cols-2">
             <div className="flex flex-col gap-1.5">
@@ -291,7 +287,6 @@ export function BlogEditorScreen({
               </span>
               <div>
                 <h2 className="font-semibold">{text.steps[1].title}</h2>
-                <p className="text-sm text-muted-foreground">{text.steps[1].hint}</p>
               </div>
             </div>
             {sectionBadge(1)}
@@ -350,7 +345,6 @@ export function BlogEditorScreen({
                 </span>
               </div>
             </div>
-            <p className="text-xs text-muted-foreground">{text.bodyHint}</p>
           </div>
         </CardContent>
       </Card>
@@ -366,7 +360,6 @@ export function BlogEditorScreen({
               </span>
               <div>
                 <h2 className="font-semibold">{text.steps[2].title}</h2>
-                <p className="text-sm text-muted-foreground">{text.steps[2].hint}</p>
               </div>
             </div>
             {sectionBadge(2)}
@@ -380,7 +373,6 @@ export function BlogEditorScreen({
                 <Upload className="size-5" />
               </span>
               <p className="font-semibold">{text.coverTitle}</p>
-              <p className="text-xs text-muted-foreground">{text.coverHint}</p>
               <Button type="button" variant="outline" size="sm">
                 {text.pickFile}
               </Button>
@@ -493,7 +485,6 @@ export function BlogEditorScreen({
               </span>
               <div>
                 <h2 className="font-semibold">{text.steps[3].title}</h2>
-                <p className="text-sm text-muted-foreground">{text.steps[3].hint}</p>
               </div>
             </div>
             {sectionBadge(3)}
@@ -537,10 +528,7 @@ export function BlogEditorScreen({
                     className="flex h-auto items-start gap-3 rounded-xl p-3.5 text-left whitespace-normal"
                   >
                     <Icon className={cn("mt-0.5 size-4", selected ? "text-primary" : "text-muted-foreground")} />
-                    <span>
-                      <span className="block text-sm font-semibold">{item.title}</span>
-                      <span className="mt-0.5 block text-xs text-muted-foreground">{item.hint}</span>
-                    </span>
+                    <span className="block text-sm font-semibold">{item.title}</span>
                   </Button>
                 )
               })}
@@ -550,14 +538,12 @@ export function BlogEditorScreen({
             <div className="flex items-center justify-between gap-3 py-3">
               <div>
                 <p className="text-sm font-semibold">{text.comments}</p>
-                <p className="text-xs text-muted-foreground">{text.commentsHint}</p>
               </div>
               <Switch checked={comments} onCheckedChange={setComments} />
             </div>
             <div className="flex items-center justify-between gap-3 py-3">
               <div>
                 <p className="text-sm font-semibold">{text.featured}</p>
-                <p className="text-xs text-muted-foreground">{text.featuredHint}</p>
               </div>
               <Switch checked={featured} onCheckedChange={setFeatured} />
             </div>

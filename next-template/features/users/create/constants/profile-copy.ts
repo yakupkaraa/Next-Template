@@ -2,7 +2,6 @@ import type { ContentLocale } from "@/lib/i18n"
 
 export const profileFormCopy = {
   tr: {
-    accountSummary: "Hesap özeti",
     sections: {
       personal: {
         title: "Kişisel bilgiler",
@@ -27,8 +26,6 @@ export const profileFormCopy = {
     },
     phoneOptional: "Telefon (opsiyonel)",
     noteLabel: "Hakkımda",
-    noteHint: "Kullanıcı kartında kısa açıklama olarak görünür",
-    cityDisabledHint: "Önce ülke seç",
     placeholders: {
       city: "Şehir ara…",
       department: "Departman ara…",
@@ -45,7 +42,6 @@ export const profileFormCopy = {
     roleChip: "Rol",
   },
   en: {
-    accountSummary: "Account summary",
     sections: {
       personal: {
         title: "Personal details",
@@ -70,8 +66,6 @@ export const profileFormCopy = {
     },
     phoneOptional: "Phone (optional)",
     noteLabel: "About",
-    noteHint: "Shown as a short description on the user card",
-    cityDisabledHint: "Select a country first",
     placeholders: {
       city: "Search city…",
       department: "Search department…",

@@ -64,11 +64,7 @@ export function BillingPanel({ locale }: { locale: ContentLocale }) {
           <Wallet className="size-5" />
         </span>
         <div>
-          <p className="text-[11px] font-semibold tracking-[0.08em] text-primary uppercase">
-            {billing.kicker}
-          </p>
           <h3 className="text-lg font-semibold tracking-tight">{billing.pageTitle}</h3>
-          <p className="text-sm text-muted-foreground">{billing.pageHint}</p>
         </div>
       </div>
       <div className="grid gap-3 md:grid-cols-3">

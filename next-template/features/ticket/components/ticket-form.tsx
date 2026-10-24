@@ -93,7 +93,6 @@ export function TicketForm({
           </span>
           <div>
             <h2 className="font-semibold">{text.formTitle}</h2>
-            <p className="text-sm text-muted-foreground">{text.formHint}</p>
           </div>
         </div>
 
@@ -128,12 +127,9 @@ export function TicketForm({
             maxLength={120}
             value={value.subject}
             aria-invalid={Boolean(errors.subject)}
-            aria-describedby={errors.subject ? "ticket-subject-error" : "ticket-subject-hint"}
+            aria-describedby={errors.subject ? "ticket-subject-error" : undefined}
             onChange={(event) => onChange({ ...value, subject: event.target.value })}
           />
-          <p id="ticket-subject-hint" className="text-xs text-muted-foreground">
-            {text.subjectHint}
-          </p>
           {errors.subject ? (
             <p id="ticket-subject-error" className="text-sm text-destructive">
               {errors.subject}
@@ -189,7 +185,6 @@ export function TicketForm({
                 </ToggleGroupItem>
               ))}
             </ToggleGroup>
-            <p className="text-xs text-muted-foreground">{text.priorityHint}</p>
           </div>
         </div>
 
@@ -267,7 +262,7 @@ export function TicketForm({
               maxLength={2000}
               value={value.description}
               aria-invalid={Boolean(errors.description)}
-              aria-describedby={errors.description ? "ticket-body-error" : "ticket-body-hint"}
+              aria-describedby={errors.description ? "ticket-body-error" : undefined}
               onChange={(event) => onChange({ ...value, description: event.target.value })}
             />
             <div className="flex items-center justify-between border-t px-3 py-1.5 text-xs text-muted-foreground">
@@ -277,9 +272,6 @@ export function TicketForm({
               </span>
             </div>
           </div>
-          <p id="ticket-body-hint" className="text-xs text-muted-foreground">
-            {text.descriptionHint}
-          </p>
           {errors.description ? (
             <p id="ticket-body-error" className="text-sm text-destructive">
               {errors.description}

@@ -18,9 +18,10 @@ import { TicketSideCards } from "@/features/ticket/components/ticket-side-cards"
 import { createCopy } from "@/features/ticket/create/constants/copy"
 import { TICKET_NOW_MS } from "@/features/ticket/constants/ticket-options"
 import type { Ticket } from "@/features/ticket/types/ticket"
-import { nextTicketId } from "@/features/ticket/utils/ticket"
+import { nextTicketId, suggestedArticles } from "@/features/ticket/utils/ticket"
 import { getCurrentUser, seedTickets } from "@/features/ticket/mocks/ticket.mock"
 import type { ContentLocale } from "@/lib/i18n"
+import { cn } from "@/lib/utils"
 
 const DRAFT_KEY = "ticket-create-draft"
 
@@ -71,6 +72,7 @@ export function TicketCreateScreen({ locale }: { locale: ContentLocale }) {
   const [draftDismissed, setDraftDismissed] = useState(false)
   const [saved, setSaved] = useState(true)
   const showDraft = Boolean(draftRaw) && !draftDismissed
+  const hasSidebar = suggestedArticles(value.subject, locale).length > 0
 
   const errorBanner = useMemo(() => {
     const count = Object.keys(errors).length
@@ -185,8 +187,8 @@ export function TicketCreateScreen({ locale }: { locale: ContentLocale }) {
 
         <TicketNotice message={notice} onClear={() => setNotice("")} />
 
-        <div className="grid gap-4 lg:grid-cols-12">
-          <div className="p-px lg:col-span-8">
+        <div className={cn("grid gap-4", hasSidebar ? "lg:grid-cols-12" : "mx-auto w-full max-w-3xl")}>
+          <div className={cn("p-px", hasSidebar ? "lg:col-span-8" : undefined)}>
             <TicketForm
               locale={locale}
               value={value}
@@ -201,9 +203,11 @@ export function TicketCreateScreen({ locale }: { locale: ContentLocale }) {
               onCancel={requestLeave}
             />
           </div>
-          <div className="p-px lg:col-span-4">
-            <TicketSideCards locale={locale} prefix={prefix} subject={value.subject} previous={tickets} />
-          </div>
+          {hasSidebar ? (
+            <div className="p-px lg:col-span-4">
+              <TicketSideCards locale={locale} prefix={prefix} subject={value.subject} />
+            </div>
+          ) : null}
         </div>
       </div>
 

@@ -57,14 +57,9 @@ export function TicketStatChips({
         )
       })}
       {isAdmin ? (
-        <>
-          <span className="hidden shrink-0 text-xs text-muted-foreground whitespace-nowrap lg:inline">
-            {text.avgReply}
-          </span>
-          <span className="shrink-0 rounded-full bg-destructive/10 px-3 py-1.5 text-xs font-medium text-destructive">
-            {text.slaBreach} {slaCount}
-          </span>
-        </>
+        <span className="shrink-0 rounded-full bg-destructive/10 px-3 py-1.5 text-xs font-medium text-destructive">
+          {text.slaBreach} {slaCount}
+        </span>
       ) : null}
     </div>
   )

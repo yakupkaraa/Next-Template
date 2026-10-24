@@ -4,6 +4,7 @@
 @import "./theme-accents.css";
 
 @custom-variant dark (&:is(.dark *));
+@custom-variant floating (&:is(html[data-layout=top][data-density=comfortable] *));
 
 @theme inline {
   --color-background: var(--background);

@@ -95,9 +95,6 @@ export function NotificationsPanel({ locale }: { locale: ContentLocale }) {
           <Bell className="size-5" />
         </span>
         <div>
-          <p className="text-[11px] font-semibold tracking-[0.08em] text-primary uppercase">
-            {text.kicker}
-          </p>
           <h3 className="text-lg font-semibold tracking-tight">{text.pageTitle}</h3>
         </div>
       </div>

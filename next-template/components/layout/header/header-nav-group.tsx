@@ -42,7 +42,14 @@ export function HeaderNavGroup({
             variant="ghost"
             className={cn(
               "h-9 shrink-0 gap-2 px-2.5 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-              childActive && "bg-sidebar-accent font-medium text-sidebar-accent-foreground"
+              childActive && "bg-sidebar-accent font-medium text-sidebar-accent-foreground",
+              "floating:rounded-full",
+              "floating:px-4",
+              "floating:text-foreground",
+              "floating:hover:bg-muted",
+              "floating:hover:text-foreground",
+              childActive &&
+                "floating:bg-primary floating:text-primary-foreground floating:hover:bg-primary floating:hover:text-primary-foreground"
             )}
           />
         }
@@ -51,7 +58,10 @@ export function HeaderNavGroup({
         {item.label[locale]}
         <ChevronDown className="size-3.5 opacity-70" />
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="start" className="min-w-44 bg-sidebar text-sidebar-foreground">
+      <DropdownMenuContent
+        align="start"
+        className={cn("min-w-44 bg-sidebar text-sidebar-foreground", "floating:bg-popover", "floating:text-popover-foreground")}
+      >
         {item.children.map((child) => {
           const ChildIcon = child.icon
           return (

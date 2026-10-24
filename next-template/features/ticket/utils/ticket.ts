@@ -1,6 +1,15 @@
 import type { ContentLocale } from "@/lib/i18n"
 import { TICKET_NOW_MS } from "../constants/ticket-options"
-import type { Ticket } from "../types/ticket"
+import { helpArticles } from "../mocks/ticket.mock"
+import type { HelpArticle, Ticket } from "../types/ticket"
+
+export function suggestedArticles(subject: string, locale: ContentLocale): HelpArticle[] {
+  const query = subject.trim().toLocaleLowerCase(locale === "en" ? "en" : "tr")
+  if (query.length < 8) return []
+  return helpArticles
+    .filter((article) => article.keywords.some((word) => query.includes(word)))
+    .slice(0, 3)
+}
 
 export function labelOf(
   items: { id: string; tr: string; en: string }[],

@@ -1,13 +1,7 @@
-"use client"
+﻿"use client"
 
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { Check, Loader2, Lock, Mail, Upload, User } from "lucide-react"
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -27,7 +21,6 @@ import { getDictionary, type ContentLocale } from "@/lib/i18n"
 import type { UserColumnKey } from "@/features/users/types/user"
 import { cn } from "@/lib/utils"
 import { getProfileFormCopy } from "../constants/profile-copy"
-import { AccountSummaryList } from "./account-summary-list"
 import { FieldShell } from "./field-shell"
 import { ProfileCombobox } from "./profile-combobox"
 import {
@@ -39,14 +32,7 @@ import {
   profileSectionKeys,
 } from "../constants/profile-fields"
 import type { ProfileFieldConfig, ProfileSectionKey } from "../types/profile-fields"
-import {
-  EMAIL_PATTERN,
-  formatProfileBalance,
-  formatProfileDate,
-  initialValues,
-  isFieldEditable,
-  NOTE_MAX,
-} from "../utils/profile-tab"
+import { EMAIL_PATTERN, initialValues, isFieldEditable, NOTE_MAX } from "../utils/profile-tab"
 import { formatPhoneInput, normalizeEmail } from "@/features/users/utils/form-field-meta"
 import { useSaveUser } from "@/features/users/hooks/use-save-user"
 import { userStatusTone } from "@/features/users/utils/users"
@@ -78,7 +64,6 @@ export function ProfileTab({
 
   const dirty = preview !== null || JSON.stringify(values) !== JSON.stringify(baseline)
 
-  const dateLocale = locale === "en" ? "en" : "tr"
   const fullName = `${values.firstName} ${values.lastName}`.trim() || "—"
   const initials =
     `${values.firstName.charAt(0)}${values.lastName.charAt(0)}`.toUpperCase() || "?"
@@ -140,8 +125,8 @@ export function ProfileTab({
     setSaved(true)
   }
 
-  function describedBy(id: string, hint?: string, error?: string) {
-    return [hint ? `${id}-hint` : null, error ? `${id}-error` : null].filter(Boolean).join(" ") || undefined
+  function describedBy(id: string, error?: string) {
+    return error ? `${id}-error` : undefined
   }
 
   function renderControl(field: ProfileFieldConfig) {
@@ -152,26 +137,18 @@ export function ProfileTab({
         : undefined
     const label =
       field.key === "phone" ? text.phoneOptional : field.key === "note" ? text.noteLabel : columns[field.key]
-    const hint =
-      field.key === "email"
-        ? dict.form.emailHint
-        : field.key === "note"
-          ? text.noteHint
-          : field.key === "city" && !values.country
-            ? text.cityDisabledHint
-            : undefined
     const invalid = Boolean(error)
     const common = {
       id,
       "aria-invalid": invalid || undefined,
-      "aria-describedby": describedBy(id, hint, error),
+      "aria-describedby": describedBy(id, error),
     }
 
     if (field.kind === "readonly") {
       const selectOptions = fieldSelectOptions[field.key]
       if (field.key === "id") {
         return (
-          <FieldShell id={id} label={label} hint={hint} error={error}>
+          <FieldShell id={id} label={label} error={error}>
             <div className="relative">
               <Input
                 {...common}
@@ -186,12 +163,12 @@ export function ProfileTab({
       }
       if (selectOptions) {
         return (
-          <FieldShell id={id} label={label} hint={hint} error={error}>
+          <FieldShell id={id} label={label} error={error}>
             <Select value={values[field.key] || null} onValueChange={(next) => setField(field.key, next ?? "")}>
               <SelectTrigger
                 id={id}
                 aria-invalid={invalid || undefined}
-                aria-describedby={describedBy(id, hint, error)}
+                aria-describedby={describedBy(id, error)}
                 className={cn(controlClass, "w-full min-w-0")}
               >
                 <SelectValue placeholder={text.placeholders.select} />
@@ -208,7 +185,7 @@ export function ProfileTab({
         )
       }
       return (
-        <FieldShell id={id} label={label} hint={hint} error={error}>
+        <FieldShell id={id} label={label} error={error}>
           <Input
             {...common}
             value={values[field.key]}
@@ -221,7 +198,7 @@ export function ProfileTab({
 
     if (field.kind === "textarea") {
       return (
-        <FieldShell id={id} label={label} required={field.required} hint={hint} error={error}>
+        <FieldShell id={id} label={label} required={field.required} error={error}>
           <div className="flex justify-end text-xs text-muted-foreground">
             {values.note.length}/{NOTE_MAX}
           </div>
@@ -240,7 +217,7 @@ export function ProfileTab({
     if (field.kind === "email") {
       const valid = EMAIL_PATTERN.test(values.email.trim())
       return (
-        <FieldShell id={id} label={label} required={field.required} hint={hint} error={error}>
+        <FieldShell id={id} label={label} required={field.required} error={error}>
           <div className="relative">
             <Mail className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
             <Input
@@ -266,7 +243,7 @@ export function ProfileTab({
     if (field.kind === "tel") {
       const local = values.phone.replace(/^\+90\s*/, "")
       return (
-        <FieldShell id={id} label={label} required={field.required} hint={hint} error={error}>
+        <FieldShell id={id} label={label} required={field.required} error={error}>
           <div className="flex">
             <span className="flex h-11 items-center gap-1.5 rounded-l-lg border border-r-0 border-input px-2.5 text-sm text-muted-foreground">
               <CountryFlag country={values.country || "Türkiye"} />
@@ -289,12 +266,12 @@ export function ProfileTab({
     if (field.kind === "select") {
       const options = fieldSelectOptions[field.key] ?? []
       return (
-        <FieldShell id={id} label={label} required={field.required} hint={hint} error={error}>
+        <FieldShell id={id} label={label} required={field.required} error={error}>
           <Select value={values[field.key] || null} onValueChange={(next) => setField(field.key, next ?? "")}>
             <SelectTrigger
               id={id}
               aria-invalid={invalid || undefined}
-              aria-describedby={describedBy(id, hint, error)}
+              aria-describedby={describedBy(id, error)}
               className={cn(controlClass, "w-full min-w-0")}
             >
               <SelectValue placeholder={text.placeholders.select} />
@@ -324,7 +301,7 @@ export function ProfileTab({
                 ? text.placeholders.team
               : text.placeholders.manager
       return (
-        <FieldShell id={id} label={label} required={field.required} hint={hint} error={error}>
+        <FieldShell id={id} label={label} required={field.required} error={error}>
           <ProfileCombobox
             id={id}
             value={values[field.key]}
@@ -333,7 +310,7 @@ export function ProfileTab({
             disabled={field.key === "city" && !values.country}
             emptyLabel={text.empty}
             invalid={invalid}
-            describedBy={describedBy(id, hint, error)}
+            describedBy={describedBy(id, error)}
             onChange={(value) => setField(field.key, value)}
           />
         </FieldShell>
@@ -341,7 +318,7 @@ export function ProfileTab({
     }
 
     return (
-      <FieldShell id={id} label={label} required={field.required} hint={hint} error={error}>
+      <FieldShell id={id} label={label} required={field.required} error={error}>
         <Input
           {...common}
           value={values[field.key]}
@@ -360,21 +337,6 @@ export function ProfileTab({
     })
   }
 
-  const summaryItems = profileFields
-    .filter((field) => field.section === "account")
-    .map((field) => {
-      const raw = values[field.key]
-      let value: ReactNode = raw || "—"
-      if (field.key === "status") {
-        value = raw ? <StatusBadge tone={userStatusTone(raw)}>{raw}</StatusBadge> : "—"
-      }
-      if ((field.key === "joined" || field.key === "lastSeen") && raw) {
-        value = formatProfileDate(raw, dateLocale)
-      }
-      if (field.key === "balance" && raw) value = formatProfileBalance(raw, dateLocale)
-      return { key: field.key, label: columns[field.key], value }
-    })
-
   const currentErrors = validate()
   const saveDisabled = !dirty || Boolean(currentErrors.firstName || currentErrors.lastName || currentErrors.email) || saving
 
@@ -385,11 +347,7 @@ export function ProfileTab({
           <User className="size-5" />
         </span>
         <div>
-          <p className="text-sm font-semibold tracking-[0.08em] text-primary uppercase">
-            {dict.form.kicker}
-          </p>
           <h3 className="text-lg font-semibold tracking-tight">{dict.form.pageTitle}</h3>
-          <p className="text-sm text-muted-foreground">{dict.form.pageHint}</p>
         </div>
       </div>
 
@@ -452,25 +410,11 @@ export function ProfileTab({
                   </div>
                 </div>
               </div>
-              <div className="hidden xl:block">
-                <Separator className="mb-4" />
-                <p className="mb-3 text-sm font-semibold">{text.accountSummary}</p>
-                <AccountSummaryList items={summaryItems} />
-              </div>
             </CardContent>
           </Card>
         </aside>
 
         <div className="flex max-w-3xl min-w-0 flex-col">
-          <Accordion className="mb-8 xl:hidden" defaultValue={[]}>
-            <AccordionItem value="account-summary">
-              <AccordionTrigger className="min-h-11 px-1">{text.accountSummary}</AccordionTrigger>
-              <AccordionContent>
-                <AccountSummaryList items={summaryItems} />
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-
           <div className="space-y-8">
             {profileSectionKeys.map((section) => {
               const fields = sectionFields(section)
@@ -478,7 +422,6 @@ export function ProfileTab({
               return (
                 <section key={section} id={`profile-section-${section}`} className="scroll-mt-24">
                   <h4 className="text-base font-semibold">{text.sections[section].title}</h4>
-                  <p className="text-sm text-muted-foreground">{text.sections[section].hint}</p>
                   <Separator className="my-3" />
                   {section === "personal" ? (
                     <div className="flex flex-col gap-y-5">
