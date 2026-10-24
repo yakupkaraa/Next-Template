@@ -1,10 +1,19 @@
 "use client"
 
-import { Settings } from "lucide-react"
+import { LogOut, User } from "lucide-react"
+import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { localeFromPath } from "@/lib/locales"
+import { signOut } from "@/lib/session"
 import { cn } from "@/lib/utils"
+import { headerCopy } from "@/components/layout/constants/header/copy"
 import { sidebarCopy } from "@/components/layout/constants/sidebar/copy"
 import { BrandMark } from "./brand-mark"
 import { isMenuGroup, menuItems } from "./menu-items"
@@ -28,6 +37,7 @@ export function Sidebar({
   const horizontal = orientation === "horizontal"
   const labelsOpen = horizontal || open
   const text = sidebarCopy[locale]
+  const profileText = headerCopy[locale]
   const initials = text.userName
     .split(" ")
     .map((part) => part[0])
@@ -44,7 +54,14 @@ export function Sidebar({
           : cn(
               "h-full min-h-0 self-stretch overflow-hidden transition-[width] duration-200",
               open ? "w-64" : "w-14",
-              placement === "end" ? "border-l border-sidebar-border" : "border-r border-sidebar-border"
+              placement === "end" ? "border-l border-sidebar-border" : "border-r border-sidebar-border",
+              "floating:h-auto",
+              "floating:my-3",
+              "floating:rounded-2xl",
+              "floating:border",
+              "floating:border-sidebar-border",
+              "floating:shadow-sm",
+              placement === "end" ? "floating:mr-3" : "floating:ml-3"
             )
       )}
     >
@@ -126,15 +143,38 @@ export function Sidebar({
               ) : null}
             </div>
             {open ? (
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon-sm"
-                aria-label={text.userSettings}
-                className="shrink-0 text-(--sidebar-muted) hover:text-sidebar-foreground"
-              >
-                <Settings />
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger
+                  render={
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon-sm"
+                      aria-label={profileText.profile}
+                      className="shrink-0 text-(--sidebar-muted) hover:text-sidebar-foreground"
+                    />
+                  }
+                >
+                  <User />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="min-w-40">
+                  <DropdownMenuItem render={<Link href={`/${locale}/profile`} />}>
+                    <User />
+                    {profileText.profile}
+                  </DropdownMenuItem>
+                  <form action={signOut.bind(null, locale)} className="w-full">
+                    <DropdownMenuItem
+                      nativeButton
+                      variant="destructive"
+                      className="w-full justify-start"
+                      render={<Button type="submit" variant="destructive" className="w-full justify-start" />}
+                    >
+                      <LogOut />
+                      {profileText.signOut}
+                    </DropdownMenuItem>
+                  </form>
+                </DropdownMenuContent>
+              </DropdownMenu>
             ) : null}
           </div>
         </div>

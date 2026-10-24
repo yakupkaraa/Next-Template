@@ -15,8 +15,8 @@ export function HeaderBrandButton({
       aria-label={sidebarCopy[locale].brand}
       className={cn(
         "hidden shrink-0 items-center justify-center rounded-2xl border border-border bg-card text-foreground shadow-sm outline-none transition-colors hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2",
-        "floating:flex",
-        "floating:size-11"
+        "topmenu:flex",
+        "topmenu:size-11"
       )}
     >
       <BrandMark className="size-5" />

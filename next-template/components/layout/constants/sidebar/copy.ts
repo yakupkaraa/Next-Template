@@ -8,7 +8,6 @@ export const sidebarCopy: Record<
     menu: string
     userName: string
     userRole: string
-    userSettings: string
   }
 > = {
   tr: {
@@ -17,7 +16,6 @@ export const sidebarCopy: Record<
     menu: "Genel menü",
     userName: "Yakup K.",
     userRole: "Yönetici",
-    userSettings: "Kullanıcı ayarları",
   },
   en: {
     brand: "Next Template",
@@ -25,7 +23,6 @@ export const sidebarCopy: Record<
     menu: "Main menu",
     userName: "Yakup K.",
     userRole: "Admin",
-    userSettings: "User settings",
   },
   de: {
     brand: "Next Template",
@@ -33,7 +30,6 @@ export const sidebarCopy: Record<
     menu: "Hauptmenü",
     userName: "Yakup K.",
     userRole: "Admin",
-    userSettings: "Benutzereinstellungen",
   },
   fr: {
     brand: "Next Template",
@@ -41,7 +37,6 @@ export const sidebarCopy: Record<
     menu: "Menu principal",
     userName: "Yakup K.",
     userRole: "Admin",
-    userSettings: "Paramètres utilisateur",
   },
   it: {
     brand: "Next Template",
@@ -49,6 +44,5 @@ export const sidebarCopy: Record<
     menu: "Menu principale",
     userName: "Yakup K.",
     userRole: "Admin",
-    userSettings: "Impostazioni utente",
   },
 }

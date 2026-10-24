@@ -17,13 +17,13 @@ export function HeaderNavPill({
       aria-label={sidebarCopy[locale].menu}
       className={cn(
         "flex min-w-0 items-center gap-0.5 overflow-x-auto",
-        "floating:gap-1",
-        "floating:rounded-full",
-        "floating:border",
-        "floating:border-border",
-        "floating:bg-card",
-        "floating:p-1",
-        "floating:shadow-sm"
+        "topmenu:gap-1",
+        "topmenu:rounded-full",
+        "topmenu:border",
+        "topmenu:border-border",
+        "topmenu:bg-card",
+        "topmenu:p-1",
+        "topmenu:shadow-sm"
       )}
     >
       {menuItems.map((item) =>

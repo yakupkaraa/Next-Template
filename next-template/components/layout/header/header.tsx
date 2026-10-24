@@ -38,15 +38,6 @@ export function Header({
         aria-expanded={open}
         aria-controls="panel-sidebar"
         onClick={onToggle}
-        className={cn(
-          "floating:size-11",
-          "floating:rounded-2xl",
-          "floating:border",
-          "floating:border-border",
-          "floating:bg-card",
-          "floating:shadow-sm",
-          "floating:hover:bg-muted"
-        )}
       >
         <Menu className="size-[1.2rem]" />
         <span className="sr-only">{toggleLabel}</span>
@@ -56,8 +47,8 @@ export function Header({
   const headerActions = <HeaderActions locale={locale} pathname={pathname} layout={layout} />
 
   const spacer = (
-    <div className={cn("flex min-w-0 flex-1 items-center gap-3", showMenu && "floating:justify-center")}>
-      <HeaderBreadcrumbs locale={locale} pathname={pathname} className={showMenu ? "floating:hidden" : undefined} />
+    <div className={cn("flex min-w-0 flex-1 items-center gap-3", showMenu && "topmenu:justify-center")}>
+      <HeaderBreadcrumbs locale={locale} pathname={pathname} className={showMenu ? "topmenu:hidden" : undefined} />
       {showMenu ? <HeaderNavPill locale={locale} pathname={pathname} /> : null}
     </div>
   )
@@ -69,11 +60,19 @@ export function Header({
         showMenu
           ? "border-sidebar-border bg-sidebar text-sidebar-foreground [&_[data-slot=button]]:text-sidebar-foreground [&_[data-slot=button]:hover]:bg-sidebar-accent [&_[data-slot=button]:hover]:text-sidebar-accent-foreground"
           : "border-border bg-card text-foreground",
-        "floating:h-[var(--header-row-h)]"
+        showMenu && "topmenu:h-[var(--header-row-h)]",
+        "border-transparent",
+        "supports-[backdrop-filter:blur(1px)]:bg-background/70",
+        "supports-[backdrop-filter:blur(1px)]:backdrop-blur-md"
       )}
     >
-      {showMenu ? <HeaderBrandButton locale={locale} /> : null}
-      {reverseChrome ? (
+      {showMenu ? (
+        <>
+          <HeaderBrandButton locale={locale} />
+          {spacer}
+          {headerActions}
+        </>
+      ) : reverseChrome ? (
         <>
           {headerActions}
           {spacer}

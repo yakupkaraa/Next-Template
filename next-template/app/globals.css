@@ -5,6 +5,8 @@
 
 @custom-variant dark (&:is(.dark *));
 @custom-variant floating (&:is(html[data-density=comfortable] *));
+/* Üst menü (top nav) modunda hap görünümü yoğunluktan bağımsız her zaman açık olsun. */
+@custom-variant topmenu (&:is(html[data-layout=top] *));
 
 :root {
   /* TEK KAYNAK: header satırının comfortable'daki yüksekliği. Header normal akışta (absolute değil)

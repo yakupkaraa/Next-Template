@@ -23,7 +23,7 @@ export function AppShell({
 
   return (
     <div
-      className={cn("flex h-full min-h-0 w-full", top ? "flex-col" : "flex-row")}
+      className={cn("flex h-full min-h-0 w-full", top ? "flex-col" : cn("flex-row", "floating:gap-3"))}
     >
       {top ? (
         <>

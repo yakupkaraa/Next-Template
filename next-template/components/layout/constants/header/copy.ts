@@ -13,6 +13,8 @@ export const headerCopy: Record<
     settings: string
     profile: string
     signOut: string
+    switchToDark: string
+    switchToLight: string
   }
 > = {
   tr: {
@@ -24,6 +26,8 @@ export const headerCopy: Record<
     settings: "Ayarlar",
     profile: "Profil",
     signOut: "Çıkış yap",
+    switchToDark: "Koyu moda geç",
+    switchToLight: "Açık moda geç",
   },
   en: {
     menuCollapse: "Collapse menu",
@@ -34,6 +38,8 @@ export const headerCopy: Record<
     settings: "Settings",
     profile: "Profile",
     signOut: "Sign out",
+    switchToDark: "Switch to dark mode",
+    switchToLight: "Switch to light mode",
   },
   de: {
     menuCollapse: "Menü einklappen",
@@ -44,6 +50,8 @@ export const headerCopy: Record<
     settings: "Einstellungen",
     profile: "Profil",
     signOut: "Abmelden",
+    switchToDark: "Zum dunklen Modus wechseln",
+    switchToLight: "Zum hellen Modus wechseln",
   },
   fr: {
     menuCollapse: "Réduire le menu",
@@ -54,6 +62,8 @@ export const headerCopy: Record<
     settings: "Paramètres",
     profile: "Profil",
     signOut: "Se déconnecter",
+    switchToDark: "Passer au mode sombre",
+    switchToLight: "Passer au mode clair",
   },
   it: {
     menuCollapse: "Comprimi menu",
@@ -64,5 +74,7 @@ export const headerCopy: Record<
     settings: "Impostazioni",
     profile: "Profilo",
     signOut: "Esci",
+    switchToDark: "Passa alla modalità scura",
+    switchToLight: "Passa alla modalità chiara",
   },
 }

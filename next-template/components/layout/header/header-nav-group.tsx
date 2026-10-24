@@ -43,13 +43,13 @@ export function HeaderNavGroup({
             className={cn(
               "h-9 shrink-0 gap-2 px-2.5 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
               childActive && "bg-sidebar-accent font-medium text-sidebar-accent-foreground",
-              "floating:rounded-full",
-              "floating:px-4",
-              "floating:text-foreground",
-              "floating:hover:bg-muted",
-              "floating:hover:text-foreground",
+              "topmenu:rounded-full",
+              "topmenu:px-4",
+              "topmenu:text-foreground",
+              "topmenu:hover:bg-muted",
+              "topmenu:hover:text-foreground",
               childActive &&
-                "floating:bg-primary floating:text-primary-foreground floating:hover:bg-primary floating:hover:text-primary-foreground"
+                "topmenu:bg-primary topmenu:text-primary-foreground topmenu:hover:bg-primary topmenu:hover:text-primary-foreground"
             )}
           />
         }
@@ -60,7 +60,7 @@ export function HeaderNavGroup({
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="start"
-        className={cn("min-w-44 bg-sidebar text-sidebar-foreground", "floating:bg-popover", "floating:text-popover-foreground")}
+        className={cn("min-w-44 bg-sidebar text-sidebar-foreground", "topmenu:bg-popover", "topmenu:text-popover-foreground")}
       >
         {item.children.map((child) => {
           const ChildIcon = child.icon

@@ -32,13 +32,13 @@ export function HeaderNavLink({
       className={cn(
         "inline-flex h-9 shrink-0 items-center gap-2 rounded-lg px-2.5 text-sm outline-none transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2",
         active ? "bg-sidebar-accent font-medium text-sidebar-accent-foreground" : "text-sidebar-foreground",
-        "floating:rounded-full",
-        "floating:px-4",
-        "floating:hover:bg-muted",
-        "floating:hover:text-foreground",
+        "topmenu:rounded-full",
+        "topmenu:px-4",
+        "topmenu:hover:bg-muted",
+        "topmenu:hover:text-foreground",
         active
-          ? "floating:bg-primary floating:text-primary-foreground floating:hover:bg-primary floating:hover:text-primary-foreground"
-          : "floating:text-foreground"
+          ? "topmenu:bg-primary topmenu:text-primary-foreground topmenu:hover:bg-primary topmenu:hover:text-primary-foreground"
+          : "topmenu:text-foreground"
       )}
     >
       <Icon className="size-4 shrink-0" />
