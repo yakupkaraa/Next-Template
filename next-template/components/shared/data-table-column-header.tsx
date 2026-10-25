@@ -9,7 +9,8 @@ import { Input } from "@/components/ui/input"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
-import type { DataTableColumnMenuCopy, DataTableFeatures } from "@/components/shared/data-table-features"
+import type { DataTableFeatures } from "@/components/shared/data-table-features"
+import type { DataTableColumnMenuCopy } from "@/components/shared/data-table.types"
 
 export function DataTableColumnHeader<TData extends RowData>({
   column,
@@ -70,86 +71,92 @@ export function DataTableColumnHeader<TData extends RowData>({
         {!sorted && !filtered ? <ChevronDown className="size-3.5 opacity-60" /> : null}
       </PopoverTrigger>
       <PopoverContent align="start" className="w-64 gap-2 p-2">
-        <div className="flex flex-col gap-1">
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            className="justify-start"
-            onClick={() => column.toggleSorting(false)}
-          >
-            <ArrowDownAZ />
-            {copy.sortAsc}
-          </Button>
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            className="justify-start"
-            onClick={() => column.toggleSorting(true)}
-          >
-            <ArrowUpZA />
-            {copy.sortDesc}
-          </Button>
-          {sorted ? (
+        {column.getCanSort() ? (
+          <div className="flex flex-col gap-1">
             <Button
               type="button"
               variant="ghost"
               size="sm"
-              className="justify-start text-muted-foreground"
-              onClick={() => column.clearSorting()}
+              className="justify-start"
+              onClick={() => column.toggleSorting(false)}
             >
-              {copy.clearSort}
+              <ArrowDownAZ />
+              {copy.sortAsc}
             </Button>
-          ) : null}
-        </div>
-        <Separator />
-        <Input
-          value={query}
-          placeholder={copy.search}
-          className="h-8"
-          onChange={(event) => setQuery(event.target.value)}
-        />
-        <div className="flex items-center justify-between gap-2">
-          <Button
-            type="button"
-            variant="ghost"
-            size="xs"
-            onClick={() => column.setFilterValue(undefined)}
-          >
-            {copy.selectAll}
-          </Button>
-          {filtered ? (
             <Button
               type="button"
               variant="ghost"
-              size="xs"
-              className="text-muted-foreground"
-              onClick={() => column.setFilterValue(undefined)}
+              size="sm"
+              className="justify-start"
+              onClick={() => column.toggleSorting(true)}
             >
-              {copy.clearFilter}
+              <ArrowUpZA />
+              {copy.sortDesc}
             </Button>
-          ) : null}
-        </div>
-        <div className="max-h-52 overflow-y-auto">
-          {visible.length === 0 ? (
-            <p className="px-1 py-2 text-xs text-muted-foreground">{copy.empty}</p>
-          ) : (
-            visible.map((value) => (
-              <label
-                key={value}
-                className="flex min-h-8 cursor-pointer items-center gap-2 rounded-md px-1 text-sm hover:bg-muted"
+            {sorted ? (
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="justify-start text-muted-foreground"
+                onClick={() => column.clearSorting()}
               >
-                <Checkbox
-                  checked={selectedSet.has(value)}
-                  className="size-[18px] border-2 border-muted-foreground bg-background data-checked:border-primary dark:border-foreground/70"
-                  onCheckedChange={(checked) => toggleValue(value, checked === true)}
-                />
-                <span className="min-w-0 truncate">{value || "—"}</span>
-              </label>
-            ))
-          )}
-        </div>
+                {copy.clearSort}
+              </Button>
+            ) : null}
+          </div>
+        ) : null}
+        {column.getCanSort() && column.getCanFilter() ? <Separator /> : null}
+        {column.getCanFilter() ? (
+          <>
+            <Input
+              value={query}
+              placeholder={copy.search}
+              className="h-8"
+              onChange={(event) => setQuery(event.target.value)}
+            />
+            <div className="flex items-center justify-between gap-2">
+              <Button
+                type="button"
+                variant="ghost"
+                size="xs"
+                onClick={() => column.setFilterValue(undefined)}
+              >
+                {copy.selectAll}
+              </Button>
+              {filtered ? (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="xs"
+                  className="text-muted-foreground"
+                  onClick={() => column.setFilterValue(undefined)}
+                >
+                  {copy.clearFilter}
+                </Button>
+              ) : null}
+            </div>
+            <div className="max-h-52 overflow-y-auto">
+              {visible.length === 0 ? (
+                <p className="px-1 py-2 text-xs text-muted-foreground">{copy.empty}</p>
+              ) : (
+                visible.map((value) => (
+                  <label
+                    key={value}
+                    className="flex min-h-8 cursor-pointer items-center gap-2 rounded-md px-1 text-sm hover:bg-muted"
+                  >
+                    <Checkbox
+                      checked={selectedSet.has(value)}
+                      className="size-[18px] border-2 border-muted-foreground bg-background data-checked:border-primary dark:border-foreground/70"
+                      onCheckedChange={(checked) => toggleValue(value, checked === true)}
+                    />
+                    <span className="min-w-0 truncate">{value || "—"}</span>
+                  </label>
+                ))
+              )}
+            </div>
+          </>
+        ) : null}
       </PopoverContent>
     </Popover>
   )

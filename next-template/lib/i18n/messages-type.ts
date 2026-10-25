@@ -65,6 +65,10 @@ export type Messages = {
       tickets: string
       ticketsInbox: string
       ticketsCreate: string
+      tables: string
+      tablesStandard: string
+      tablesExpandable: string
+      tablesCrud: string
     }
     settings: {
       side: string
@@ -256,6 +260,167 @@ export type Messages = {
           nameError: string
           expiryError: string
           cvvError: string
+        }
+      }
+    }
+  }
+  tables: {
+    standard: {
+      search: string
+      empty: string
+      paginationToggle: string
+      columnsToggle: string
+      clearFilters: string
+      selectAll: string
+      selectRow: string
+      columns: {
+        orderNo: string
+        customer: string
+        date: string
+        paymentMethod: string
+        status: string
+        itemCount: string
+        total: string
+      }
+      columnMenu: {
+        sortAsc: string
+        sortDesc: string
+        clearSort: string
+        search: string
+        selectAll: string
+        clearFilter: string
+        empty: string
+      }
+      pagination: {
+        rangeTemplate: string
+        pageSizeLabel: string
+        firstPageLabel: string
+        previousPageLabel: string
+        nextPageLabel: string
+        lastPageLabel: string
+      }
+    }
+    expandable: {
+      search: string
+      empty: string
+      paginationToggle: string
+      clearFilters: string
+      expandLabel: string
+      collapseLabel: string
+      columns: {
+        orderNo: string
+        customer: string
+        date: string
+        paymentMethod: string
+        status: string
+        itemCount: string
+        total: string
+      }
+      columnMenu: {
+        sortAsc: string
+        sortDesc: string
+        clearSort: string
+        search: string
+        selectAll: string
+        clearFilter: string
+        empty: string
+      }
+      pagination: {
+        rangeTemplate: string
+        pageSizeLabel: string
+        firstPageLabel: string
+        previousPageLabel: string
+        nextPageLabel: string
+        lastPageLabel: string
+      }
+      detail: {
+        itemName: string
+        quantity: string
+        unitPrice: string
+        lineTotal: string
+        subtotal: string
+        total: string
+      }
+    }
+    crud: {
+      search: string
+      empty: string
+      paginationToggle: string
+      columnsToggle: string
+      clearFilters: string
+      selectAll: string
+      selectRow: string
+      addNew: string
+      edit: string
+      delete: string
+      actions: string
+      actionsMenu: string
+      bulkDelete: string
+      columns: {
+        orderNo: string
+        customer: string
+        date: string
+        paymentMethod: string
+        status: string
+        itemCount: string
+        total: string
+      }
+      columnMenu: {
+        sortAsc: string
+        sortDesc: string
+        clearSort: string
+        search: string
+        selectAll: string
+        clearFilter: string
+        empty: string
+      }
+      pagination: {
+        rangeTemplate: string
+        pageSizeLabel: string
+        firstPageLabel: string
+        previousPageLabel: string
+        nextPageLabel: string
+        lastPageLabel: string
+      }
+      toast: {
+        creating: string
+        created: string
+        updating: string
+        updated: string
+        saveFailed: string
+        deleting: string
+        deletedTemplate: string
+        deleteFailed: string
+        bulkDeleting: string
+        bulkDeletedTemplate: string
+        bulkDeleteFailed: string
+      }
+      deleteConfirm: {
+        title: string
+        descriptionTemplate: string
+        confirmLabel: string
+        cancelLabel: string
+      }
+      bulkDeleteConfirm: {
+        title: string
+        descriptionTemplate: string
+        confirmLabel: string
+        cancelLabel: string
+      }
+      form: {
+        addTitle: string
+        editTitle: string
+        customer: string
+        date: string
+        status: string
+        paymentMethod: string
+        total: string
+        submit: string
+        errors: {
+          customerRequired: string
+          dateRequired: string
+          totalRequired: string
+          totalInvalid: string
         }
       }
     }

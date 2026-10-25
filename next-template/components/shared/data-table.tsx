@@ -1,57 +1,32 @@
 "use client"
 
-import { useEffect, useImperativeHandle, useRef, type CSSProperties, type Ref } from "react"
+import { Fragment, useEffect, useImperativeHandle, useRef } from "react"
 import { useVirtualizer } from "@tanstack/react-virtual"
-import { useTable, type ColumnDef, type RowData } from "@tanstack/react-table"
+import { useTable, type RowData } from "@tanstack/react-table"
 import { Skeleton } from "@/components/ui/skeleton"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
 import { cn } from "@/lib/utils"
-import { DataTableColumnHeader } from "@/components/shared/data-table-column-header"
-import {
-  dataTableFeatures,
-  type DataTableColumnMenuCopy,
-  type DataTableFeatures,
-} from "@/components/shared/data-table-features"
+import { DataTableDetailRow } from "@/components/shared/data-table-detail-row"
+import { createExpandColumn } from "@/components/shared/data-table-expand-column"
+import { DataTableHeaderRow } from "@/components/shared/data-table-header-row"
+import { DataTablePaginationBar } from "@/components/shared/data-table-pagination"
+import { useDataTablePaginationState } from "@/components/shared/use-data-table-pagination-state"
+import { pinningClass, pinningStyle } from "@/components/shared/data-table-pinning"
+import { dataTableFeatures } from "@/components/shared/data-table-features"
+import type { DataTableProps } from "@/components/shared/data-table.types"
+
+export type {
+  DataTableApi,
+  DataTableColumnMenuCopy,
+  DataTableExpandable,
+  DataTablePaginationConfig,
+  DataTablePaginationCopy,
+  DataTableProps,
+} from "@/components/shared/data-table.types"
 
 const ROW_ESTIMATE_HEIGHT = 41
 const VIRTUALIZE_MIN_ROWS = 16
 const INITIAL_SCROLL_RECT = { width: 1280, height: 720 }
-
-function pinningStyle(column: {
-  getIsPinned: () => false | "start" | "end"
-  getStart: (position?: false | "start" | "end" | "center") => number
-  getAfter: (position?: false | "start" | "end" | "center") => number
-}): CSSProperties {
-  const pinned = column.getIsPinned()
-  if (!pinned) return {}
-
-  return {
-    position: "sticky",
-    left: pinned === "start" ? `${column.getStart("start")}px` : undefined,
-    right: pinned === "end" ? `${column.getAfter("end")}px` : undefined,
-  }
-}
-
-export type DataTableApi = {
-  resetColumnState: () => void
-}
-
-function pinningClass(pinned: false | "start" | "end") {
-  if (pinned === "end") {
-    return "sticky right-0 z-20 bg-card shadow-[-8px_0_12px_-8px_hsl(0_0%_0%/0.18)]"
-  }
-  if (pinned === "start") {
-    return "sticky left-0 z-20 bg-card group-hover:bg-primary/10 group-data-[state=selected]:bg-primary/10 shadow-[8px_0_12px_-8px_hsl(0_0%_0%/0.18)]"
-  }
-  return "bg-transparent group-hover:bg-primary/10 group-data-[state=selected]:bg-primary/10"
-}
 
 export function DataTable<TData extends RowData>({
   columns,
@@ -67,30 +42,34 @@ export function DataTable<TData extends RowData>({
   tableApiRef,
   onColumnStateChange,
   isRowSelected,
-}: {
-  columns: ColumnDef<DataTableFeatures, TData>[]
-  data: TData[]
-  empty: string
-  loading?: boolean
-  containerClassName?: string
-  className?: string
-  virtualize?: boolean
-  /** Sağa sabitlenen kolon id'leri (LTR). */
-  pinEnd?: string[]
-  /** Sola sabitlenen kolon id'leri (LTR). */
-  pinStart?: string[]
-  columnMenu?: DataTableColumnMenuCopy
-  tableApiRef?: Ref<DataTableApi | null>
-  onColumnStateChange?: (active: boolean) => void
-  isRowSelected?: (row: TData) => boolean
-}) {
+  pagination = false,
+  columnVisibility,
+  onColumnVisibilityChange,
+  getRowId,
+  expandable,
+}: DataTableProps<TData>) {
   const scrollRef = useRef<HTMLDivElement>(null)
+  const [paginationState, setPaginationState] = useDataTablePaginationState(
+    pagination ? pagination.pageSize : Number.POSITIVE_INFINITY
+  )
+  const effectiveColumns = expandable ? [createExpandColumn(expandable), ...columns] : columns
+
   const table = useTable({
     features: dataTableFeatures,
     data,
-    columns,
+    columns: effectiveColumns,
     enableSortingRemoval: true,
     enableMultiSort: false,
+    getRowId,
+    getRowCanExpand: expandable
+      ? (row) => expandable.getRowCanExpand?.(row.original) ?? true
+      : undefined,
+    state: {
+      pagination: paginationState,
+      ...(columnVisibility ? { columnVisibility } : {}),
+    },
+    onPaginationChange: setPaginationState,
+    onColumnVisibilityChange,
     initialState: {
       columnPinning: {
         start: pinStart ?? [],
@@ -101,7 +80,7 @@ export function DataTable<TData extends RowData>({
 
   const rows = table.getRowModel().rows
   const useVirtualRows =
-    virtualize && !loading && rows.length >= VIRTUALIZE_MIN_ROWS
+    virtualize && !pagination && !expandable && !loading && rows.length >= VIRTUALIZE_MIN_ROWS
 
   // eslint-disable-next-line react-hooks/incompatible-library -- TanStack Virtual React Compiler ile memoize edilemez (bilinen kütüphane sınırı)
   const rowVirtualizer = useVirtualizer({
@@ -121,28 +100,34 @@ export function DataTable<TData extends RowData>({
 
   function renderRow(row: (typeof rows)[number]) {
     return (
-      <TableRow
-        key={row.id}
-        className="group"
-        data-state={isRowSelected?.(row.original) ? "selected" : undefined}
-      >
-        {row.getVisibleCells().map((cell) => {
-          const pinned = cell.column.getIsPinned()
-          return (
-            <TableCell
-              key={cell.id}
-              className={cn(
-                "whitespace-nowrap",
-                pinningClass(pinned),
-                cell.column.id === "actions" && "text-center"
-              )}
-              style={pinningStyle(cell.column)}
-            >
-              <table.FlexRender cell={cell} />
-            </TableCell>
-          )
-        })}
-      </TableRow>
+      <Fragment key={row.id}>
+        <TableRow
+          className="group"
+          data-state={isRowSelected?.(row.original) ? "selected" : undefined}
+        >
+          {row.getVisibleCells().map((cell) => {
+            const pinned = cell.column.getIsPinned()
+            return (
+              <TableCell
+                key={cell.id}
+                className={cn(
+                  "whitespace-nowrap",
+                  pinningClass(pinned),
+                  cell.column.id === "actions" && "text-center"
+                )}
+                style={pinningStyle(cell.column)}
+              >
+                <table.FlexRender cell={cell} />
+              </TableCell>
+            )
+          })}
+        </TableRow>
+        {expandable && row.getIsExpanded() ? (
+          <DataTableDetailRow id={`row-detail-${row.id}`} colSpan={effectiveColumns.length}>
+            {expandable.renderDetail(row.original)}
+          </DataTableDetailRow>
+        ) : null}
+      </Fragment>
     )
   }
 
@@ -161,45 +146,13 @@ export function DataTable<TData extends RowData>({
     onColumnStateChange?.(columnStateActive)
   }, [columnStateActive, onColumnStateChange])
 
-  return (
+  const tableElement = (
     <Table
       containerRef={scrollRef}
       containerClassName={containerClassName}
       className={className}
     >
-      <TableHeader className="sticky top-0 z-30 bg-card">
-        {table.getHeaderGroups().map((headerGroup) => (
-          <TableRow key={headerGroup.id}>
-            {headerGroup.headers.map((header) => {
-              const pinned = header.column.getIsPinned()
-              return (
-                <TableHead
-                  key={header.id}
-                  className={cn(
-                    "w-max min-w-max whitespace-nowrap",
-                    pinningClass(pinned),
-                    pinned && "z-40",
-                    header.column.id === "actions" && "text-center"
-                  )}
-                  style={pinningStyle(header.column)}
-                >
-                  {header.isPlaceholder ? null : columnMenu &&
-                    (header.column.getCanSort() || header.column.getCanFilter()) &&
-                    typeof header.column.columnDef.header === "string" ? (
-                    <DataTableColumnHeader
-                      column={header.column}
-                      title={header.column.columnDef.header}
-                      copy={columnMenu}
-                    />
-                  ) : (
-                    <table.FlexRender header={header} />
-                  )}
-                </TableHead>
-              )
-            })}
-          </TableRow>
-        ))}
-      </TableHeader>
+      <DataTableHeaderRow table={table} columnMenu={columnMenu} />
       <TableBody>
         {loading
           ? Array.from({ length: 18 }, (_, row) => (
@@ -221,7 +174,7 @@ export function DataTable<TData extends RowData>({
           : null}
         {!loading && rows.length === 0 ? (
           <TableRow>
-            <TableCell colSpan={columns.length} className="text-muted-foreground">
+            <TableCell colSpan={effectiveColumns.length} className="text-muted-foreground">
               {empty}
             </TableCell>
           </TableRow>
@@ -230,13 +183,13 @@ export function DataTable<TData extends RowData>({
           <>
             {paddingTop > 0 ? (
               <TableRow aria-hidden className="pointer-events-none border-0 hover:bg-transparent">
-                <TableCell colSpan={columns.length} className="p-0" style={{ height: paddingTop }} />
+                <TableCell colSpan={effectiveColumns.length} className="p-0" style={{ height: paddingTop }} />
               </TableRow>
             ) : null}
             {virtualRows.map((virtualRow) => renderRow(rows[virtualRow.index]))}
             {paddingBottom > 0 ? (
               <TableRow aria-hidden className="pointer-events-none border-0 hover:bg-transparent">
-                <TableCell colSpan={columns.length} className="p-0" style={{ height: paddingBottom }} />
+                <TableCell colSpan={effectiveColumns.length} className="p-0" style={{ height: paddingBottom }} />
               </TableRow>
             ) : null}
           </>
@@ -246,5 +199,13 @@ export function DataTable<TData extends RowData>({
           : null}
       </TableBody>
     </Table>
+  )
+
+  if (!pagination) return tableElement
+
+  return (
+    <DataTablePaginationBar table={table} pagination={pagination}>
+      {tableElement}
+    </DataTablePaginationBar>
   )
 }

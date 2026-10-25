@@ -6,8 +6,12 @@ import {
   Home,
   LifeBuoy,
   List,
+  ListPlus,
   Newspaper,
   Pencil,
+  Rows3,
+  Table2,
+  TableProperties,
   User,
   UserPlus,
   Users,
@@ -180,6 +184,43 @@ export const menuItems: MenuEntry[] = [
           it: "Ticket",
         }),
         icon: LifeBuoy,
+      },
+    ],
+  },
+  {
+    label: navLabel("tables", {
+      de: "Tabellen",
+      fr: "Tableaux",
+      it: "Tabelle",
+    }),
+    icon: Table2,
+    children: [
+      {
+        href: "/tables/standard",
+        label: navLabel("tablesStandard", {
+          de: "Standard",
+          fr: "Standard",
+          it: "Standard",
+        }),
+        icon: TableProperties,
+      },
+      {
+        href: "/tables/expandable",
+        label: navLabel("tablesExpandable", {
+          de: "Erweiterbar",
+          fr: "Extensible",
+          it: "Espandibile",
+        }),
+        icon: Rows3,
+      },
+      {
+        href: "/tables/crud",
+        label: navLabel("tablesCrud", {
+          de: "CRUD",
+          fr: "CRUD",
+          it: "CRUD",
+        }),
+        icon: ListPlus,
       },
     ],
   },

@@ -7,7 +7,10 @@ import {
   createFacetedRowModel,
   createFacetedUniqueValues,
   createFilteredRowModel,
+  createPaginatedRowModel,
   createSortedRowModel,
+  rowExpandingFeature,
+  rowPaginationFeature,
   rowSortingFeature,
   sortFn_alphanumeric,
   tableFeatures,
@@ -30,22 +33,15 @@ export const dataTableFeatures = tableFeatures({
   columnFilteringFeature,
   columnFacetingFeature,
   rowSortingFeature,
+  rowPaginationFeature,
+  rowExpandingFeature,
   filteredRowModel: createFilteredRowModel(),
   sortedRowModel: createSortedRowModel(),
   facetedRowModel: createFacetedRowModel(),
   facetedUniqueValues: createFacetedUniqueValues(),
+  paginatedRowModel: createPaginatedRowModel(),
   filterFns: { excel: excelFilter },
   sortFns: { alphanumeric: sortFn_alphanumeric },
 })
 
 export type DataTableFeatures = typeof dataTableFeatures
-
-export type DataTableColumnMenuCopy = {
-  sortAsc: string
-  sortDesc: string
-  clearSort: string
-  search: string
-  selectAll: string
-  clearFilter: string
-  empty: string
-}
