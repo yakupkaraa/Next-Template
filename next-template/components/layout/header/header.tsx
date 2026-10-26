@@ -8,8 +8,8 @@ import { HeaderBreadcrumbs } from "./breadcrumbs"
 import { headerCopy } from "@/components/layout/constants/header/copy"
 import { useThemeSettings } from "@/components/theme/theme-provider"
 import { HeaderActions } from "./header-actions"
-import { HeaderBrandButton } from "./header-brand-button"
 import { HeaderNavPill } from "./header-nav-pill"
+import { PageSearch } from "./page-search"
 import { cn } from "@/lib/utils"
 
 export function Header({
@@ -56,7 +56,7 @@ export function Header({
   return (
     <header
       className={cn(
-        "flex h-14 shrink-0 items-center gap-3 border-b px-4",
+        "relative flex h-14 shrink-0 items-center gap-3 border-b px-4",
         showMenu
           ? "border-sidebar-border bg-sidebar text-sidebar-foreground [&_[data-slot=button]]:text-sidebar-foreground [&_[data-slot=button]:hover]:bg-sidebar-accent [&_[data-slot=button]:hover]:text-sidebar-accent-foreground"
           : "border-border bg-card text-foreground",
@@ -66,9 +66,16 @@ export function Header({
         "supports-[backdrop-filter:blur(1px)]:backdrop-blur-md"
       )}
     >
+      {showMenu ? null : (
+        <div className="pointer-events-none absolute inset-0 hidden items-center justify-center sm:flex">
+          <div className="pointer-events-auto w-full max-w-[28.8rem] px-4">
+            <PageSearch locale={locale} />
+          </div>
+        </div>
+      )}
+
       {showMenu ? (
         <>
-          <HeaderBrandButton locale={locale} />
           {spacer}
           {headerActions}
         </>

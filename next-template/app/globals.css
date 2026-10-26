@@ -321,8 +321,18 @@ html[data-font-size="18"] {
     --tw-ring-shadow: 0 0 0 2px var(--border) !important;
   }
 
+  html[data-density="compact"] [data-slot="table-container"] {
+    border-radius: 0 !important;
+  }
+
   html[data-density="compact"] [data-density-board] > [data-density-fill] {
     padding: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    border-width: 2px !important;
+    border-style: solid !important;
+    border-color: var(--border) !important;
+    --tw-ring-shadow: 0 0 0 2px var(--border) !important;
   }
 
   html[data-density="compact"] [data-density-board] .grid:not([data-user-form] .grid) {

@@ -16,15 +16,34 @@ export function AppShell({
   badgeCounts?: Partial<Record<string, number>>
   isAdmin?: boolean
 }) {
-  const { layout, footer } = useThemeSettings()
+  const { layout, footer, density } = useThemeSettings()
   const [open, setOpen] = useState(true)
   const top = layout === "top"
   const right = layout === "right"
+  const headerOnTop = !top && density === "comfortable"
+
+  const sidebarStart = right ? null : (
+    <Sidebar open={open} placement="start" badgeCounts={badgeCounts} isAdmin={isAdmin} />
+  )
+  const sidebarEnd = right ? (
+    <Sidebar open={open} placement="end" badgeCounts={badgeCounts} isAdmin={isAdmin} />
+  ) : null
+
+  const contentColumn = (
+    <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
+      {headerOnTop ? null : <Header open={open} onToggle={() => setOpen((value) => !value)} />}
+      <main
+        data-app-main
+        className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden px-6 py-0"
+      >
+        {children}
+      </main>
+      {footer ? <Footer /> : null}
+    </div>
+  )
 
   return (
-    <div
-      className={cn("flex h-full min-h-0 w-full", top ? "flex-col" : cn("flex-row", "floating:gap-3"))}
-    >
+    <div className="flex h-full min-h-0 w-full flex-col">
       {top ? (
         <>
           <Header
@@ -41,21 +60,21 @@ export function AppShell({
           </main>
           {footer ? <Footer /> : null}
         </>
-      ) : (
+      ) : headerOnTop ? (
         <>
-          {right ? null : <Sidebar open={open} placement="start" badgeCounts={badgeCounts} isAdmin={isAdmin} />}
-          <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
-            <Header open={open} onToggle={() => setOpen((value) => !value)} />
-            <main
-              data-app-main
-              className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden px-6 py-0"
-            >
-              {children}
-            </main>
-            {footer ? <Footer /> : null}
+          <Header open={open} onToggle={() => setOpen((value) => !value)} />
+          <div className={cn("flex min-h-0 min-w-0 flex-1 flex-row", "floating:gap-3")}>
+            {sidebarStart}
+            {contentColumn}
+            {sidebarEnd}
           </div>
-          {right ? <Sidebar open={open} placement="end" badgeCounts={badgeCounts} isAdmin={isAdmin} /> : null}
         </>
+      ) : (
+        <div className="flex h-full min-h-0 w-full flex-row">
+          {sidebarStart}
+          {contentColumn}
+          {sidebarEnd}
+        </div>
       )}
     </div>
   )

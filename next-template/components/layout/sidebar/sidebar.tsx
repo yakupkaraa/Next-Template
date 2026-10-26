@@ -15,7 +15,6 @@ import { signOut } from "@/lib/session"
 import { cn } from "@/lib/utils"
 import { headerCopy } from "@/components/layout/constants/header/copy"
 import { sidebarCopy } from "@/components/layout/constants/sidebar/copy"
-import { BrandMark } from "./brand-mark"
 import { isMenuGroup, menuItems } from "./menu-items"
 import { MenuGroupItem, MenuLinkItem } from "./sidebar-menu-item"
 
@@ -65,28 +64,6 @@ export function Sidebar({
             )
       )}
     >
-      {!horizontal ? (
-        <div className={cn("flex h-16 shrink-0 items-center gap-3", open ? "px-4" : "justify-center px-2")}>
-          <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
-            <BrandMark className="size-5" />
-          </div>
-          {open ? (
-            <div className="min-w-0 flex flex-col">
-              <span className="truncate text-base font-semibold tracking-tight">{text.brand}</span>
-              <span className="text-[11px] font-semibold tracking-[0.06em] text-(--sidebar-muted) uppercase">
-                {text.panel}
-              </span>
-            </div>
-          ) : null}
-        </div>
-      ) : null}
-
-      {!horizontal && open ? (
-        <p className="px-5 pt-4 pb-2 text-[11px] font-semibold tracking-[0.06em] text-(--sidebar-muted) uppercase">
-          {text.menu}
-        </p>
-      ) : null}
-
       <nav
         className={cn(
           "flex gap-1 p-2",

@@ -15,6 +15,7 @@ export const headerCopy: Record<
     signOut: string
     switchToDark: string
     switchToLight: string
+    search: string
   }
 > = {
   tr: {
@@ -28,6 +29,7 @@ export const headerCopy: Record<
     signOut: "Çıkış yap",
     switchToDark: "Koyu moda geç",
     switchToLight: "Açık moda geç",
+    search: "Sayfada ara",
   },
   en: {
     menuCollapse: "Collapse menu",
@@ -40,6 +42,7 @@ export const headerCopy: Record<
     signOut: "Sign out",
     switchToDark: "Switch to dark mode",
     switchToLight: "Switch to light mode",
+    search: "Search page",
   },
   de: {
     menuCollapse: "Menü einklappen",
@@ -52,6 +55,7 @@ export const headerCopy: Record<
     signOut: "Abmelden",
     switchToDark: "Zum dunklen Modus wechseln",
     switchToLight: "Zum hellen Modus wechseln",
+    search: "Seite durchsuchen",
   },
   fr: {
     menuCollapse: "Réduire le menu",
@@ -64,6 +68,7 @@ export const headerCopy: Record<
     signOut: "Se déconnecter",
     switchToDark: "Passer au mode sombre",
     switchToLight: "Passer au mode clair",
+    search: "Rechercher sur la page",
   },
   it: {
     menuCollapse: "Comprimi menu",
@@ -76,5 +81,6 @@ export const headerCopy: Record<
     signOut: "Esci",
     switchToDark: "Passa alla modalità scura",
     switchToLight: "Passa alla modalità chiara",
+    search: "Cerca nella pagina",
   },
 }
