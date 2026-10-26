@@ -2,6 +2,7 @@ import {
   columnFacetingFeature,
   columnFilteringFeature,
   columnPinningFeature,
+  columnResizingFeature,
   columnSizingFeature,
   columnVisibilityFeature,
   createFacetedRowModel,
@@ -15,6 +16,7 @@ import {
   sortFn_alphanumeric,
   tableFeatures,
 } from "@tanstack/react-table"
+import type { DataTableColumnMeta } from "@/components/shared/data-table-cell-editor-types"
 
 function excelFilter(
   row: { getValue: (columnId: string) => unknown },
@@ -28,6 +30,7 @@ excelFilter.autoRemove = (value: unknown) => value == null
 
 export const dataTableFeatures = tableFeatures({
   columnPinningFeature,
+  columnResizingFeature,
   columnSizingFeature,
   columnVisibilityFeature,
   columnFilteringFeature,
@@ -42,6 +45,10 @@ export const dataTableFeatures = tableFeatures({
   paginatedRowModel: createPaginatedRowModel(),
   filterFns: { excel: excelFilter },
   sortFns: { alphanumeric: sortFn_alphanumeric },
+  // `as` burada kaçınılmaz: TanStack v9'un `columnMeta` tip-yuvası tam olarak bu imzayı
+  // istiyor (bkz. node_modules/@tanstack/table-core ColumnDef.d.ts yorumu: "columnMeta: {} as MyColumnMeta").
+  // Runtime'da hiçbir etkisi yok — boş obje, yalnızca `cell.column.columnDef.meta` için tip taşıyıcı.
+  columnMeta: {} as DataTableColumnMeta,
 })
 
 export type DataTableFeatures = typeof dataTableFeatures

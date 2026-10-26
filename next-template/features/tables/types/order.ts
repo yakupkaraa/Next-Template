@@ -19,4 +19,6 @@ export type OrderRow = {
   paymentMethod: PaymentMethod
   items: OrderItem[]
   total: number
+  /** Satır Sıralama sayfasının kalıcı sıra alanı; diğer sayfalar bu alanı kullanmaz. */
+  position: number
 }

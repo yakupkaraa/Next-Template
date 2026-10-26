@@ -2,6 +2,8 @@ import {
   Bot,
   ChartColumn,
   FilePlus,
+  Grid3x3,
+  GripVertical,
   IdCard,
   Home,
   LifeBuoy,
@@ -221,6 +223,24 @@ export const menuItems: MenuEntry[] = [
           it: "CRUD",
         }),
         icon: ListPlus,
+      },
+      {
+        href: "/tables/reorder",
+        label: navLabel("tablesReorder", {
+          de: "Zeilen sortieren",
+          fr: "Réorganiser les lignes",
+          it: "Riordina righe",
+        }),
+        icon: GripVertical,
+      },
+      {
+        href: "/tables/spreadsheet",
+        label: navLabel("tablesSpreadsheet", {
+          de: "Tabellenkalkulation",
+          fr: "Feuille de calcul",
+          it: "Foglio di calcolo",
+        }),
+        icon: Grid3x3,
       },
     ],
   },

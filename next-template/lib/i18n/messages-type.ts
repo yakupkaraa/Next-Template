@@ -69,6 +69,8 @@ export type Messages = {
       tablesStandard: string
       tablesExpandable: string
       tablesCrud: string
+      tablesReorder: string
+      tablesSpreadsheet: string
     }
     settings: {
       side: string
@@ -421,6 +423,99 @@ export type Messages = {
           dateRequired: string
           totalRequired: string
           totalInvalid: string
+        }
+      }
+    }
+    reorder: {
+      search: string
+      empty: string
+      paginationToggle: string
+      columnsToggle: string
+      clearFilters: string
+      dragHandleLabel: string
+      sequenceHeader: string
+      disabledHint: string
+      reorderingToast: string
+      reorderedToast: string
+      reorderFailedToast: string
+      columns: {
+        orderNo: string
+        customer: string
+        date: string
+        paymentMethod: string
+        status: string
+        itemCount: string
+        total: string
+      }
+      columnMenu: {
+        sortAsc: string
+        sortDesc: string
+        clearSort: string
+        search: string
+        selectAll: string
+        clearFilter: string
+        empty: string
+      }
+      pagination: {
+        rangeTemplate: string
+        pageSizeLabel: string
+        firstPageLabel: string
+        previousPageLabel: string
+        nextPageLabel: string
+        lastPageLabel: string
+      }
+      announcements: {
+        screenReaderInstructions: string
+        pickedUpTemplate: string
+        movedTemplate: string
+        droppedTemplate: string
+        cancelledTemplate: string
+      }
+    }
+    spreadsheet: {
+      search: string
+      empty: string
+      paginationToggle: string
+      columnsToggle: string
+      clearFilters: string
+      lockColumnLabel: string
+      unlockColumnLabel: string
+      resizeHandleLabel: string
+      columns: {
+        orderNo: string
+        customer: string
+        date: string
+        paymentMethod: string
+        status: string
+        itemCount: string
+        total: string
+      }
+      columnMenu: {
+        sortAsc: string
+        sortDesc: string
+        clearSort: string
+        search: string
+        selectAll: string
+        clearFilter: string
+        empty: string
+      }
+      pagination: {
+        rangeTemplate: string
+        pageSizeLabel: string
+        firstPageLabel: string
+        previousPageLabel: string
+        nextPageLabel: string
+        lastPageLabel: string
+      }
+      editable: {
+        editingAnnouncementTemplate: string
+        savedAnnouncement: string
+        cancelledAnnouncement: string
+        saveFailedToast: string
+        errors: {
+          customerRequired: string
+          totalInvalid: string
+          dateInvalid: string
         }
       }
     }

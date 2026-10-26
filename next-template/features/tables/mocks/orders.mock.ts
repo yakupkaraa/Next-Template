@@ -79,5 +79,6 @@ export const orderList: OrderRow[] = Array.from({ length: 60 }, (_, index) => {
     paymentMethod: pick(paymentMethodOptions, index * 2),
     items,
     total,
+    position: index,
   }
 })

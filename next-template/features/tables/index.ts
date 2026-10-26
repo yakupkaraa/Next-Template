@@ -1,3 +1,5 @@
 export { TablesStandardScreen } from "./standard/components/screen"
 export { TablesExpandableScreen } from "./expandable/components/screen"
 export { TablesCrudScreen } from "./crud/components/screen"
+export { TablesReorderScreen } from "./reorder/components/screen"
+export { TablesSpreadsheetScreen } from "./spreadsheet/components/screen"

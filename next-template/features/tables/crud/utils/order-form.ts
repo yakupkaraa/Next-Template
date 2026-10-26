@@ -23,11 +23,15 @@ export function orderFormValuesFromRow(row: OrderRow): OrderFormValues {
   }
 }
 
-/** Düzenlemede mevcut `id`/`orderNo`/`items` korunur; yeni kayıtta `nextSequence`'tan üretilir, `items` boş dizi olur. */
+/**
+ * Düzenlemede mevcut `id`/`orderNo`/`items`/`position` korunur; yeni kayıtta `nextSequence`'tan
+ * üretilir, `items` boş dizi olur ve `nextPosition` ile listenin sonuna eklenir.
+ */
 export function buildOrderRow(
   values: OrderFormValues,
   existing: OrderRow | null,
-  nextSequence: number
+  nextSequence: number,
+  nextPosition: number
 ): OrderRow {
   return {
     id: existing?.id ?? String(nextSequence),
@@ -38,6 +42,7 @@ export function buildOrderRow(
     paymentMethod: values.paymentMethod,
     items: existing?.items ?? [],
     total: Number(values.total),
+    position: existing?.position ?? nextPosition,
   }
 }
 

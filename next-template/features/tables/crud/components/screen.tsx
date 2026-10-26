@@ -31,6 +31,7 @@ export function TablesCrudScreen({ locale }: { locale: ContentLocale }) {
   const { rows, loading, addOrder, updateOrder, removeOrder, removeOrders } = useOrders()
 
   const nextSequence = useMemo(() => nextOrderSequence(rows), [rows])
+  const nextPosition = rows.length
 
   const handleToggle = useCallback((id: string, checked: boolean) => {
     setSelected((current) => {
@@ -196,6 +197,7 @@ export function TablesCrudScreen({ locale }: { locale: ContentLocale }) {
         onFormOpenChange={setFormOpen}
         editingOrder={editingOrder}
         nextSequence={nextSequence}
+        nextPosition={nextPosition}
         onSaved={handleSaved}
         deleteMounted={deleteMounted}
         deleteTarget={deleteTarget}

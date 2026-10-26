@@ -25,6 +25,7 @@ export function OrderFormDialog({
   locale,
   order,
   nextSequence,
+  nextPosition,
   onSaved,
 }: {
   open: boolean
@@ -34,13 +35,15 @@ export function OrderFormDialog({
   order: OrderRow | null
   /** Yeni sipariş için `id`/`orderNo` üretiminde kullanılan sıra numarası. */
   nextSequence: number
+  /** Yeni sipariş için listenin sonuna eklenecek `position` değeri. */
+  nextPosition: number
   onSaved: (row: OrderRow) => void
 }) {
   const copy = getDictionary(locale).tables.crud
   const { saveOrder, saving } = useSaveOrder()
 
   async function handleValid(values: OrderFormValues) {
-    const row = buildOrderRow(values, order, nextSequence)
+    const row = buildOrderRow(values, order, nextSequence, nextPosition)
     await runAction({
       pending: order ? copy.toast.updating : copy.toast.creating,
       success: order ? copy.toast.updated : copy.toast.created,

@@ -1,27 +1,37 @@
 "use client"
 
-import { Fragment, useEffect, useImperativeHandle, useRef } from "react"
+import { useEffect, useImperativeHandle, useRef, useState } from "react"
 import { useVirtualizer } from "@tanstack/react-virtual"
 import { useTable, type RowData } from "@tanstack/react-table"
-import { Skeleton } from "@/components/ui/skeleton"
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
-import { cn } from "@/lib/utils"
-import { DataTableDetailRow } from "@/components/shared/data-table-detail-row"
+import { DataTableBodyRow } from "@/components/shared/data-table-body-row"
+import { DataTableSkeletonRows } from "@/components/shared/data-table-skeleton-rows"
+import { DataTableVirtualPaddingRow } from "@/components/shared/data-table-virtual-padding-row"
 import { createExpandColumn } from "@/components/shared/data-table-expand-column"
+import { createReorderColumns } from "@/components/shared/data-table-reorder-column"
+import { DataTableReorderBody, type ReorderDndModule } from "@/components/shared/data-table-reorder-body"
+import { loadDataTableReorderDnd } from "@/components/shared/data-table-reorder-lazy"
 import { DataTableHeaderRow } from "@/components/shared/data-table-header-row"
 import { DataTablePaginationBar } from "@/components/shared/data-table-pagination"
 import { useDataTablePaginationState } from "@/components/shared/use-data-table-pagination-state"
-import { pinningClass, pinningStyle } from "@/components/shared/data-table-pinning"
+import { useDataTableEditableState } from "@/components/shared/use-data-table-editable-state"
 import { dataTableFeatures } from "@/components/shared/data-table-features"
 import type { DataTableProps } from "@/components/shared/data-table.types"
 
 export type {
   DataTableApi,
+  DataTableCellEditor,
   DataTableColumnMenuCopy,
+  DataTableColumnMeta,
+  DataTableColumnResizeConfig,
+  DataTableEditable,
   DataTableExpandable,
+  DataTableGridLines,
   DataTablePaginationConfig,
   DataTablePaginationCopy,
   DataTableProps,
+  DataTableReorderAnnouncementsCopy,
+  DataTableReorderConfig,
 } from "@/components/shared/data-table.types"
 
 const ROW_ESTIMATE_HEIGHT = 41
@@ -47,12 +57,28 @@ export function DataTable<TData extends RowData>({
   onColumnVisibilityChange,
   getRowId,
   expandable,
+  reorder,
+  gridLines = "rows",
+  editable,
+  columnResize,
 }: DataTableProps<TData>) {
   const scrollRef = useRef<HTMLDivElement>(null)
   const [paginationState, setPaginationState] = useDataTablePaginationState(
     pagination ? pagination.pageSize : Number.POSITIVE_INFINITY
   )
-  const effectiveColumns = expandable ? [createExpandColumn(expandable), ...columns] : columns
+  const [reorderDnd, setReorderDnd] = useState<ReorderDndModule | null>(null)
+  const effectiveColumns = [
+    ...(reorder ? createReorderColumns<TData>(reorder) : []),
+    ...(expandable ? [createExpandColumn(expandable)] : []),
+    ...columns,
+  ]
+
+  function handlePreloadReorder() {
+    if (reorderDnd) return
+    loadDataTableReorderDnd()
+      .then(setReorderDnd)
+      .catch(() => {})
+  }
 
   const table = useTable({
     features: dataTableFeatures,
@@ -60,6 +86,8 @@ export function DataTable<TData extends RowData>({
     columns: effectiveColumns,
     enableSortingRemoval: true,
     enableMultiSort: false,
+    enableColumnResizing: Boolean(columnResize),
+    columnResizeMode: "onChange",
     getRowId,
     getRowCanExpand: expandable
       ? (row) => expandable.getRowCanExpand?.(row.original) ?? true
@@ -79,8 +107,19 @@ export function DataTable<TData extends RowData>({
   })
 
   const rows = table.getRowModel().rows
+  const editableApi = useDataTableEditableState(
+    editable,
+    rows.map((row) => row.id),
+    table.getVisibleLeafColumns().map((column) => column.id)
+  )
   const useVirtualRows =
-    virtualize && !pagination && !expandable && !loading && rows.length >= VIRTUALIZE_MIN_ROWS
+    virtualize &&
+    !pagination &&
+    !expandable &&
+    !reorder &&
+    !editable &&
+    !loading &&
+    rows.length >= VIRTUALIZE_MIN_ROWS
 
   // eslint-disable-next-line react-hooks/incompatible-library -- TanStack Virtual React Compiler ile memoize edilemez (bilinen kütüphane sınırı)
   const rowVirtualizer = useVirtualizer({
@@ -100,34 +139,18 @@ export function DataTable<TData extends RowData>({
 
   function renderRow(row: (typeof rows)[number]) {
     return (
-      <Fragment key={row.id}>
-        <TableRow
-          className="group"
-          data-state={isRowSelected?.(row.original) ? "selected" : undefined}
-        >
-          {row.getVisibleCells().map((cell) => {
-            const pinned = cell.column.getIsPinned()
-            return (
-              <TableCell
-                key={cell.id}
-                className={cn(
-                  "whitespace-nowrap",
-                  pinningClass(pinned),
-                  cell.column.id === "actions" && "text-center"
-                )}
-                style={pinningStyle(cell.column)}
-              >
-                <table.FlexRender cell={cell} />
-              </TableCell>
-            )
-          })}
-        </TableRow>
-        {expandable && row.getIsExpanded() ? (
-          <DataTableDetailRow id={`row-detail-${row.id}`} colSpan={effectiveColumns.length}>
-            {expandable.renderDetail(row.original)}
-          </DataTableDetailRow>
-        ) : null}
-      </Fragment>
+      <DataTableBodyRow
+        key={row.id}
+        row={row}
+        isRowSelected={isRowSelected}
+        gridLines={gridLines}
+        editableApi={editableApi}
+        expandable={expandable}
+        colSpan={effectiveColumns.length}
+        reorder={reorder}
+        reorderDnd={reorderDnd}
+        onPreloadReorder={handlePreloadReorder}
+      />
     )
   }
 
@@ -146,32 +169,36 @@ export function DataTable<TData extends RowData>({
     onColumnStateChange?.(columnStateActive)
   }, [columnStateActive, onColumnStateChange])
 
+  const plainRows = !loading && !useVirtualRows ? rows.map((row) => renderRow(row)) : null
+  const bodyRows = reorder ? (
+    <DataTableReorderBody
+      reorder={reorder}
+      reorderDnd={reorderDnd}
+      rowIds={rows.map((row) => row.id)}
+      onPreload={handlePreloadReorder}
+    >
+      {plainRows}
+    </DataTableReorderBody>
+  ) : (
+    plainRows
+  )
+
   const tableElement = (
     <Table
       containerRef={scrollRef}
       containerClassName={containerClassName}
       className={className}
+      role={editable ? "grid" : undefined}
     >
-      <DataTableHeaderRow table={table} columnMenu={columnMenu} />
+      <DataTableHeaderRow
+        table={table}
+        columnMenu={columnMenu}
+        gridLines={gridLines}
+        grid={Boolean(editable)}
+        columnResize={columnResize}
+      />
       <TableBody>
-        {loading
-          ? Array.from({ length: 18 }, (_, row) => (
-              <TableRow key={`skeleton-${row}`}>
-                {table.getVisibleLeafColumns().map((column) => {
-                  const pinned = column.getIsPinned()
-                  return (
-                    <TableCell
-                      key={column.id}
-                      className={cn(pinningClass(pinned))}
-                      style={pinningStyle(column)}
-                    >
-                      <Skeleton className="h-4 w-20" />
-                    </TableCell>
-                  )
-                })}
-              </TableRow>
-            ))
-          : null}
+        {loading ? <DataTableSkeletonRows table={table} /> : null}
         {!loading && rows.length === 0 ? (
           <TableRow>
             <TableCell colSpan={effectiveColumns.length} className="text-muted-foreground">
@@ -181,31 +208,37 @@ export function DataTable<TData extends RowData>({
         ) : null}
         {!loading && useVirtualRows ? (
           <>
-            {paddingTop > 0 ? (
-              <TableRow aria-hidden className="pointer-events-none border-0 hover:bg-transparent">
-                <TableCell colSpan={effectiveColumns.length} className="p-0" style={{ height: paddingTop }} />
-              </TableRow>
-            ) : null}
+            <DataTableVirtualPaddingRow height={paddingTop} colSpan={effectiveColumns.length} />
             {virtualRows.map((virtualRow) => renderRow(rows[virtualRow.index]))}
-            {paddingBottom > 0 ? (
-              <TableRow aria-hidden className="pointer-events-none border-0 hover:bg-transparent">
-                <TableCell colSpan={effectiveColumns.length} className="p-0" style={{ height: paddingBottom }} />
-              </TableRow>
-            ) : null}
+            <DataTableVirtualPaddingRow height={paddingBottom} colSpan={effectiveColumns.length} />
           </>
         ) : null}
-        {!loading && !useVirtualRows
-          ? rows.map((row) => renderRow(row))
-          : null}
+        {bodyRows}
       </TableBody>
     </Table>
   )
 
-  if (!pagination) return tableElement
+  const liveRegion = editableApi ? (
+    <span className="sr-only" role="status" aria-live="polite">
+      {editableApi.announcement}
+    </span>
+  ) : null
+
+  if (!pagination) {
+    return (
+      <>
+        {tableElement}
+        {liveRegion}
+      </>
+    )
+  }
 
   return (
-    <DataTablePaginationBar table={table} pagination={pagination}>
-      {tableElement}
-    </DataTablePaginationBar>
+    <>
+      <DataTablePaginationBar table={table} pagination={pagination}>
+        {tableElement}
+      </DataTablePaginationBar>
+      {liveRegion}
+    </>
   )
 }

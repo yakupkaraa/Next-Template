@@ -26,6 +26,7 @@ export function OrderModals({
   onFormOpenChange,
   editingOrder,
   nextSequence,
+  nextPosition,
   onSaved,
   deleteMounted,
   deleteTarget,
@@ -43,6 +44,7 @@ export function OrderModals({
   onFormOpenChange: (open: boolean) => void
   editingOrder: OrderRow | null
   nextSequence: number
+  nextPosition: number
   onSaved: (row: OrderRow) => void
   deleteMounted: boolean
   deleteTarget: OrderRow | null
@@ -65,6 +67,7 @@ export function OrderModals({
           locale={locale}
           order={editingOrder}
           nextSequence={nextSequence}
+          nextPosition={nextPosition}
           onSaved={onSaved}
         />
       ) : null}
