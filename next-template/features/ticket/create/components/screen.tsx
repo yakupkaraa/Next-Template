@@ -169,7 +169,7 @@ export function TicketCreateScreen({ locale }: { locale: ContentLocale }) {
   }
 
   return (
-    <DensityBoard>
+    <DensityBoard locked>
       <div className="flex w-full flex-col gap-4 p-0.5">
         {showDraft ? (
           <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-border bg-muted px-3 py-2 text-sm">

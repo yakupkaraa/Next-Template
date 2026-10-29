@@ -1,7 +1,7 @@
 "use client"
 
 import { Search, X } from "lucide-react"
-import { useState, type KeyboardEvent } from "react"
+import { useRef, useState, type KeyboardEvent } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { headerCopy } from "@/components/layout/constants/header/copy"
@@ -22,6 +22,8 @@ export function PageSearch({ locale }: { locale: ReturnType<typeof localeFromPat
   const text = headerCopy[locale]
   const [value, setValue] = useState("")
   const [notFound, setNotFound] = useState(false)
+  const debounceRef = useRef<number>(0)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   function runFind(query: string, backwards: boolean) {
     if (!query || typeof window.find !== "function") {
@@ -30,17 +32,22 @@ export function PageSearch({ locale }: { locale: ReturnType<typeof localeFromPat
     }
     const found = window.find(query, false, backwards, true)
     setNotFound(!found)
+    inputRef.current?.focus({ preventScroll: true })
   }
 
   function handleChange(next: string) {
     setValue(next)
-    window.getSelection()?.collapseToStart()
-    runFind(next, false)
+    window.clearTimeout(debounceRef.current)
+    debounceRef.current = window.setTimeout(() => {
+      window.getSelection()?.collapseToStart()
+      runFind(next, false)
+    }, 2000)
   }
 
   function handleKeyDown(event: KeyboardEvent<HTMLInputElement>) {
     if (event.key === "Enter") {
       event.preventDefault()
+      window.clearTimeout(debounceRef.current)
       runFind(value, event.shiftKey)
     } else if (event.key === "Escape") {
       handleClear()
@@ -48,6 +55,7 @@ export function PageSearch({ locale }: { locale: ReturnType<typeof localeFromPat
   }
 
   function handleClear() {
+    window.clearTimeout(debounceRef.current)
     setValue("")
     setNotFound(false)
     window.getSelection()?.removeAllRanges()
@@ -57,6 +65,7 @@ export function PageSearch({ locale }: { locale: ReturnType<typeof localeFromPat
     <div className="relative flex w-full items-center">
       <Search className="pointer-events-none absolute left-2.5 size-4 text-muted-foreground" />
       <Input
+        ref={inputRef}
         type="text"
         value={value}
         onChange={(event) => handleChange(event.target.value)}

@@ -183,7 +183,7 @@ export function BlogEditorScreen({
   )
 
   return (
-    <DensityBoard data-blog-editor="" className="min-h-0 flex-1 px-6">
+    <DensityBoard locked data-blog-editor="" className="min-h-0 flex-1 px-6">
       <div className="shrink-0">
         <StickyStepperHeader
           title={isEdit ? text.editTitle : undefined}

@@ -16,6 +16,7 @@ import { getLoginCopy } from "@/features/auth/constants/copy"
 import { resolveContentLocale } from "@/lib/i18n"
 import { languages, swapLocale, type Locale } from "@/lib/locales"
 import { settingsColors, type ThemeAppearance } from "@/lib/theme/accents"
+import { originFromElement } from "@/lib/theme/theme-transition"
 import { cn } from "@/lib/utils"
 
 export function LoginChrome({
@@ -70,7 +71,12 @@ export function LoginChrome({
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="min-w-40">
           {settingsColors.map((item) => (
-            <DropdownMenuItem key={item.id} onClick={() => setAppearance(item.id as ThemeAppearance)}>
+            <DropdownMenuItem
+              key={item.id}
+              onClick={(event) =>
+                setAppearance(item.id as ThemeAppearance, originFromElement(event.currentTarget))
+              }
+            >
               <span className={cn("size-4 rounded-sm", item.className)} />
               {item.id === "dark" ? "Dark" : item.id}
               {appearance === item.id ? <Check className="ml-auto" /> : null}

@@ -6,9 +6,11 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react"
+import { flushSync } from "react-dom"
 import type { ThemeAppearance } from "@/lib/theme/accents"
 import type { FontFamily, FontSize } from "@/lib/theme/fonts"
 import {
@@ -20,6 +22,7 @@ import {
   type ShellLayout,
   type StoredTheme,
 } from "@/lib/theme/storage"
+import { runThemeTransition, type ThemeTransitionOrigin } from "@/lib/theme/theme-transition"
 
 type ThemeContextValue = {
   appearance: ThemeAppearance
@@ -28,7 +31,7 @@ type ThemeContextValue = {
   footer: boolean
   fontFamily: FontFamily
   fontSize: FontSize
-  setAppearance: (appearance: ThemeAppearance) => void
+  setAppearance: (appearance: ThemeAppearance, origin?: ThemeTransitionOrigin | null) => void
   setDensity: (density: DensityMode) => void
   setLayout: (layout: ShellLayout) => void
   setFooter: (footer: boolean) => void
@@ -41,6 +44,10 @@ const ThemeContext = createContext<ThemeContextValue | null>(null)
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<StoredTheme>(defaultStoredTheme)
   const [ready, setReady] = useState(false)
+  const themeRef = useRef(theme)
+  useEffect(() => {
+    themeRef.current = theme
+  }, [theme])
 
   useEffect(() => {
     const stored = readStoredTheme()
@@ -56,9 +63,16 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     writeStoredTheme(theme)
   }, [ready, theme])
 
-  const setAppearance = useCallback((appearance: ThemeAppearance) => {
-    setTheme((current) => ({ ...current, appearance }))
-  }, [])
+  const setAppearance = useCallback(
+    (appearance: ThemeAppearance, origin?: ThemeTransitionOrigin | null) => {
+      const next: StoredTheme = { ...themeRef.current, appearance }
+      runThemeTransition(origin, () => {
+        applyThemeToDocument(next)
+        flushSync(() => setTheme(next))
+      })
+    },
+    []
+  )
 
   const setDensity = useCallback((density: DensityMode) => {
     setTheme((current) => ({ ...current, density }))

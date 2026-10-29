@@ -8,6 +8,7 @@ import { Switch } from "@/components/ui/switch"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { cn } from "@/lib/utils"
 import { useThemeSettings } from "@/components/theme/theme-provider"
+import { originFromElement } from "@/lib/theme/theme-transition"
 import { settingsColors, type ThemeAppearance } from "@/lib/theme/accents"
 import type { FontFamily, FontSize } from "@/lib/theme/fonts"
 import type { ShellLayout } from "@/lib/theme/storage"
@@ -102,8 +103,11 @@ export function SettingsPanel({ locale }: { locale: MenuLocale }) {
       <Section title="Theme">
         <ToggleGroup
           value={[appearance]}
-          onValueChange={(value) =>
-            setAppearance(pickOne(value, appearance) as ThemeAppearance)
+          onValueChange={(value, eventDetails) =>
+            setAppearance(
+              pickOne(value, appearance) as ThemeAppearance,
+              originFromElement(eventDetails.trigger)
+            )
           }
           className="flex w-full flex-wrap justify-between gap-2"
         >

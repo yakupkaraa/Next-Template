@@ -3,7 +3,7 @@
 import { Bell, Check, Moon, Settings, Sun } from "lucide-react"
 import Link from "next/link"
 import dynamic from "next/dynamic"
-import { useState } from "react"
+import type { MouseEvent } from "react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -25,6 +25,7 @@ import { LocaleFlag } from "@/components/shared/locale-flag"
 import { notifications } from "@/components/layout/mocks/notifications"
 import { DEFAULT_THEME_ACCENT } from "@/lib/theme/accents"
 import type { ShellLayout } from "@/lib/theme/storage"
+import { originFromElement } from "@/lib/theme/theme-transition"
 import { preloadOnHover } from "@/lib/preload-on-hover"
 import { useThemeSettings } from "@/components/theme/theme-provider"
 import { cn } from "@/lib/utils"
@@ -34,6 +35,8 @@ const SettingsPanel = dynamic(() =>
 )
 
 const preloadSettingsPanel = preloadOnHover(() => import("@/components/theme/settings-panel"))
+
+export const SETTINGS_SHEET_ID = "app-settings-sheet"
 
 const groupPill = cn(
   "flex shrink-0 items-center gap-1",
@@ -51,26 +54,27 @@ export function HeaderActions({
   locale,
   pathname,
   layout,
+  settingsOpen,
+  onSettingsOpenChange,
+  settingsMounted,
+  onOpenSettings,
 }: {
   locale: ReturnType<typeof localeFromPath>
   pathname: string
   layout: ShellLayout
+  settingsOpen: boolean
+  onSettingsOpenChange: (open: boolean) => void
+  settingsMounted: boolean
+  onOpenSettings: () => void
 }) {
   const text = headerCopy[locale]
   const reverseChrome = layout === "right"
   const settingsSide = layout === "right" ? "left" : "right"
-  const [settingsOpen, setSettingsOpen] = useState(false)
-  const [settingsMounted, setSettingsMounted] = useState(false)
   const { appearance, setAppearance } = useThemeSettings()
   const isDark = appearance === "dark"
 
-  function openSettings() {
-    setSettingsMounted(true)
-    setSettingsOpen(true)
-  }
-
-  function toggleAppearance() {
-    setAppearance(isDark ? DEFAULT_THEME_ACCENT : "dark")
+  function toggleAppearance(event: MouseEvent<HTMLButtonElement>) {
+    setAppearance(isDark ? DEFAULT_THEME_ACCENT : "dark", originFromElement(event.currentTarget))
   }
 
   return (
@@ -156,7 +160,7 @@ export function HeaderActions({
             ))}
           </DropdownMenuContent>
         </DropdownMenu>
-        <Sheet open={settingsOpen} onOpenChange={setSettingsOpen}>
+        <Sheet open={settingsOpen} onOpenChange={onSettingsOpenChange}>
           <SheetTrigger
             nativeButton
             render={
@@ -165,7 +169,7 @@ export function HeaderActions({
                 variant="ghost"
                 size="icon"
                 aria-label={text.settings}
-                onClick={openSettings}
+                onClick={onOpenSettings}
                 onPointerEnter={preloadSettingsPanel}
                 onFocus={preloadSettingsPanel}
                 className={groupItemButton}
@@ -174,7 +178,11 @@ export function HeaderActions({
           >
             <Settings className="size-[1.2rem]" />
           </SheetTrigger>
-          <SheetContent side={settingsSide} className="w-full gap-3 overflow-y-auto sm:max-w-xs">
+          <SheetContent
+            id={SETTINGS_SHEET_ID}
+            side={settingsSide}
+            className="w-full gap-3 overflow-y-auto sm:max-w-xs"
+          >
             <SheetHeader>
               <SheetTitle>{text.settings}</SheetTitle>
             </SheetHeader>

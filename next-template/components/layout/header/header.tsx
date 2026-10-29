@@ -15,11 +15,19 @@ import { cn } from "@/lib/utils"
 export function Header({
   open,
   onToggle,
+  settingsOpen,
+  onSettingsOpenChange,
+  settingsMounted,
+  onOpenSettings,
   showMenu = false,
   showSidebarToggle = true,
 }: {
   open: boolean
   onToggle: () => void
+  settingsOpen: boolean
+  onSettingsOpenChange: (open: boolean) => void
+  settingsMounted: boolean
+  onOpenSettings: () => void
   showMenu?: boolean
   showSidebarToggle?: boolean
 }) {
@@ -44,7 +52,17 @@ export function Header({
       </Button>
   ) : null
 
-  const headerActions = <HeaderActions locale={locale} pathname={pathname} layout={layout} />
+  const headerActions = (
+    <HeaderActions
+      locale={locale}
+      pathname={pathname}
+      layout={layout}
+      settingsOpen={settingsOpen}
+      onSettingsOpenChange={onSettingsOpenChange}
+      settingsMounted={settingsMounted}
+      onOpenSettings={onOpenSettings}
+    />
+  )
 
   const spacer = (
     <div className={cn("flex min-w-0 flex-1 items-center gap-3", showMenu && "topmenu:justify-center")}>

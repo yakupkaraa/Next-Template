@@ -24,10 +24,18 @@ export const densityStickyBleedBottom =
  *   )
  * }
  */
-export function DensityBoard({ className, ...props }: ComponentProps<"div">) {
+export function DensityBoard({
+  className,
+  locked,
+  ...props
+}: ComponentProps<"div"> & {
+  /** Yoğun yerleşim (compact density) bu board için kapatılır, her zaman comfortable görünür. */
+  locked?: boolean
+}) {
   return (
     <div
       data-density-board=""
+      data-density-lock={locked ? "" : undefined}
       className={cn("flex w-full shrink-0 flex-col gap-4 py-6", className)}
       {...props}
     />
