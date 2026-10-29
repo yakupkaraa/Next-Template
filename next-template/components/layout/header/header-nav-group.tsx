@@ -36,20 +36,19 @@ export function HeaderNavGroup({
     <DropdownMenu>
       <DropdownMenuTrigger
         nativeButton
+        data-nav-active={childActive ? "true" : undefined}
         render={
           <Button
             type="button"
             variant="ghost"
             className={cn(
-              "h-9 shrink-0 gap-2 px-2.5 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+              "h-9 shrink-0 gap-2 px-2.5 text-sidebar-foreground transition-[background-color,color,border-radius,padding] duration-300 ease-out hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
               childActive && "bg-sidebar-accent font-medium text-sidebar-accent-foreground",
               "topmenu:rounded-full",
               "topmenu:px-4",
-              "topmenu:text-foreground",
               "topmenu:hover:bg-muted",
               "topmenu:hover:text-foreground",
-              childActive &&
-                "topmenu:bg-primary topmenu:text-primary-foreground topmenu:hover:bg-primary topmenu:hover:text-primary-foreground"
+              childActive ? "topmenu:text-primary-foreground" : "topmenu:text-foreground"
             )}
           />
         }

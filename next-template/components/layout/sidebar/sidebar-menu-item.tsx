@@ -51,12 +51,13 @@ export function MenuLinkItem({
       prefetch
       title={open ? undefined : label}
       aria-current={active ? "page" : undefined}
+      data-nav-active={active ? "true" : undefined}
       className={cn(
         "group flex h-11 shrink-0 items-center gap-3 overflow-hidden rounded-lg px-3 text-sm transition-colors",
         horizontal ? "w-auto" : "w-full",
         nested && open && !horizontal && "h-8 px-2 py-1.5 text-[13px]",
         active
-          ? "bg-[color-mix(in_oklch,var(--primary)_28%,var(--sidebar))] font-medium text-sidebar-foreground"
+          ? "font-medium text-sidebar-foreground"
           : "text-sidebar-foreground/85 hover:bg-card/60 hover:text-sidebar-foreground"
       )}
     >

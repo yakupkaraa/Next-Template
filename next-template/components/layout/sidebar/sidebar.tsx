@@ -10,6 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useActiveIndicator } from "@/hooks/use-active-indicator"
 import { localeFromPath } from "@/lib/locales"
 import { signOut } from "@/lib/session"
 import { cn } from "@/lib/utils"
@@ -35,6 +36,7 @@ export function Sidebar({
   const locale = localeFromPath(pathname)
   const horizontal = orientation === "horizontal"
   const labelsOpen = horizontal || open
+  const { containerRef, style: indicatorStyle } = useActiveIndicator<HTMLElement>([pathname, open, horizontal])
   const text = sidebarCopy[locale]
   const profileText = headerCopy[locale]
   const initials = text.userName
@@ -65,11 +67,17 @@ export function Sidebar({
       )}
     >
       <nav
+        ref={containerRef}
         className={cn(
-          "flex gap-1 p-2",
+          "relative isolate flex gap-1 p-2",
           horizontal ? "h-auto min-h-12 flex-row flex-wrap items-center" : "min-h-0 flex-1 flex-col overflow-x-hidden overflow-y-auto overscroll-y-contain"
         )}
       >
+        <span
+          aria-hidden
+          className="pointer-events-none absolute left-0 top-0 -z-10 rounded-lg bg-[color-mix(in_oklch,var(--primary)_28%,var(--sidebar))] transition-[transform,width,height,opacity] duration-300 ease-out"
+          style={indicatorStyle}
+        />
         {menuItems.map((item) =>
           isMenuGroup(item) ? (
             <MenuGroupItem

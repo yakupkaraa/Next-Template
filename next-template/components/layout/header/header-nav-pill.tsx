@@ -1,5 +1,8 @@
+"use client"
+
 import { sidebarCopy } from "@/components/layout/constants/sidebar/copy"
 import { isMenuGroup, menuItems } from "@/components/layout/sidebar/menu-items"
+import { useActiveIndicator } from "@/hooks/use-active-indicator"
 import type { localeFromPath } from "@/lib/locales"
 import { cn } from "@/lib/utils"
 import { HeaderNavGroup } from "./header-nav-group"
@@ -12,11 +15,15 @@ export function HeaderNavPill({
   locale: ReturnType<typeof localeFromPath>
   pathname: string
 }) {
+  const { containerRef, style } = useActiveIndicator<HTMLElement>([pathname])
+
   return (
     <nav
+      ref={containerRef}
       aria-label={sidebarCopy[locale].menu}
       className={cn(
-        "flex min-w-0 items-center gap-0.5 overflow-x-auto",
+        "relative isolate flex min-w-0 items-center gap-0.5 overflow-x-auto",
+        "transition-[border-radius,gap,padding,box-shadow] duration-300 ease-out",
         "topmenu:gap-1",
         "topmenu:rounded-full",
         "topmenu:border",
@@ -26,6 +33,11 @@ export function HeaderNavPill({
         "topmenu:shadow-sm"
       )}
     >
+      <span
+        aria-hidden
+        className="pointer-events-none absolute left-0 top-0 -z-10 rounded-full bg-primary transition-[transform,width,height,opacity] duration-300 ease-out"
+        style={style}
+      />
       {menuItems.map((item) =>
         isMenuGroup(item) ? (
           <HeaderNavGroup key={item.label.en} item={item} locale={locale} pathname={pathname} />
