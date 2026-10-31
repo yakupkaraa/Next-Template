@@ -73,6 +73,10 @@ Renkler lacivert, mavi, yeşil, turuncu ve mordur. Yeni renk `globals.css` için
 
 Dashboard, insights ve profile metinleri hâlâ ilgili feature `data.ts` içindeki `tr` / `en` bloklarındadır; istenirse `lib/messages` altına taşınır.
 
+## Env
+
+Değişkenler `.env.example`'da listelenir; `NEXT_PUBLIC_SITE_URL` opsiyoneldir — verilmezse `metadataBase` Vercel'in `VERCEL_PROJECT_PRODUCTION_URL`'ini, o da yoksa `http://localhost:3000`'i kullanır.
+
 ## Security notes
 
 - Authentication is a mock: `signIn` sets a `session=1` cookie without verifying any credentials. Replace `lib/session.ts` and `proxy.ts` with real credential checks and server-side session/token validation before production use.
