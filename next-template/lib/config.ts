@@ -13,7 +13,18 @@ function readAppEnv(value: string | undefined): AppEnv {
   return "development"
 }
 
+const DEFAULT_SITE_URL = "http://localhost:3000"
+
+function readSiteUrl(): string {
+  const explicit = process.env.NEXT_PUBLIC_SITE_URL?.trim()
+  if (explicit) return explicit
+  const vercelUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim()
+  if (vercelUrl) return `https://${vercelUrl}`
+  return DEFAULT_SITE_URL
+}
+
 const appEnv = readAppEnv(process.env.NEXT_PUBLIC_APP_ENV)
 const apiUrl = process.env.NEXT_PUBLIC_API_URL?.trim() || FALLBACK_API_URL[appEnv]
+const siteUrl = readSiteUrl()
 
-export const config = { appEnv, apiUrl }
+export const config = { appEnv, apiUrl, siteUrl }
