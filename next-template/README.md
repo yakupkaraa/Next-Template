@@ -31,7 +31,6 @@ features/
   blog/                        liste + editor/
   dashboard/
   insights/
-  list/
   profile/
   ai-chat/
   settings/                    ayar paneli (header sheet)

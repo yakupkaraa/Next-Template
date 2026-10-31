@@ -33,8 +33,6 @@ features/
   insights/          components/*.tsx  ← chart dosyaları da burada (11→5+),
                      constants/insights.ts, index.ts, mocks/insights.mock.ts,
                      utils/section-props.ts
-  list/              components/list-screen.tsx, components/list-detail-screen.tsx,
-                     index.ts
   profile/           components/screen.tsx, constants/profile.ts, index.ts,
                      mocks/profile.mock.ts
   ticket/            components/*.tsx, constants/copy.ts, constants/ticket.ts,
@@ -111,7 +109,6 @@ lib/
 | `components/layout/mocks/notifications.ts` | Yerinde | Import yönü ihlali değil (layout → layout); API fazında header bildirim akışıyla birlikte ele alınacak. |
 | `features/users/actions.ts` | Feature kökünde | KG-4: C. `utils/` veya `hooks/` kararı gerçek API entegrasyonuyla birlikte verilmeli. |
 | `features/dashboard/` ve `features/insights/` | Ayrı feature'lar | Kapsam dışı bırakıldı. İçerik örtüşmesi var; birleştirme kararı ayrı bir analiz gerektirir. |
-| `features/list/` stub dosyaları | `return null` ekranlar | Kasıtlı placeholder; dokunulmadı. |
 
 ### Sonraki fazlara devredilen işler
 

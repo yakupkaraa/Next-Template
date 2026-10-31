@@ -127,10 +127,10 @@ Breadcrumb yalnızca navigasyon değil; `path === "/insights"` gibi koşullarla 
 ### 2.7 Ölü veya eksik rotalar
 
 - `app/[locale]/(dashboard)/settings/page.tsx` → `null`
-- `app/[locale]/(dashboard)/list/page.tsx` → `null`
+- `app/[locale]/(dashboard)/list/page.tsx` ve `features/list/` kaldırıldı (orphan stub).
 - README ve menü `lib/site.ts` ile gerçek yapı arasında drift (ör. tema `theme.tsx`’te denmiş ama bileşen `return null`)
 
-**Etki:** Kullanıcı `/settings` veya `/list` açtığında boş sayfa; ayarlar yalnızca sheet’te — tutarsız bilgi mimarisi.
+**Etki:** Kullanıcı `/settings` açtığında boş sayfa; ayarlar yalnızca sheet’te — tutarsız bilgi mimarisi.
 
 ---
 
@@ -269,7 +269,7 @@ Veri zaten senkron import; 2.5s yapay gecikme `useEffect` ile.
 - [ ] Feature sınırlarını yazılı tanımla: `dashboard`, `users`, `auth`, `layout`, `settings/theme`.
 - [ ] RSC/Client matrisi: hangi ekranların gerçekten client olması gerektiğini listele.
 - [ ] i18n hedefi: 2 dil mi 5 dil mi — menü ile hizala.
-- [ ] `/settings`, `/list` rotalarını ya kaldır ya da gerçek içerikle doldur (404/breadcrumb tutarlılığı).
+- [ ] `/settings` rotasını ya kaldır ya da gerçek içerikle doldur (404/breadcrumb tutarlılığı). (`/list` kaldırıldı.)
 
 **Çıktı:** Kısa ADR veya bu belgenin “Hedef durum” bölümü onayı.
 

@@ -99,10 +99,6 @@ Bu değişiklik bağımsız onay gerektirir — Faz 2 kapsamında ancak ayrı ma
 | total sales | `useInsightSales()` | `GET /insights/sales` |
 | diğer chart verileri | `useInsight<Dataset>()` | `GET /insights/:dataset` |
 
-### list (stub — placeholder)
-
-`features/list` şu an `return null` ekranlar. Endpoint yer tutucusu: `GET /items`, `GET /items/:id`.
-
 ### auth
 
 | İşlem | Mekanizma | Endpoint | Tip |
