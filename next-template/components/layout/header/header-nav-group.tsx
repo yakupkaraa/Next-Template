@@ -43,7 +43,7 @@ export function HeaderNavGroup({
             variant="ghost"
             className={cn(
               "h-9 shrink-0 gap-2 px-2.5 text-sidebar-foreground transition-[background-color,color,border-radius,padding] duration-300 ease-out hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-              childActive && "bg-sidebar-accent font-medium text-sidebar-accent-foreground",
+              childActive && "bg-sidebar-accent font-medium text-sidebar-accent-foreground topmenu:bg-transparent",
               "topmenu:rounded-full",
               "topmenu:px-4",
               "topmenu:hover:bg-muted",

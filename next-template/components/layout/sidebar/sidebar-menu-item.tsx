@@ -57,7 +57,7 @@ export function MenuLinkItem({
         horizontal ? "w-auto" : "w-full",
         nested && open && !horizontal && "h-8 px-2 py-1.5 text-[13px]",
         active
-          ? "font-medium text-sidebar-foreground"
+          ? "bg-[color-mix(in_oklch,var(--primary)_28%,var(--sidebar))] font-medium text-sidebar-foreground"
           : "text-sidebar-foreground/85 hover:bg-card/60 hover:text-sidebar-foreground"
       )}
     >
@@ -111,8 +111,9 @@ export function MenuGroupItem({
         className={cn(
           "flex h-9 w-full shrink-0 items-center gap-2.5 overflow-hidden rounded-lg px-2.5 text-sm transition-colors",
           horizontal && "h-11 w-auto rounded-xl px-3",
-          childActive
-            ? "font-medium text-sidebar-foreground"
+          childActive && "font-medium",
+          expanded && childActive
+            ? "text-sidebar-foreground"
             : "text-(--sidebar-muted) hover:bg-card/60 hover:text-sidebar-foreground"
         )}
         title={open ? undefined : label}

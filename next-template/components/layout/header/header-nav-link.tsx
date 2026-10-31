@@ -32,7 +32,9 @@ export function HeaderNavLink({
       data-nav-active={active ? "true" : undefined}
       className={cn(
         "inline-flex h-9 shrink-0 items-center gap-2 rounded-lg px-2.5 text-sm outline-none transition-[background-color,color,border-radius,padding] duration-300 ease-out hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2",
-        active ? "bg-sidebar-accent font-medium text-sidebar-accent-foreground" : "text-sidebar-foreground",
+        active
+          ? "bg-sidebar-accent font-medium text-sidebar-accent-foreground topmenu:bg-transparent"
+          : "text-sidebar-foreground",
         "topmenu:rounded-full",
         "topmenu:px-4",
         "topmenu:hover:bg-muted",
