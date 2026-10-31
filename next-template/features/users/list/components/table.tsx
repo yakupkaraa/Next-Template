@@ -17,6 +17,7 @@ import { useUsers } from "@/features/users/hooks/use-users"
 import { preloadOnHover } from "@/lib/preload-on-hover"
 import { getUserListColumns } from "@/features/users/list/components/columns"
 import { showSuccess } from "@/components/toast/notify"
+import { runAction } from "@/components/toast/run-action"
 
 const AddUserDialog = dynamic(() =>
   import("@/features/users/components/add-user-dialog").then((m) => ({ default: m.AddUserDialog }))
@@ -36,11 +37,17 @@ export function UserListTable({ locale }: { locale: ContentLocale }) {
   const [columnStateActive, setColumnStateActive] = useState(false)
   const tableApiRef = useRef<DataTableApi | null>(null)
   const list = getDictionary(locale).users.list
-  const { rows, loading, nextId, addUser, removeUser } = useUsers(locale)
+  const { rows, loading, nextId, addUser, removeUser } = useUsers()
 
   const handleDelete = useCallback(
     async (row: UserRow) => {
-      const ok = await removeUser(row)
+      const name = `${row.firstName} ${row.lastName}`.trim() || row.email
+      const ok = await runAction({
+        pending: list.toast.deleting,
+        success: list.toast.deleted.replace("{name}", name),
+        error: list.toast.deleteFailed,
+        run: () => removeUser(row),
+      })
       if (!ok) return
       setSelected((current) => {
         const next = new Set(current)
@@ -48,7 +55,7 @@ export function UserListTable({ locale }: { locale: ContentLocale }) {
         return next
       })
     },
-    [removeUser]
+    [list.toast, removeUser]
   )
 
   const handleToggle = useCallback((id: string, checked: boolean) => {

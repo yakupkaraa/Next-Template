@@ -75,3 +75,6 @@ export const fieldComboboxOptions: Partial<Record<UserColumnKey, readonly string
 
 export const controlClass =
   "h-11 border-input text-sm focus-visible:border-primary focus-visible:ring-ring/30"
+
+export const ALLOWED_AVATAR_TYPES: readonly string[] = ["image/png", "image/jpeg", "image/webp"]
+export const MAX_AVATAR_BYTES = 2 * 1024 * 1024

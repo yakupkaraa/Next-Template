@@ -42,6 +42,8 @@ export const profileFormCopy = {
     saveFailed: "Profil kaydedilemedi. Lütfen tekrar deneyin.",
     formInvalid: "Lütfen gerekli alanları doldurun.",
     roleChip: "Rol",
+    avatarTypeError: "Yalnızca PNG, JPEG veya WEBP görseli yükleyebilirsiniz.",
+    avatarSizeError: "Görsel en fazla 2 MB olabilir.",
   },
   en: {
     sections: {
@@ -84,6 +86,8 @@ export const profileFormCopy = {
     saveFailed: "Couldn't save your profile. Please try again.",
     formInvalid: "Please fill in the required fields.",
     roleChip: "Role",
+    avatarTypeError: "Only PNG, JPEG, or WEBP images are allowed.",
+    avatarSizeError: "The image must be 2 MB or smaller.",
   },
 } as const
 

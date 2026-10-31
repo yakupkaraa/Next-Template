@@ -1,8 +1,7 @@
 ﻿"use client"
 
-import { useEffect, useMemo, useRef, useState } from "react"
-import { Check, Loader2, Lock, Mail, Upload, User } from "lucide-react"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { useEffect, useMemo, useState } from "react"
+import { Check, Loader2, Lock, Mail, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { CountryFlag } from "@/components/shared/locale-flag"
@@ -15,7 +14,6 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
-import { StatusBadge } from "@/components/shared/status-badge"
 import { Textarea } from "@/components/ui/textarea"
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
 import type { UserColumnKey } from "@/features/users/types/user"
@@ -35,9 +33,10 @@ import type { ProfileFieldConfig, ProfileSectionKey } from "../types/profile-fie
 import { EMAIL_PATTERN, initialValues, isFieldEditable, NOTE_MAX } from "../utils/profile-tab"
 import { formatPhoneInput, normalizeEmail } from "@/features/users/utils/form-field-meta"
 import { useSaveUser } from "@/features/users/hooks/use-save-user"
-import { showError, showWarning } from "@/components/toast/notify"
+import { showError, showSuccess, showWarning } from "@/components/toast/notify"
 import { resolveErrorMessage } from "@/components/toast/resolve-error-message"
 import { userStatusTone } from "@/features/users/utils/users"
+import { AvatarPicker } from "./avatar-picker"
 
 export type ProfileFormMode = "self" | "admin"
 
@@ -56,7 +55,6 @@ export function ProfileTab({
   const text = getProfileFormCopy(locale)
   const columns = getDictionary(locale).users.list.columns
   const snapshot = useMemo(() => initialValues(intent), [intent])
-  const fileRef = useRef<HTMLInputElement>(null)
   const [preview, setPreview] = useState<string | null>(null)
   const [values, setValues] = useState(snapshot)
   const [errors, setErrors] = useState<FieldErrors>({})
@@ -94,7 +92,13 @@ export function ProfileTab({
       if (current) URL.revokeObjectURL(current)
       return null
     })
-    if (fileRef.current) fileRef.current.value = ""
+  }
+
+  function selectAvatar(file: File) {
+    setPreview((current) => {
+      if (current) URL.revokeObjectURL(current)
+      return URL.createObjectURL(file)
+    })
   }
 
   function reset() {
@@ -127,6 +131,7 @@ export function ProfileTab({
       const result = await saveUser(values)
       setBaseline(result)
       setSaved(true)
+      showSuccess(text.saved)
     } catch (err) {
       showError(resolveErrorMessage(err, text.saveFailed))
     }
@@ -362,61 +367,21 @@ export function ProfileTab({
         <aside className="xl:sticky xl:top-20 xl:self-start">
           <Card className="py-0">
             <CardContent className="flex flex-col gap-4 py-5">
-              <div className="flex items-center gap-4 xl:flex-col xl:text-center">
-                <Avatar className="size-16 shrink-0 rounded-2xl xl:size-28">
-                  {preview ? <AvatarImage src={preview} alt="" /> : null}
-                  <AvatarFallback className="rounded-2xl bg-muted text-lg font-medium">
-                    {initials}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="min-w-0 flex-1 xl:flex-none">
-                  <p className="truncate text-base font-semibold">{fullName}</p>
-                  <div className="mt-1 flex flex-wrap items-center gap-2 xl:justify-center">
-                    {values.role ? (
-                      <span className="rounded-md bg-muted px-2 py-0.5 text-xs font-medium">{values.role}</span>
-                    ) : null}
-                    {values.status ? (
-                      <StatusBadge tone={userStatusTone(values.status)}>{values.status}</StatusBadge>
-                    ) : null}
-                  </div>
-                  <Input
-                    ref={fileRef}
-                    type="file"
-                    accept="image/png,image/jpeg"
-                    className="sr-only"
-                    onChange={(event) => {
-                      const file = event.target.files?.[0]
-                      if (!file) return
-                      setPreview((current) => {
-                        if (current) URL.revokeObjectURL(current)
-                        return URL.createObjectURL(file)
-                      })
-                    }}
-                  />
-                  <div className="mt-3 flex flex-col gap-2">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      className="min-h-11 w-full"
-                      aria-label={dict.picture.action}
-                      onClick={() => fileRef.current?.click()}
-                    >
-                      <Upload />
-                      {dict.picture.action}
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      className="min-h-11 w-full text-destructive hover:bg-destructive/10 hover:text-destructive"
-                      disabled={!preview}
-                      onClick={clearPreview}
-                    >
-                      {dict.picture.remove}
-                    </Button>
-                    <p className="text-xs text-muted-foreground">{dict.picture.hint}</p>
-                  </div>
-                </div>
-              </div>
+              <AvatarPicker
+                preview={preview}
+                fullName={fullName}
+                initials={initials}
+                role={values.role}
+                status={values.status}
+                statusTone={userStatusTone(values.status)}
+                actionLabel={dict.picture.action}
+                removeLabel={dict.picture.remove}
+                hint={dict.picture.hint}
+                typeErrorText={text.avatarTypeError}
+                sizeErrorText={text.avatarSizeError}
+                onSelect={selectAvatar}
+                onClear={clearPreview}
+              />
             </CardContent>
           </Card>
         </aside>

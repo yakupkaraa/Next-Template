@@ -1,6 +1,6 @@
 "use client"
 
-import { Bell, Check, Moon, Settings, Sun } from "lucide-react"
+import { Bell, Check, LogOut, Moon, Settings, Sun, User } from "lucide-react"
 import Link from "next/link"
 import dynamic from "next/dynamic"
 import type { MouseEvent } from "react"
@@ -23,6 +23,7 @@ import { languages, swapLocale, type localeFromPath } from "@/lib/locales"
 import { headerCopy } from "@/components/layout/constants/header/copy"
 import { LocaleFlag } from "@/components/shared/locale-flag"
 import { notifications } from "@/components/layout/mocks/notifications"
+import { signOut } from "@/lib/session"
 import { DEFAULT_THEME_ACCENT } from "@/lib/theme/accents"
 import type { ShellLayout } from "@/lib/theme/storage"
 import { originFromElement } from "@/lib/theme/theme-transition"
@@ -189,6 +190,41 @@ export function HeaderActions({
             {settingsMounted && <SettingsPanel locale={locale} />}
           </SheetContent>
         </Sheet>
+        {layout === "top" ? (
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              nativeButton
+              render={
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  aria-label={text.profile}
+                  className={groupItemButton}
+                />
+              }
+            >
+              <User className="size-[1.2rem]" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align={reverseChrome ? "start" : "end"} className="min-w-40">
+              <DropdownMenuItem render={<Link href={`/${locale}/profile`} />}>
+                <User />
+                {text.profile}
+              </DropdownMenuItem>
+              <form action={signOut.bind(null, locale)} className="w-full">
+                <DropdownMenuItem
+                  nativeButton
+                  variant="destructive"
+                  className="w-full justify-start"
+                  render={<Button type="submit" variant="destructive" className="w-full justify-start" />}
+                >
+                  <LogOut />
+                  {text.signOut}
+                </DropdownMenuItem>
+              </form>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : null}
       </div>
     </div>
   )

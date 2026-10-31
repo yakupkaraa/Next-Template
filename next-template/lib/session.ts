@@ -17,6 +17,7 @@ export async function signIn(locale: string, formData: FormData) {
     path: "/",
     httpOnly: true,
     sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
     ...(remember ? { maxAge: 60 * 60 * 24 * 30 } : {}),
   })
   redirect(`/${localePath(locale)}`)

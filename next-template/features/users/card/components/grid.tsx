@@ -10,6 +10,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { ConfirmModal } from "@/components/shared/confirm-modal"
 import { SearchBar } from "@/components/shared/search-bar"
 import { showError, showSuccess } from "@/components/toast/notify"
+import { runAction } from "@/components/toast/run-action"
 import { getDictionary, type ContentLocale } from "@/lib/i18n"
 import {
   userDepartmentOptions,
@@ -41,7 +42,7 @@ export function UserCardGrid({ locale }: { locale: ContentLocale }) {
   const list = dict.users.list
   const card = dict.users.card
   const prefix = pathname.match(/^\/[^/]+/)?.[0] ?? `/${locale}`
-  const { rows, loading, nextId, addUser, removeUser } = useUsers(locale)
+  const { rows, loading, nextId, addUser, removeUser } = useUsers()
   const [query, setQuery] = useState("")
   const [role, setRole] = useState(ALL)
   const [status, setStatus] = useState(ALL)
@@ -108,7 +109,13 @@ export function UserCardGrid({ locale }: { locale: ContentLocale }) {
 
   const handleDelete = useCallback(
     async (row: UserRow) => {
-      const ok = await removeUser(row)
+      const name = `${row.firstName} ${row.lastName}`.trim() || row.email
+      const ok = await runAction({
+        pending: list.toast.deleting,
+        success: list.toast.deleted.replace("{name}", name),
+        error: list.toast.deleteFailed,
+        run: () => removeUser(row),
+      })
       if (!ok) return
       setSelected((current) => {
         const next = new Set(current)
@@ -116,7 +123,7 @@ export function UserCardGrid({ locale }: { locale: ContentLocale }) {
         return next
       })
     },
-    [removeUser]
+    [list.toast, removeUser]
   )
 
   const requestDelete = useCallback((row: UserRow) => {

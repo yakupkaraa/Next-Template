@@ -72,3 +72,10 @@ Renkler lacivert, mavi, yeşil, turuncu ve mordur. Yeni renk `globals.css` için
 - **Mock veri:** feature `data.ts` (ör. `features/users/data.ts`).
 
 Dashboard, insights ve profile metinleri hâlâ ilgili feature `data.ts` içindeki `tr` / `en` bloklarındadır; istenirse `lib/messages` altına taşınır.
+
+## Security notes
+
+- Authentication is a mock: `signIn` sets a `session=1` cookie without verifying any credentials. Replace `lib/session.ts` and `proxy.ts` with real credential checks and server-side session/token validation before production use.
+- The session cookie is `httpOnly`, `sameSite=lax`, and `secure` in production (`NODE_ENV === "production"`). Access/refresh tokens for the (not-yet-connected) API are kept in `localStorage` (`lib/api.ts`) — acceptable for this mock stage, but revisit if XSS exposure becomes a concern once a real backend is wired up.
+- `next.config.ts` sets `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options`, and a restrictive `Permissions-Policy`. No `Content-Security-Policy` is set: this template relies on inline `<script>` (theme bootstrap) and Next.js's own inline scripts, which would require nonce/hash plumbing to support a CSP safely — left as a deliberate gap, not an oversight.
+- No request/form input is validated server-side yet (login, forgot-password, forms) because there is no real backend. When connecting to the real API, add server-side validation at that boundary — do not rely on client-side checks alone.
