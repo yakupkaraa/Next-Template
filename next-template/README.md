@@ -1,84 +1,107 @@
-# Next Template
+English | [Türkçe](#turkce)
 
-Dashboard şablonu. Türkçe `/tr`, İngilizce `/en` altındadır. Giriş yapmayan kullanıcı yalnızca giriş sayfasını görür.
+# Next-Template Dashboard
+
+A portfolio project: a feature-based Next.js (App Router, TypeScript) admin dashboard template. The focus is architecture discipline, performance (code splitting, RSC/client boundaries), and a cohesive design system — not a product meant for others to install and configure.
+
+## Screens
+
+- **Dashboard** — KPI cards and charts (Recharts)
+- **Insights** — sales/segmentation/order-overview charts
+- **Users** — card grid, list, create, edit
+- **Blog** — list + editor
+- **Ticket** — inbox, thread, composer, create
+- **AI Chat**
+- **Profile**
+- **Tables** — 5 variants: standard, expandable rows, CRUD, drag-to-reorder, spreadsheet-style editable cells
+- **Auth** — login, forgot-password (mock, no real credential check)
+
+Cross-cutting: theme settings panel (accent color, light/dark, density, layout, font, footer), i18n (menu in 5 locales, screen text in tr/en), toast notifications.
+
+## Tech stack
+
+- Next.js 16.3.6 (App Router) · React 19.2.8 · TypeScript 5
+- Tailwind CSS 4 · shadcn/ui 4.21 · Base UI 1.8 · `tw-animate-css`
+- TanStack Table 9 · TanStack Virtual 3 · TanStack Query 5 (installed, not yet wired into feature hooks)
+- Recharts 3 · lucide-react
+- `@dnd-kit` (core, sortable, utilities) · `cmdk` · `sonner` (toasts)
+- axios (client-side HTTP layer)
+
+## Run locally
 
 ```bash
 npm install
-npm run dev
+npm run dev     # http://localhost:3000
+npm run build
+npm start
 ```
 
-## Dosya yapısı
+## Screenshots
 
-```text
-app/
-  layout.tsx, globals.css
-  [locale]/
-    auth/.../page.tsx          yalnızca route; ekranlar features/auth/
-    (dashboard)/.../page.tsx   yalnızca route; ekranlar features/
-components/
-  ui/                          shadcn primitive'leri
-  layout/                      header, sidebar, footer, app-shell
-  shared/                      data-table, search-bar, status-badge, bayrak vb.
-  theme/                       theme-provider
-  toast/
-features/
-  <ad>/
-    components/                ekran ve alt bileşenler
-    constants/                 copy ve sabit listeler (varsa)
-    index.ts                   sayfanın import ettiği public API
-    data.ts                    mock veri (varsa, feature kökünde)
-  auth/                        login + forgot-password
-  blog/                        liste + editor/
-  dashboard/
-  insights/
-  profile/
-  ai-chat/
-  settings/                    ayar paneli (header sheet)
-  ticket/                      liste + create/
-  users/                       data.ts ortak mock; list/, card/, create/, edit/
-lib/
-  i18n/                        resolveContentLocale, getDictionary
-  messages/tr.ts, en.ts
-  theme/                       accents.ts (settingsColors), fonts, storage
-  locales.ts, session.ts, records.ts, utils.ts
-proxy.ts
-public/
-```
+_Not included in this repo._ If added, they belong in `docs/screenshots/`.
 
-Dosya adları İngilizcedir. `(dashboard)` adreste görünmez. Giriş, `session` çerezini yazar; çerez yoksa diğer adresler `/auth/login` sayfasına döner.
+## Documentation
 
-## Yeni sayfa / özellik
+- [Architecture](docs/ARCHITECTURE.md) — folder structure, import rules, naming, code splitting
+- [Design](docs/DESIGN.md) — color tokens, accent themes, density/layout modes, typography, motion
 
-1. `features/<ad>/components/` altında ekran bileşeni, gerekirse `constants/` ve `data.ts`.
-2. `features/<ad>/index.ts` yalnızca sayfanın kullanacağı export'u açsın.
-3. `app/[locale]/(dashboard)/<rota>/page.tsx` — `@/features/<ad>` import etsin, locale prop geçsin.
-4. Gerekirse `lib/messages/tr.ts` ve `en.ts` aynı anahtar.
-5. Menü: `components/layout/sidebar/menu-items.ts`.
+## Known limitations
 
-## Özelleştirme
+- A handful of screen files exceed the project's own ~250-line guideline (e.g. `features/blog/editor/components/screen.tsx` at ~683 lines, `features/users/create/components/profile-tab.tsx` at ~482 lines) — not yet split.
+- Mock data is imported directly into feature hooks (`features/<name>/mocks/*.mock.ts`); there is no real API layer yet, so `features/users` currently serves as the reference implementation for what the TanStack Query migration will look like.
+- No Content-Security-Policy header — the theme bootstrap relies on an inline `<script>`, which would need nonce/hash plumbing to support a CSP safely.
+- Authentication is fully mocked (`lib/session.ts` sets a cookie without verifying credentials); no server-side input validation exists yet since there is no real backend.
 
-Kurum adı header’da `components/layout/constants/header/copy.ts` → `headerBrand`. Menü `components/layout/sidebar/menu-items.ts`.
+## License
 
-Renk, açık/koyu, yerleşim ve yazı tipi ayar paneli `features/settings/` içindedir. Renk listesi `lib/theme/accents.ts` → `settingsColors`. Tema `components/theme/theme-provider.tsx` ile bağlanır.
+No license file is included; this repository is private (`package.json` → `"private": true`) and not published for reuse.
 
-Renkler lacivert, mavi, yeşil, turuncu ve mordur. Yeni renk `globals.css` içindeki listeye eklenir.
+---
 
-## Dil (i18n)
+## Turkce
 
-- **URL:** `/tr/...` ve `/en/...` (menüde de, fr, it vardır; sayfa metinleri şimdilik **tr** ve **en**).
-- **Sözlükler:** `lib/messages/tr.ts` ve `lib/messages/en.ts` — şema: `lib/i18n/messages-type.ts`.
-- **Yardımcılar:** `resolveContentLocale()`, `getDictionary()` — `lib/i18n`.
-- **Mock veri:** feature `data.ts` (ör. `features/users/data.ts`).
+[↑ English](#next-template-dashboard)
 
-Dashboard, insights ve profile metinleri hâlâ ilgili feature `data.ts` içindeki `tr` / `en` bloklarındadır; istenirse `lib/messages` altına taşınır.
+Bir portföy projesi: feature-based bir Next.js (App Router, TypeScript) admin dashboard template'i. Odak noktası mimari disiplin, performans (code splitting, RSC/client boundaries) ve tutarlı bir tasarım sistemi — başkalarının kurup yapılandıracağı bir ürün değil.
 
-## Env
+### Ekranlar
 
-Değişkenler `.env.example`'da listelenir; `NEXT_PUBLIC_SITE_URL` opsiyoneldir — verilmezse `metadataBase` Vercel'in `VERCEL_PROJECT_PRODUCTION_URL`'ini, o da yoksa `http://localhost:3000`'i kullanır.
+- **Dashboard** — KPI kartları ve grafikler (Recharts)
+- **Insights** — satış/segmentasyon/sipariş-özeti grafikleri
+- **Users** — kart grid, liste, oluşturma, düzenleme
+- **Blog** — liste + editor
+- **Ticket** — gelen kutusu, thread, composer, oluşturma
+- **AI Chat**
+- **Profile**
+- **Tables** — 5 varyant: standard, genişleyebilir satırlar, CRUD, sürükle-bırak sıralama, spreadsheet tarzı düzenlenebilir hücreler
+- **Auth** — login, forgot-password (mock, gerçek kimlik doğrulama yok)
 
-## Security notes
+Ortak parçalar: tema ayar paneli (accent color, light/dark, density, layout, font, footer), i18n (menü 5 locale'de, ekran metni tr/en), toast bildirimleri.
 
-- Authentication is a mock: `signIn` sets a `session=1` cookie without verifying any credentials. Replace `lib/session.ts` and `proxy.ts` with real credential checks and server-side session/token validation before production use.
-- The session cookie is `httpOnly`, `sameSite=lax`, and `secure` in production (`NODE_ENV === "production"`). Access/refresh tokens for the (not-yet-connected) API are kept in `localStorage` (`lib/api.ts`) — acceptable for this mock stage, but revisit if XSS exposure becomes a concern once a real backend is wired up.
-- `next.config.ts` sets `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options`, and a restrictive `Permissions-Policy`. No `Content-Security-Policy` is set: this template relies on inline `<script>` (theme bootstrap) and Next.js's own inline scripts, which would require nonce/hash plumbing to support a CSP safely — left as a deliberate gap, not an oversight.
-- No request/form input is validated server-side yet (login, forgot-password, forms) because there is no real backend. When connecting to the real API, add server-side validation at that boundary — do not rely on client-side checks alone.
+### Teknoloji yığını
+
+Yukarıdaki "Tech stack" listesine bakın; sürümler oradaki gibidir.
+
+### Yerel çalıştırma
+
+Yukarıdaki komut bloğuna bakın (`npm install`, `npm run dev`, `npm run build`, `npm start`).
+
+### Ekran görüntüleri
+
+Bu repoya dahil değil. Eklenirse `docs/screenshots/` altına konur.
+
+### Dokümantasyon
+
+- [Architecture](docs/ARCHITECTURE.md) — klasör yapısı, import kuralları, isimlendirme, code splitting
+- [Design](docs/DESIGN.md) — renk token'ları, accent temaları, density/layout modları, tipografi, motion
+
+### Bilinen sınırlamalar
+
+- Birkaç ekran dosyası projenin kendi ~250 satır kuralını aşıyor (örn. `features/blog/editor/components/screen.tsx` ~683 satır, `features/users/create/components/profile-tab.tsx` ~482 satır) — henüz bölünmedi.
+- Mock veri feature hook'larına doğrudan import ediliyor (`features/<name>/mocks/*.mock.ts`); henüz gerçek bir API katmanı yok, bu yüzden `features/users` şu an TanStack Query geçişinin nasıl görüneceğine dair referans uygulama görevi görüyor.
+- Content-Security-Policy header yok — tema bootstrap'i inline bir `<script>`'e dayanıyor, bu da CSP'yi güvenli şekilde desteklemek için nonce/hash altyapısı gerektirirdi.
+- Authentication tamamen mock (`lib/session.ts` kimlik doğrulamadan bir cookie set ediyor); gerçek bir backend olmadığı için henüz server-side input validation yok.
+
+### Lisans
+
+Bir lisans dosyası yok; bu repo private'tır (`package.json` → `"private": true`) ve yeniden kullanım için yayınlanmamıştır.

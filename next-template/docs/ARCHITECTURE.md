@@ -1,169 +1,187 @@
-# ARCHITECTURE.md
+English | [Türkçe](#turkce)
 
-Bu proje yeniden kullanılabilir bir Next.js (App Router, TypeScript) **template**'idir. Yapı, kodun kendisi kadar üründür: yeni kod aşağıdaki kurallara uymak zorundadır. Teknik terimler İngilizce bırakılmıştır.
+# Architecture
 
----
+Root-level layout, no `src/`. This document describes the folder structure as it exists in the code and the reasoning behind it.
 
-## Proje Yapısı
-
-Root-level yapı kullanılır, `src/` YOKTUR.
+## Top level
 
 ```
-app/                      # Sadece routing (page, layout, loading, error, route handler). Business logic yok.
+app/                 routing only (page, layout, loading, route handler)
+features/<name>/     domain logic, one per route family
+components/          ui / shared / layout / theme / toast
+lib/                 framework-independent infrastructure
+hooks/               generic hooks used by 2+ features
+docs/                this file + DESIGN.md
+public/
+```
+
+**Why:** keeping routing (`app/`) separate from domain logic (`features/`) means a route can be restructured (grouped, renamed, nested) without touching the screens it renders.
+
+## `app/`
+
+- `app/page.tsx` reads the `session` cookie and redirects to `/tr` or `/tr/auth/login`.
+- `app/[locale]/(dashboard)/` holds every dashboard route, wrapped by `AppShell`.
+- `app/[locale]/auth/` holds `login` and `forgot-password` — no `AppShell`.
+- Every dashboard route has a sibling `loading.tsx` using the same skeleton pattern (`data-skeleton-layout`), so navigation never shows a blank frame.
+- `app/api/auth/sign-out/route.ts` is the only Route Handler — it exists solely to delete the session cookie from a context where a Server Action's `redirect()` would conflict with client-side redirect logic.
+- Pages stay thin: resolve `locale`, then render the feature's screen component.
+
+**Why:** a thin `page.tsx` makes the route file disposable — moving a screen to a different URL is a one-line import change, not a rewrite.
+
+## `features/<name>/`
+
+```
 features/<name>/
-├── components/           # Tekil bileşenler düz durur; aynı türden 2+ varsa alt klasör (panels/, charts/, modals/, cards/)
-├── hooks/                # Feature'a özel hook'lar (state'li mantık)
-├── mocks/                # <name>.mock.ts -> mock data
-├── types/                # Sadece interface/type, amaca göre dosya (örn. types/ticket.ts)
-├── constants/            # Sadece değerler: seçenek listeleri, limitler; *copy.ts (örn. copy.ts, profile-copy.ts) dosyaları metin + locale seçici fonksiyon istisnasıyla kalır
-├── utils/                # Varsayılan tek dosya utils/<feature>.ts; 250 satırı aşarsa konuya göre böl (format.ts, filters.ts vb.); bileşen grubu başına ayrı dosya AÇILMAZ
-├── endpoint.ts           # Sadece http.* çağrıları (gerçek API'ye bağlanırken oluşturulur)
-└── index.ts              # Feature'ın public API'si
+├── components/     flat if few; grouped into panels/, charts/, modals/, cards/ once 2+ of a kind exist
+├── hooks/           stateful feature logic
+├── mocks/           <name>.mock.ts
+├── types/           interfaces/types only
+├── constants/       option lists, limits; *copy.ts files hold text + a locale-picker function
+├── utils/           <feature>.ts by default; split by topic past ~250 lines
+├── endpoint.ts       http.* calls only (added once a real API exists)
+└── index.ts          the feature's public surface
 ```
 
-Klasör sadece içine bir şey girecekse oluşturulur, boş klasör açılmaz. Alt route klasörleri (`create/`, `edit/`, `editor/`, `card/`, `list/` gibi bir feature'ın kendi route segmentine karşılık gelen alt klasörleri) kendi kapsamına özel `constants/`, `types/`, `utils/`, `components/` klasörlerini aynı kalıpla tutabilir (örn. `features/users/create/types/`, `features/blog/editor/types/`); bu durumda üst feature'ın `constants/` / `types/` dosyaları sadece tüm alt route'ların paylaştığı ortak tanımları barındırır.
+A folder is only created once something needs to go in it — there are no empty placeholder directories.
+
+Sub-route folders (`create/`, `edit/`, `editor/`, `card/`, `list/` — folders matching a feature's own route segment) may carry their own `constants/`, `types/`, `utils/`, `components/` in the same shape (e.g. `features/users/create/types/`, `features/blog/editor/types/`). The parent feature's `constants/`/`types/` then hold only what every sub-route shares.
+
+**Why:** this mirrors the URL tree one level down, so finding the code for `/users/create` is a path lookup, not a search.
+
+Current features: `ai-chat`, `auth` (login + forgot-password), `blog` (list + `editor/`), `dashboard`, `insights`, `profile`, `tables` (`standard`, `expandable`, `crud`, `reorder`, `spreadsheet`), `ticket` (inbox + `create/`), `users` (`card`, `create`, `edit`, `list`). Theme settings are not a `settings` feature — they live in `components/theme/` and `lib/theme/` (see below).
+
+## `components/`
 
 ```
 components/
-├── ui/                   # SADECE shadcn primitive'leri (shadcn CLI alanı)
-├── shared/               # data-table, search-bar, status-badge, page-header, chart-loader, form/ ...
-├── layout/               # app-shell, header, sidebar, footer (sadece component'ler)
-├── theme/                # theme-provider ve tema component'leri
-└── toast/                # notify, toaster, run-action
-lib/                      # api.ts, api-types.ts, config.ts, utils.ts, session.ts, mock-request.ts, mock-session.ts, locales.ts, preload-on-hover.ts, i18n/, messages/, theme/
-hooks/                    # Generic hook'lar (use-media-query.ts vb.)
-docs/                     # plan.md, progress.md, structure-plan.md, api-readiness-plan.md, TEMPLATE-ANALYSIS.md
-.env.example              # Gerekli env değişkenleri
+├── ui/        shadcn primitives only — shadcn CLI territory, no hand-written composites
+├── shared/    data-table, search-bar, status-badge, page-header, chart-loader — used by 2+ features
+├── layout/    app-shell, header, sidebar, footer (components only, no business logic)
+├── theme/     theme-provider and the settings drawer UI
+└── toast/     notify, toaster, run-action
 ```
 
-Mevcut feature'lar: `ai-chat`, `auth` (login + forgot-password), `blog`, `dashboard`, `insights`, `list`, `profile`, `ticket`, `users` (card, create, edit, list). Tema ayarları ayrı bir `settings` feature'ı değildir; `components/theme/` ve `lib/theme/` altında tutulur.
+**Why the `ui`/`shared` split:** `ui/` is regenerated by the shadcn CLI, so nothing hand-written can live there without risking being overwritten; anything the project builds on top of a primitive goes in `shared/` instead.
 
-### Klasör sorumlulukları
+## `lib/`
 
-- `app/`: Sadece ince `page.tsx` / `layout.tsx`. İçeride feature'ın screen component'i render edilir.
-- `features/`: Domain'e özel her şey. Bir route'un feature karşılığı olmalıdır.
-- `components/ui/`: shadcn CLI'ın yönettiği primitive'ler. Elle yazılan composite component'ler buraya girmez.
-- `components/shared/`: 2+ feature'ın kullandığı composite component'ler.
-- `lib/`: Framework'ten bağımsız genel altyapı ve helper'lar.
-- `hooks/`: 2+ feature'ın kullandığı generic hook'lar.
+`api.ts`, `api-types.ts`, `config.ts`, `utils.ts`, `session.ts`, `mock-request.ts`, `mock-session.ts`, `locales.ts`, `preload-on-hover.ts`, plus `i18n/`, `messages/`, `theme/`.
 
----
+- `lib/api.ts` is the single HTTP client (axios instance + interceptors) and is client-only — it reads `localStorage`, so it is never imported into a Server Component. Server Components use native `fetch` instead.
+- `lib/config.ts` is the only place `NEXT_PUBLIC_*` env vars are read.
+- `lib/theme/` holds everything needed to turn a stored preference into DOM state: `accents.ts` (the accent palette), `fonts.ts`, `density-metrics.ts`, `storage.ts` (read/write/migrate the `localStorage` blob), `theme-transition.ts` (the View Transition wave), `inline-script.ts` (the pre-paint bootstrap script).
 
-## Import Kuralları
+**Why:** one HTTP client and one config reader means there is exactly one place to change when the backend or environment setup changes.
 
-- `app/` -> `features/`, `components/`, `lib/`, `hooks/` import edebilir.
-- `features/` -> `components/`, `lib/`, `hooks/` import edebilir; `app/`'ten ASLA import etmez.
-- `components/` ve `lib/` -> `features/` veya `app/`'ten import ETMEZ.
-- Bir feature başka bir feature'ın iç dosyalarını import etmez, sadece o feature'ın `index.ts`'ini kullanır. Ortak kod `components/shared/` veya `lib/`'e taşınır.
-- `components/ui/` sadece shadcn primitive'lerini içerir; kendi composite component'lerimiz `components/shared/` altına yazılır.
-- Sadece tek feature'ın kullandığı component o feature'da kalır; 2+ feature kullanıyorsa `components/shared/`'a taşınır.
-- Absolute import için `@/` alias'ı kullanılır.
-- Birden fazla feature'ın kullandığı sabitler (örn. `settingsColors`) `lib/` altında tutulur (`lib/theme/`), feature'dan `lib/`'e bağımlılık yaratılmaz.
+## Import direction
 
----
+```
+app/        → features/, components/, lib/, hooks/
+features/   → components/, lib/, hooks/      (never app/)
+components/ → never features/ or app/
+lib/        → never features/ or app/
+```
 
-## Data / API Kuralları
+A feature never imports another feature's internals — only its `index.ts`. Code shared by 2+ features moves to `components/shared/` or `lib/`.
 
-- Ayrı bir service katmanı YOKTUR. Tek HTTP altyapısı `lib/api.ts`: axios instance, interceptor'lar ve `http` objesi (`get`, `post`, `patch`, `delete`, generic `<T>`, `r.data` döndürür).
-- **Component'ler mock veya HTTP çağrısı yapmaz.** Tüm veri feature hook'larından gelir.
-- `lib/api.ts` sadece client tarafında çalışır (`localStorage`, `window`); Server Component'lerde import edilmez.
-- Server Component'lerde gerekirse native `fetch` kullanılır (Next cache/revalidate için), axios değil.
-- Mock data `features/<name>/mocks/<name>.mock.ts`'te durur. Sabit metin/label/liste `constants/`'ta durur; mock ile karıştırılmaz.
-- Env değişkenleri sadece `lib/config.ts` üzerinden okunur (`NEXT_PUBLIC_APP_ENV`, `NEXT_PUBLIC_API_URL`).
-- Genel helper'lar `lib/utils.ts`'te kalır.
-- `lib/utils.ts` içindeki shadcn `cn()` helper'ına dokunulmaz (`components.json` buna bağlı).
-- `app/api/` klasörü yalnızca auth cookie işlemleri için Route Handler barındırır (örn. `app/api/auth/sign-out/route.ts`). Genel iş mantığı `app/api/`'ye konulmaz.
-- **Kısmi güncellemeler PATCH kullanır.** `http.put` kullanılmaz (bağlanırken de geçerli).
+**Why:** a strict one-way graph means `features/` can be deleted or swapped per-folder without a dependency search; `components/` and `lib/` can be reasoned about in isolation from any specific screen.
 
-### Şu an geçerli (gerçek API yokken)
+## Naming
 
-- Feature hook'ları şu an düz `useState`/`useEffect` sarmalayıcısıdır, TanStack Query kullanılmaz.
-- Mock çağrısı hook'ta tek yerde bulunur, yanında `// TODO: gerçek API'de burası TanStack Query + features/<name>/endpoint.ts olacak` (mutation'larda `... TanStack Query mutation + ...`) yorumu.
-- Create/update/delete sadece local state'i değiştirir (örn. `setRows`); refetch veya query invalidation yoktur.
-- `lib/api.ts`, `lib/config.ts`, `lib/api-types.ts` (`ApiError`, `PaginatedResponse<T>`, `ListParams`, `adaptPaginatedResponse`, `normalizeApiError`) altyapısı hazır durur ama feature hook'ları henüz bunları kullanmaz.
-- Detaylı durum ve feature-feature swap noktaları için `docs/api-readiness-plan.md`'ye bakılır.
+- Folders and files: kebab-case. Components: PascalCase. Hooks: `useXxx`.
+- Mock files: `<name>.mock.ts`. Files without JSX: `.ts`; files with JSX: `.tsx`.
 
-### API'ye bağlanırken (henüz uygulanmadı)
+## File size
 
-- **Feature hook'ları TanStack Query sarmalayıcısı olacak.** Dönüş imzası: `{ data, loading, error, refetch }`. Query hook'larında `loading` → `isLoading` (skeleton için), sonraki fetch'lerde `keepPreviousData`; mutation hook'larında `loading` → `isPending`.
-- Mock satırı kaldırılır, `features/<name>/endpoint.ts` oluşturulur ve hook oradan çağırır. `endpoint.ts` yalnızca `http.*` çağrıları içerir; component'ler doğrudan çağırmaz, sadece hook'lar çağırır. TODO yorumu silinir.
-- **Mock'lar `ListParams`'ı gerçekten uygular** (filtre, sıralama, sayfalama) ve `PaginatedResponse<T>` zarfını döndürür. Client-side filtre component'te yapılmaz.
-- **Backend zarfı hook sınırında dönüştürülür.** `adaptPaginatedResponse()` (`lib/api-types.ts`) hook'un `queryFn`'i içinde çağrılır; component'te çağrılmaz.
-- **Hata mesajı önceliği (UI):** (1) backend'in döndüğü `message`, (2) `dict.errors[code]`, (3) HTTP status'a göre genel mesaj (`dict.errors[String(status)]`), (4) genel fallback (`dict.errors.fallback`). Backend dil bazlı mesaj dönecekse locale `Accept-Language` header'ıyla iletilir. Yükleme hatası: inline mesaj + "Yeniden dene" butonu (`refetch`). Boş liste + toast kullanılmaz.
-- **Mutation sonrası invalidate:** Her mutation hook'u `onSuccess`'te ilgili query anahtarlarını `queryClient.invalidateQueries(...)` ile geçersiz kılar.
-- **Kullanıcı/rol/badge bilgisi client hook'larından gelecek** (`useCurrentUser`, `useNavBadges`). Layout Server Component'inde API fetch yapılmaz.
+Component files split past ~250 lines. `*.mock.ts` files are exempt — mock data is left whole regardless of size. A few screens currently exceed this (see the README's Known limitations).
+
+## Server / Client components
+
+- `"use client"` only where a hook, event handler, browser API, or client-only library is actually needed.
+- `page.tsx` imports the feature's screen component directly — no intermediate `page-client.tsx` wrapper.
+- `next/dynamic` with `ssr: false` never appears inside a Server Component; the dynamic wrapper itself stays a client component.
+
+## Code splitting
+
+Heavy, not-immediately-visible parts (dialogs, sheets, tab panels, charts, the blog editor) are loaded with `next/dynamic`. The pattern is `dynamic()` + a mount flag (so the import only fires on click/focus) + `preloadOnHover` (`lib/preload-on-hover.ts`, which preloads on `onPointerEnter`/`onFocus`). Dialog/sheet fallbacks are `null`; tab panels use a same-size skeleton so there is no layout shift. A feature's `index.ts` never statically exports the lazy-loaded part — that would defeat the split.
 
 ---
 
-## Server / Client Component
+## Turkce
 
-- `"use client"` yalnızca hook, event handler, browser API (`window`, `localStorage`) veya client-only kütüphane gerektiren dosyada kullanılır.
-- `page.tsx` feature'ın screen component'ini doğrudan import eder; `page-client.tsx` tarzı ayrı bir sarmalayıcı dosya açılmaz.
-- `next/dynamic` ile `ssr: false` Server Component içinde kullanılmaz; bu sarmalayıcı client component olarak kalır.
-- Server Component'ten Client Component'e fonksiyon prop'u geçilmez.
+[↑ English](#architecture)
 
----
+Root-level bir yapı kullanılır, `src/` yoktur. Bu doküman klasör yapısını, koddaki haliyle ve arkasındaki gerekçeyle anlatır.
 
-## Code Splitting
+### Üst seviye
 
-- İlk render'da görünmeyen ağır parçalar (dialog, sheet, modal, tab paneli, chart, editor) `next/dynamic` ile lazy yüklenir.
-- Desen: `dynamic` + mount-flag (tıklanana/odaklanana kadar import edilmez) + `preloadOnHover` (`lib/preload-on-hover.ts`, `onPointerEnter`/`onFocus` ile önceden yükleme).
-- Dialog/sheet için `loading` fallback'i `null`; tab paneli için aynı boyutta skeleton kullanılır (layout shift olmaz).
-- Feature `index.ts` lazy yüklenen parçayı statik export etmez.
-- Çok küçük parçalar (birkaç satırlık component) bölünmez, lazy yükleme sadece gerçekten ağır/az kullanılan parçalar için yapılır.
+Yukarıdaki klasör ağacına bakın.
 
----
+**Neden:** routing'i (`app/`) domain mantığından (`features/`) ayrı tutmak, bir route'un (gruplanarak, yeniden adlandırılarak, iç içe geçirilerek) render ettiği ekranlara dokunmadan yeniden yapılandırılabilmesini sağlar.
 
-## İsimlendirme
+### `app/`
 
-- Klasör ve dosyalar kebab-case, component'ler PascalCase, hook'lar `useXxx`.
-- Mock dosyaları `<name>.mock.ts`.
-- JSX içermeyen dosyalar `.ts`, içerenler `.tsx`.
+- `app/page.tsx` `session` cookie'sini okur ve `/tr` veya `/tr/auth/login`'e yönlendirir.
+- `app/[locale]/(dashboard)/` tüm dashboard route'larını tutar, `AppShell` ile sarılıdır.
+- `app/[locale]/auth/` `login` ve `forgot-password`'ı tutar — `AppShell` yok.
+- Her dashboard route'unun aynı skeleton kalıbını (`data-skeleton-layout`) kullanan bir `loading.tsx` kardeşi vardır, böylece navigasyon sırasında hiçbir zaman boş bir çerçeve görünmez.
+- `app/api/auth/sign-out/route.ts` tek Route Handler'dır — yalnızca session cookie'sini, bir Server Action'ın `redirect()`'inin client-side yönlendirme mantığıyla çakışacağı bir bağlamdan silmek için vardır.
+- Sayfalar ince kalır: `locale`'i çözer, sonra feature'ın screen component'ini render eder.
 
----
+**Neden:** ince bir `page.tsx`, route dosyasını harcanabilir kılar — bir ekranı farklı bir URL'e taşımak tek satırlık bir import değişikliğidir, yeniden yazım değil.
 
-## Dosya Boyutu
+### `features/<name>/`
 
-- Component dosyaları 250 satırı geçince bölünür.
-- Mock dosyaları (`<name>.mock.ts`) bu kurala dahil değildir, bölünmez.
+Yukarıdaki klasör ağacına bakın.
 
----
+Her klasör, içine bir şey girecekse oluşturulur — boş yer tutucu klasör yoktur.
 
-## Yardımcı Fonksiyonlar
+Alt route klasörleri (`create/`, `edit/`, `editor/`, `card/`, `list/` — bir feature'ın kendi route segmentine karşılık gelen klasörler) kendi `constants/`, `types/`, `utils/`, `components/`'ini aynı şekilde taşıyabilir (örn. `features/users/create/types/`, `features/blog/editor/types/`). Üst feature'ın `constants/`/`types/`'ı o zaman sadece tüm alt route'ların paylaştığını tutar.
 
-- Yardımcı fonksiyon, kullanıldığı yere en yakın yerde yazılır:
-  1. Tek bir component kullanıyorsa o component dosyasının içinde kalır, ayrı dosyaya çıkarılmaz (15 satıra kadar).
-  2. Aynı feature'daki birden fazla component kullanıyorsa `features/<name>/utils/` altına taşınır.
-  3. 2+ feature kullanıyorsa `lib/utils.ts`'e (şiştiyse `lib/utils/<konu>.ts`) taşınır.
-- `lib/` en son duraktır: önce yakına yaz, paylaşım ihtiyacı doğunca yukarı taşı.
-- Feature'a özel helper'lar için `lib/`'e dosya açılmaz.
-- `features/<name>/utils/` klasörü sadece ihtiyaç olunca açılır.
-- Taşıma kararı verirken kullanım yerleri gerçekten taranır (grep), tahminle karar verilmez.
-- Bileşen dosyasında import + bileşen bulunur. Tek bileşene ait 15 satıra kadar yardımcı aynı dosyada kalabilir; daha uzun veya paylaşılan yardımcılar `utils/`'e taşınır.
-- Gömülü alt bileşenler (component içinde tanımlı başka bir component, örn. bir badge veya form alanı için yazılan yardımcı component) ayrı bileşen dosyasına çıkarılır.
-- `*.utils.ts` adıyla bileşen klasöründe duran dosyalar feature'ın (veya ilgili alt route'un) `utils/` klasörüne taşınır.
-- 2+ feature'ın kullandığı yardımcılar (örn. tarih/para biçimleme) `lib/`'e taşınır; tek feature içinde kalan yardımcılar (örn. ticket'a özel `formatRelative`) `lib/`'e çıkarılmaz.
-- JSX döndüren render helper'ları (örn. bir tablo hücresini render eden fonksiyon) `utils/`'e taşınmaz, component dosyasında kalır — `utils/` sadece JSX içermeyen mantık içindir.
+**Neden:** bu, URL ağacını bir seviye aşağıda yansıtır, böylece `/users/create`'in kodunu bulmak bir arama değil, bir yol bakışıdır.
 
----
+Mevcut feature'lar: `ai-chat`, `auth` (login + forgot-password), `blog` (liste + `editor/`), `dashboard`, `insights`, `profile`, `tables` (`standard`, `expandable`, `crud`, `reorder`, `spreadsheet`), `ticket` (gelen kutusu + `create/`), `users` (`card`, `create`, `edit`, `list`). Tema ayarları ayrı bir `settings` feature'ı değildir — `components/theme/` ve `lib/theme/` içinde yaşar (aşağıya bakın).
 
-## Renk Kuralları
+### `components/`
 
-- Semantic renkler (`success`, `error`, `warning`, `info`) `app/globals.css` içinde tanımlanır ve accent temasından bağımsızdır.
-- `theme-accents.css` ve `lib/theme/accents.ts`, accent temasına (`blue`/`green`/`violet`) bağlı tüm görsel token'ları barındırır (`--primary` türevleri, sidebar/brand/surface tonları dahil); semantic renkler hariç.
-- Dark mode'da hue sabit kalır, sadece lightness/chroma ayarlanır.
-- `info` rengi accent'ten bağımsız bir ton olmalıdır (sky/cyan), `primary` ile karışmamalıdır.
-- Toast ve status component'leri hardcoded Tailwind rengi (`green-500` vb.) kullanmaz, sadece semantic token kullanır.
-- Durum bilgisi sadece renkle verilmez, ikon da kullanılır (check, x, alert, info).
-- `danger` ayrı bir semantic renk değildir, `error` token'ına bağlanır. Toast tipi olarak `error` kullanılır; `danger` sadece destructive button/dialog içindir.
+Yukarıdaki klasör ağacına bakın.
 
----
+**Neden `ui`/`shared` ayrımı:** `ui/` shadcn CLI tarafından yeniden üretilir, bu yüzden elle yazılmış hiçbir şey ezilme riski almadan orada yaşayamaz; projenin bir primitive üzerine inşa ettiği her şey onun yerine `shared/`'a gider.
 
-## Yeni Feature Ekleme
+### `lib/`
 
-1. `features/<name>/` altında `components/`, `hooks/`, `mocks/`, `types/`, `constants/`, `index.ts` oluştur (`utils/` ihtiyaç olunca).
-2. `app/[locale]/...` altına sadece ince bir `page.tsx` ekle; feature'ın screen component'ini render etsin.
-3. Sidebar menüsüne (`components/layout/sidebar/menu-items.ts`) ekle.
-4. Mock veri için `mocks/<name>.mock.ts` yaz; gerçek API gelince `lib/api.ts`'teki `http` ile çağrıyı feature'ın `endpoint.ts`'i içinde yaz.
-5. Toast/durum göstergesi eklerken renkleri semantic token'lardan al, yeni renk uydurma.
-6. Feature'ın dışarıya açtığı şeyleri `index.ts`'ten export et; başka feature'lar sadece buradan import eder.
+Yukarıdaki dosya listesine bakın.
+
+- `lib/api.ts` tek HTTP client'tır (axios instance + interceptor'lar) ve client-only'dir — `localStorage` okur, bu yüzden hiçbir zaman bir Server Component'e import edilmez. Server Component'ler onun yerine native `fetch` kullanır.
+- `lib/config.ts`, `NEXT_PUBLIC_*` env değişkenlerinin okunduğu tek yerdir.
+- `lib/theme/` saklanan bir tercihi DOM state'ine çevirmek için gereken her şeyi tutar: `accents.ts` (accent paleti), `fonts.ts`, `density-metrics.ts`, `storage.ts` (`localStorage` blob'unu okur/yazar/migrate eder), `theme-transition.ts` (View Transition dalgası), `inline-script.ts` (paint öncesi bootstrap script'i).
+
+**Neden:** tek bir HTTP client ve tek bir config okuyucu, backend veya ortam kurulumu değiştiğinde değiştirilecek tam olarak bir yer olduğu anlamına gelir.
+
+### Import yönü
+
+Yukarıdaki diyagrama bakın.
+
+Bir feature başka bir feature'ın iç dosyalarını asla import etmez — sadece onun `index.ts`'ini. 2+ feature'ın paylaştığı kod `components/shared/` veya `lib/`'e taşınır.
+
+**Neden:** katı, tek yönlü bir graf, `features/`'ın bağımlılık araması yapmadan klasör bazında silinebilmesi veya değiştirilebilmesi anlamına gelir; `components/` ve `lib/` belirli bir ekrandan bağımsız olarak düşünülebilir.
+
+### İsimlendirme
+
+- Klasör ve dosyalar: kebab-case. Component'ler: PascalCase. Hook'lar: `useXxx`.
+- Mock dosyaları: `<name>.mock.ts`. JSX içermeyen dosyalar: `.ts`; JSX içerenler: `.tsx`.
+
+### Dosya boyutu
+
+Component dosyaları ~250 satırı geçince bölünür. `*.mock.ts` dosyaları bu kuraldan muaftır — mock veri boyutundan bağımsız olarak bütün bırakılır. Şu an bunu aşan birkaç ekran var (README'nin Bilinen sınırlamalar bölümüne bakın).
+
+### Server / Client component'ler
+
+- `"use client"` yalnızca gerçekten bir hook, event handler, browser API veya client-only kütüphane gerektiğinde kullanılır.
+- `page.tsx` feature'ın screen component'ini doğrudan import eder — ara bir `page-client.tsx` sarmalayıcı yoktur.
+- `next/dynamic` ile `ssr: false` hiçbir zaman bir Server Component içinde görünmez; dynamic sarmalayıcının kendisi client component olarak kalır.
+
+### Code splitting
+
+İlk anda görünmeyen ağır parçalar (dialog'lar, sheet'ler, tab panelleri, grafikler, blog editörü) `next/dynamic` ile yüklenir. Kalıp: `dynamic()` + bir mount flag'i (import yalnızca tıklama/focus'ta tetiklenir) + `preloadOnHover` (`lib/preload-on-hover.ts`, `onPointerEnter`/`onFocus`'ta preload eder). Dialog/sheet fallback'leri `null`'dır; tab panelleri aynı boyutta bir skeleton kullanır, böylece layout shift olmaz. Bir feature'ın `index.ts`'i lazy-loaded parçayı hiçbir zaman statik olarak export etmez — bu, split'i anlamsız kılardı.
