@@ -2,6 +2,8 @@ English | [Türkçe](#turkce)
 
 # Next-Template Dashboard
 
+Live demo: [https://next-template-dashboard-topaz.vercel.app](https://next-template-dashboard-topaz.vercel.app)
+
 A portfolio project: a feature-based Next.js (App Router, TypeScript) admin dashboard template. The focus is architecture discipline, performance (code splitting, RSC/client boundaries), and a cohesive design system — not a product meant for others to install and configure.
 
 ## Screens
@@ -30,6 +32,7 @@ Cross-cutting: theme settings panel (accent color, light/dark, density, layout, 
 ## Run locally
 
 ```bash
+cd next-template
 npm install
 npm run dev     # http://localhost:3000
 npm run build
@@ -38,12 +41,12 @@ npm start
 
 ## Screenshots
 
-_Not included in this repo._ If added, they belong in `docs/screenshots/`.
+_Not included in this repo._ If added, they belong in `next-template/docs/screenshots/`.
 
 ## Documentation
 
-- [Architecture](docs/ARCHITECTURE.md) — folder structure, import rules, naming, code splitting
-- [Design](docs/DESIGN.md) — color tokens, accent themes, density/layout modes, typography, motion
+- [Architecture](next-template/docs/ARCHITECTURE.md) — folder structure, import rules, naming, code splitting
+- [Design](next-template/docs/DESIGN.md) — color tokens, accent themes, density/layout modes, typography, motion
 
 ## Known limitations
 
@@ -61,6 +64,8 @@ No license file is included; this repository is private (`package.json` → `"pr
 ## Turkce
 
 [↑ English](#next-template-dashboard)
+
+Live demo: [https://next-template-dashboard-topaz.vercel.app](https://next-template-dashboard-topaz.vercel.app)
 
 Bir portföy projesi: feature-based bir Next.js (App Router, TypeScript) admin dashboard template'i. Odak noktası mimari disiplin, performans (code splitting, RSC/client boundaries) ve tutarlı bir tasarım sistemi — başkalarının kurup yapılandıracağı bir ürün değil.
 
@@ -84,16 +89,16 @@ Yukarıdaki "Tech stack" listesine bakın; sürümler oradaki gibidir.
 
 ### Yerel çalıştırma
 
-Yukarıdaki komut bloğuna bakın (`npm install`, `npm run dev`, `npm run build`, `npm start`).
+Yukarıdaki komut bloğuna bakın (`cd next-template`, `npm install`, `npm run dev`, `npm run build`, `npm start`).
 
 ### Ekran görüntüleri
 
-Bu repoya dahil değil. Eklenirse `docs/screenshots/` altına konur.
+Bu repoya dahil değil. Eklenirse `next-template/docs/screenshots/` altına konur.
 
 ### Dokümantasyon
 
-- [Architecture](docs/ARCHITECTURE.md) — klasör yapısı, import kuralları, isimlendirme, code splitting
-- [Design](docs/DESIGN.md) — renk token'ları, accent temaları, density/layout modları, tipografi, motion
+- [Architecture](next-template/docs/ARCHITECTURE.md) — klasör yapısı, import kuralları, isimlendirme, code splitting
+- [Design](next-template/docs/DESIGN.md) — renk token'ları, accent temaları, density/layout modları, tipografi, motion
 
 ### Bilinen sınırlamalar
 
