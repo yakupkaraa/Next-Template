@@ -49,15 +49,9 @@ _Not included in this repo._ If added, they belong in `next-template/docs/screen
 - [Design](next-template/docs/DESIGN.md) — color tokens, accent themes, density/layout modes, typography, motion
 
 ## Known limitations
-
-- A handful of screen files exceed the project's own ~250-line guideline (e.g. `features/blog/editor/components/screen.tsx` at ~683 lines, `features/users/create/components/profile-tab.tsx` at ~482 lines) — not yet split.
 - Mock data is imported directly into feature hooks (`features/<name>/mocks/*.mock.ts`); there is no real API layer yet, so `features/users` currently serves as the reference implementation for what the TanStack Query migration will look like.
 - No Content-Security-Policy header — the theme bootstrap relies on an inline `<script>`, which would need nonce/hash plumbing to support a CSP safely.
 - Authentication is fully mocked (`lib/session.ts` sets a cookie without verifying credentials); no server-side input validation exists yet since there is no real backend.
-
-## License
-
-No license file is included; this repository is private (`package.json` → `"private": true`) and not published for reuse.
 
 ---
 
