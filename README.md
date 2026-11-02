@@ -101,12 +101,7 @@ Bu repoya dahil değil. Eklenirse `next-template/docs/screenshots/` altına konu
 - [Design](next-template/docs/DESIGN.md) — renk token'ları, accent temaları, density/layout modları, tipografi, motion
 
 ### Bilinen sınırlamalar
-
-- Birkaç ekran dosyası projenin kendi ~250 satır kuralını aşıyor (örn. `features/blog/editor/components/screen.tsx` ~683 satır, `features/users/create/components/profile-tab.tsx` ~482 satır) — henüz bölünmedi.
 - Mock veri feature hook'larına doğrudan import ediliyor (`features/<name>/mocks/*.mock.ts`); henüz gerçek bir API katmanı yok, bu yüzden `features/users` şu an TanStack Query geçişinin nasıl görüneceğine dair referans uygulama görevi görüyor.
 - Content-Security-Policy header yok — tema bootstrap'i inline bir `<script>`'e dayanıyor, bu da CSP'yi güvenli şekilde desteklemek için nonce/hash altyapısı gerektirirdi.
 - Authentication tamamen mock (`lib/session.ts` kimlik doğrulamadan bir cookie set ediyor); gerçek bir backend olmadığı için henüz server-side input validation yok.
 
-### Lisans
-
-Bir lisans dosyası yok; bu repo private'tır (`package.json` → `"private": true`) ve yeniden kullanım için yayınlanmamıştır.
